@@ -1,0 +1,21 @@
+
+boep_open_expansion_planer = {	
+	icon = "GFX_edict_type_policy"
+	
+
+	potential = {
+		OR = {
+			has_authority = auth_corporate
+			has_civic = civic_galactic_sovereign_megacorp
+		}
+	}
+
+	effect = {
+		custom_tooltip = "boep_expansion_planner_button"
+		hidden_effect = { country_event = { id = boep.200 } }
+	}
+
+	ai_weight = {
+		weight = 0
+	}
+}

@@ -1,0 +1,413 @@
+namespace = boep
+
+
+country_event = {
+	id = boep.200
+	title = boep.200.name
+	desc = boep.200.desc
+	picture_event_data = {
+		portrait = root
+		room = root
+	}
+	custom_gui_option = "boep_option_entry"
+    custom_gui = "boep_event_view"	
+	diplomatic = yes	
+	is_triggered_only = yes 
+	trigger = {
+		OR = {
+			has_authority = auth_corporate
+			has_civic = civic_galactic_sovereign_megacorp
+		}
+	}
+	immediate = {
+		change_variable = {
+			which = count_immediates
+			value = 1
+		}
+		save_event_target_as = root_empire
+		every_galaxy_planet = {
+			limit = {
+				boep_can_make_branch_office = yes
+			}
+			save_event_target_as = boep_current_planet
+
+			# Find Income
+			set_variable = { which = boep_current_planet_trade_add value = 0 }
+			set_variable = { which = boep_current_planet_trade_mult value = 0 }
+			set_variable = { which = boep_current_planet_crime value = 0 }
+			if = {
+				limit = { 
+					root = {
+						# intel_level = { level > medium system = prev.solar_system }
+						always = yes
+					} 
+				}
+				export_modifier_to_variable = { modifier = trade_value_add variable = boep_current_planet_trade_add }
+				export_modifier_to_variable = { modifier = trade_value_mult variable = boep_current_planet_trade_mult }
+				set_variable = { which = boep_current_planet_trade_value value = boep_current_planet_trade_add }
+				change_variable = { which = boep_current_planet_trade_mult value = 1 }				
+				multiply_variable = { which = boep_current_planet_trade_value value = boep_current_planet_trade_mult }
+				set_variable = { which = boep_current_branch_office_value value = boep_current_planet_trade_value }
+				
+				# Criminal Heritage				
+				if = {
+					limit = {  
+						root = { 
+							OR = {
+								has_authority = auth_corporate
+								has_valid_civic = civic_galactic_sovereign_megacorp
+							}
+							has_valid_civic = civic_criminal_heritage 
+						} 
+					}					 
+					export_trigger_value_to_variable = { trigger = planet_crime variable = boep_current_planet_crime }
+					multiply_variable = { which = boep_current_planet_crime value = 0.01 }
+					change_variable = { which = boep_current_planet_crime value = 0.5 }
+					multiply_variable = { which = boep_current_branch_office_value value = boep_current_planet_crime }
+				}
+
+				# Free Traders
+				if = {
+					limit = { root = { has_valid_civic = civic_free_traders } }
+					multiply_variable = { which = boep_current_branch_office_value value = 1.1 }
+				}
+
+				divide_variable = { which = boep_current_branch_office_value value = 2 }
+				floor_variable = boep_current_planet_trade_value
+				round_variable_to_closest = { which = boep_current_branch_office_value value = 0.1 }
+				if = {
+					limit = {  check_variable = { which = boep_current_branch_office_value  value < 0 } }
+					set_variable = { which = boep_current_branch_office_value  value = 0 }
+				}
+			}
+
+			# Find Cost
+			event_target:boep_current_planet = { set_variable = { which = boep_jumps_to_empire value = 0 } }
+			set_variable = { which = boep_branch_office_energy_cost value = 1000 }
+			set_variable = { which = boep_branch_office_influence_cost value = 50 }
+
+			# Find nearest empire border
+			root = {
+				# set starting point
+				capital_scope.solar_system = {
+					save_global_event_target_as = boep_nearest_empire_system						
+					set_variable = { which = boep_nearest_empire_system value = 0 }
+					export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_current_planet type = hyperlane bypass_empire = root } variable = boep_nearest_empire_system } 					
+				}
+				every_system_within_border = {					
+					remove_star_flag = boep_nearest_empire_system_found
+					set_variable = { which = boep_nearest_empire_system value = 0 }
+					export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_current_planet type = hyperlane bypass_empire = root } variable = boep_nearest_empire_system } 					
+					if = {
+						limit = { check_variable = { which = boep_nearest_empire_system value <= event_target:boep_nearest_empire_system.boep_nearest_empire_system } }
+						save_global_event_target_as = boep_nearest_empire_system					
+					}
+				}				
+			}
+			event_target:boep_nearest_empire_system = {
+				set_star_flag = boep_nearest_empire_system_found
+			}
+
+			# Count jumps to empire border
+			solar_system = {
+				export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_nearest_empire_system type = hyperlane bypass_empire = root } variable = boep_distance_to_empire } #event_target:global_event_country
+				save_global_event_target_as = boep_current_nearest
+							
+				while = {
+					count = 5000
+					limit = {								
+						event_target:boep_current_nearest = {
+							check_variable = { which = boep_distance_to_empire value > 0 }
+						}
+					}
+					event_target:boep_current_nearest = {											
+						find_nearest_neighbor = yes						
+					}
+					event_target:boep_current_planet = {
+						change_variable = { which = boep_jumps_to_empire value = 1 }
+					}
+				}
+			}
+			event_target:boep_current_nearest = {
+				set_star_flag = boep_current_nearest_found
+				if = {
+					limit = { 
+						NOT = {
+							is_same_value = event_target:boep_nearest_empire_system
+						}
+					}
+					event_target:boep_current_planet = {
+						change_variable = { which = boep_jumps_to_empire value = 1 }
+					}
+				}
+			}
+
+			set_variable = { which = boep_distance_to_planet_mult value = event_target:boep_current_planet.boep_jumps_to_empire }	
+			
+			subtract_variable = { which = boep_distance_to_planet_mult value = 3 }	
+			if = {
+				limit = { check_variable = { which = boep_distance_to_planet_mult value < 0 } }
+				set_variable = { which = boep_distance_to_planet_mult value = 0 }	
+			}
+			
+			multiply_variable = { which = boep_distance_to_planet_mult value = 0.1 }
+			change_variable = { which = boep_distance_to_planet_mult value = 1 }
+			multiply_variable = { which = boep_branch_office_energy_cost value = boep_distance_to_planet_mult }
+			multiply_variable = { which = boep_branch_office_influence_cost value = boep_distance_to_planet_mult }
+
+			# ROI
+			set_variable = { which = boep_branch_office_roi value = boep_branch_office_energy_cost }
+			if = {
+				limit = { check_variable = { which = boep_current_branch_office_value value <= 0 } }
+				set_variable = { which = boep_branch_office_roi value = 9999999 }
+			}
+			else = { divide_variable = { which = boep_branch_office_roi value = boep_current_branch_office_value } }
+			round_variable = boep_branch_office_roi
+
+			# TODO Ascension Mercantilism
+			if = {
+				limit = {  root = { has_ascension_perk = ap_universal_transactions } }
+				multiply_variable = { which = boep_branch_office_energy_cost value = 0.85 }
+				multiply_variable = { which = boep_branch_office_influence_cost value = 0.85 }
+			}
+		}
+
+
+		boep_clear_values = yes
+		if = {
+			limit = { has_country_flag = boep_sort_by_cost }
+			if = {
+				limit = {  has_country_flag = boep_sort_desc }			
+				boep_sort_by = { KEY = boep_branch_office_influence_cost ASC = no }
+			}
+			else = { boep_sort_by = { KEY = boep_branch_office_influence_cost ASC = yes } }
+		}
+		else_if = {
+			limit = { has_country_flag = boep_sort_by_income }
+			if = {
+				limit = {  has_country_flag = boep_sort_desc }			
+				boep_sort_by = { KEY = boep_current_branch_office_value ASC = no }
+			}
+			else = { boep_sort_by = { KEY = boep_current_branch_office_value ASC = yes } }
+		}
+		else = {
+			if = {
+				limit = {  has_country_flag = boep_sort_desc }			
+				boep_sort_by = { KEY = boep_branch_office_roi ASC = no }
+			}
+			else = { boep_sort_by = { KEY = boep_branch_office_roi ASC = yes } }
+		}
+	}
+
+	option = {
+				
+		name = {
+			trigger = { has_country_flag = boep_sort_by_cost }			
+		   	text = boep_sort_by_cost
+	   	}
+		name = {
+			trigger = { has_country_flag = boep_sort_by_income }
+		   	text = boep_sort_by_income
+	   	}
+		name = {
+			trigger = { nor = { has_country_flag = boep_sort_by_income has_country_flag = boep_sort_by_cost } }
+		   	text = boep_sort_by_roi
+	   	}			
+		custom_tooltip = "boep_describe_sort"
+		hidden_effect = {		
+			if = {
+				limit = { has_country_flag = boep_sort_by_cost }
+				remove_country_flag = boep_sort_by_cost
+				set_country_flag = boep_sort_by_income
+			}
+			else_if = {
+				limit = { has_country_flag = boep_sort_by_income }
+				remove_country_flag = boep_sort_by_income			
+			}
+			else = { set_country_flag = boep_sort_by_cost }
+			country_event = {
+				id = boep.200
+			}
+		}
+	}
+	option = {		
+		name = {
+			trigger = { has_country_flag = boep_sort_desc }			
+		   	text = boep_sort_desc
+	   	}
+		name = {
+			trigger = { not = { has_country_flag = boep_sort_desc } }
+		   	text = boep_sort_asc
+	   	}		
+	    custom_tooltip = "boep_describe_sort_asc"
+	    hidden_effect = {		
+			if = {
+				limit = { has_country_flag = boep_sort_desc }
+				remove_country_flag = boep_sort_desc
+			}
+			else = { set_country_flag = boep_sort_desc }
+			country_event = {
+				id = boep.200
+			}
+		}
+	}	
+	option = { allow = { exists = event_target:boep_branch_office_planet_1 event_target:boep_branch_office_planet_1 = { has_branch_office = no } }  trigger = { exists = event_target:boep_branch_office_planet_1 event_target:boep_branch_office_planet_1 = { has_branch_office = no } } name = boep_branch_office_planet_option_1 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_1 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_2 } name = boep_branch_office_planet_option_2 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_2 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_3 } name = boep_branch_office_planet_option_3 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_3 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_4 } name = boep_branch_office_planet_option_4 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_4 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_5 } name = boep_branch_office_planet_option_5 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_5 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_6 } name = boep_branch_office_planet_option_6 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_6 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_7 } name = boep_branch_office_planet_option_7 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_7 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_8 } name = boep_branch_office_planet_option_8 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_8 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_9 } name = boep_branch_office_planet_option_9 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_9 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_10 } name = boep_branch_office_planet_option_10 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_10 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_11 } name = boep_branch_office_planet_option_11 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_11 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_12 } name = boep_branch_office_planet_option_12 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_12 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_13 } name = boep_branch_office_planet_option_13 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_13 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_14 } name = boep_branch_office_planet_option_14 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_14 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_15 } name = boep_branch_office_planet_option_15 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_15 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_16 } name = boep_branch_office_planet_option_16 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_16 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_17 } name = boep_branch_office_planet_option_17 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_17 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_18 } name = boep_branch_office_planet_option_18 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_18 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_19 } name = boep_branch_office_planet_option_19 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_19 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_20 } name = boep_branch_office_planet_option_20 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_20 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_21 } name = boep_branch_office_planet_option_21 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_21 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_22 } name = boep_branch_office_planet_option_22 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_22 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_23 } name = boep_branch_office_planet_option_23 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_23 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_24 } name = boep_branch_office_planet_option_24 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_24 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_25 } name = boep_branch_office_planet_option_25 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_25 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_26 } name = boep_branch_office_planet_option_26 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_26 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_27 } name = boep_branch_office_planet_option_27 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_27 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_28 } name = boep_branch_office_planet_option_28 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_28 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_29 } name = boep_branch_office_planet_option_29 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_29 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_30 } name = boep_branch_office_planet_option_30 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_30 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_31 } name = boep_branch_office_planet_option_31 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_31 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_32 } name = boep_branch_office_planet_option_32 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_32 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_33 } name = boep_branch_office_planet_option_33 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_33 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_34 } name = boep_branch_office_planet_option_34 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_34 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_35 } name = boep_branch_office_planet_option_35 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_35 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_36 } name = boep_branch_office_planet_option_36 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_36 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_37 } name = boep_branch_office_planet_option_37 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_37 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_38 } name = boep_branch_office_planet_option_38 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_38 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_39 } name = boep_branch_office_planet_option_39 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_39 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_40 } name = boep_branch_office_planet_option_40 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_40 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_41 } name = boep_branch_office_planet_option_41 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_41 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_42 } name = boep_branch_office_planet_option_42 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_42 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_43 } name = boep_branch_office_planet_option_43 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_43 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_44 } name = boep_branch_office_planet_option_44 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_44 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_45 } name = boep_branch_office_planet_option_45 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_45 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_46 } name = boep_branch_office_planet_option_46 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_46 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_47 } name = boep_branch_office_planet_option_47 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_47 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_48 } name = boep_branch_office_planet_option_48 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_48 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_49 } name = boep_branch_office_planet_option_49 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_49 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_50 } name = boep_branch_office_planet_option_50 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_50 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_51 } name = boep_branch_office_planet_option_51 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_51 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_52 } name = boep_branch_office_planet_option_52 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_52 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_53 } name = boep_branch_office_planet_option_53 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_53 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_54 } name = boep_branch_office_planet_option_54 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_54 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_55 } name = boep_branch_office_planet_option_55 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_55 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_56 } name = boep_branch_office_planet_option_56 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_56 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_57 } name = boep_branch_office_planet_option_57 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_57 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_58 } name = boep_branch_office_planet_option_58 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_58 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_59 } name = boep_branch_office_planet_option_59 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_59 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_60 } name = boep_branch_office_planet_option_60 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_60 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_61 } name = boep_branch_office_planet_option_61 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_61 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_62 } name = boep_branch_office_planet_option_62 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_62 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_63 } name = boep_branch_office_planet_option_63 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_63 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_64 } name = boep_branch_office_planet_option_64 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_64 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_65 } name = boep_branch_office_planet_option_65 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_65 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_66 } name = boep_branch_office_planet_option_66 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_66 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_67 } name = boep_branch_office_planet_option_67 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_67 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_68 } name = boep_branch_office_planet_option_68 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_68 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_69 } name = boep_branch_office_planet_option_69 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_69 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_70 } name = boep_branch_office_planet_option_70 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_70 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_71 } name = boep_branch_office_planet_option_71 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_71 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_72 } name = boep_branch_office_planet_option_72 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_72 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_73 } name = boep_branch_office_planet_option_73 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_73 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_74 } name = boep_branch_office_planet_option_74 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_74 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_75 } name = boep_branch_office_planet_option_75 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_75 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_76 } name = boep_branch_office_planet_option_76 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_76 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_77 } name = boep_branch_office_planet_option_77 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_77 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_78 } name = boep_branch_office_planet_option_78 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_78 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_79 } name = boep_branch_office_planet_option_79 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_79 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_80 } name = boep_branch_office_planet_option_80 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_80 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_81 } name = boep_branch_office_planet_option_81 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_81 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_82 } name = boep_branch_office_planet_option_82 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_82 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_83 } name = boep_branch_office_planet_option_83 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_83 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_84 } name = boep_branch_office_planet_option_84 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_84 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_85 } name = boep_branch_office_planet_option_85 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_85 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_86 } name = boep_branch_office_planet_option_86 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_86 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_87 } name = boep_branch_office_planet_option_87 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_87 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_88 } name = boep_branch_office_planet_option_88 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_88 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_89 } name = boep_branch_office_planet_option_89 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_89 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_90 } name = boep_branch_office_planet_option_90 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_90 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_91 } name = boep_branch_office_planet_option_91 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_91 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_92 } name = boep_branch_office_planet_option_92 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_92 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_93 } name = boep_branch_office_planet_option_93 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_93 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_94 } name = boep_branch_office_planet_option_94 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_94 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_95 } name = boep_branch_office_planet_option_95 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_95 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_96 } name = boep_branch_office_planet_option_96 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_96 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_97 } name = boep_branch_office_planet_option_97 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_97 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_98 } name = boep_branch_office_planet_option_98 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_98 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_99 } name = boep_branch_office_planet_option_99 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_99 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+	option = { trigger = { exists = event_target:boep_branch_office_planet_100 } name = boep_branch_office_planet_option_100 custom_tooltip = "boep_options_tooltip" hidden_effect = { event_target:boep_branch_office_planet_100 = { save_event_target_as = boep_chosen_planet root = { country_event = { id = boep.200 } country_event = { id = boep.300 } } } } }
+
+	option = {
+		name = close
+		default_hide_option = yes
+	}
+
+}
+
+country_event = {
+	id = boep.300
+	title = 300.name	
+	desc = {
+		trigger = { is_criminal_syndicate = yes }
+		text = boep_ESTABLISH_BRANCH_OFFICE_CRIMINAL_DESC
+	}
+	desc = {
+		trigger = { is_criminal_syndicate = no }
+		text = boep_ESTABLISH_BRANCH_OFFICE_DESC
+	}
+	#picture = GFX_evt_mining_station 
+	diplomatic = yes
+	diplomatic_title = boep_ESTABLISH_BRANCH_OFFICE
+	custom_gui = boep_event_view_confirm
+	custom_gui_option = boep_option_entry_confirm
+	location = event_target:boep_chosen_planet
+	is_triggered_only = yes 
+	trigger = {
+		exists = event_target:boep_chosen_planet
+		OR = {
+			has_authority = auth_corporate
+			has_civic = civic_galactic_sovereign_megacorp
+		}
+	}
+	immediate = {
+
+	}
+	option = {
+		allow = {
+			resource_stockpile_compare = { resource = energy value >= event_target:boep_chosen_planet.boep_branch_office_energy_cost }
+			resource_stockpile_compare = { resource = influence value >= event_target:boep_chosen_planet.boep_branch_office_influence_cost }
+			event_target:boep_chosen_planet = { has_branch_office = no }
+		}
+		name = YES
+		add_resource = {
+			energy = -1			
+			mult = event_target:boep_chosen_planet.boep_branch_office_energy_cost
+		}
+		add_resource = {		
+			influence = -1
+			mult = event_target:boep_chosen_planet.boep_branch_office_influence_cost
+		}
+		event_target:boep_chosen_planet = {
+			establish_branch_office = root
+		}
+	}
+	option = {
+		name = NO
+		default_hide_option = yes
+	}
+}
