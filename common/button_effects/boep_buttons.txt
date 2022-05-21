@@ -14,3 +14,288 @@ boep_open_planner = {
 		hidden_effect = { country_event = { id = boep.200 } }	
 	}
 }
+
+boep_settings = {
+	potential = {
+		
+	}
+	effect = {
+
+		country_event = {
+			id = boep.400
+		}
+		# custom_tooltip = "boep_expansion_planner_button"
+		# hidden_effect = { country_event = { id = boep.200 } }	
+	}
+}
+
+boep_checkbox_deactivate_auto_establish = {
+	potential = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		hidden_effect = { remove_country_flag = boep_auto_establish_checked }	
+	}
+}
+boep_checkbox_activate_auto_establish = {
+	potential = {
+		not={ has_country_flag = boep_auto_establish_checked }
+	}
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		hidden_effect = { 
+			set_country_flag = boep_auto_establish_checked 
+			if = {
+				limit = { 
+					NOR = {
+						has_country_flag = boep_auto_establish_prio_cost_checked
+						has_country_flag = boep_auto_establish_prio_income_checked
+						has_country_flag = boep_auto_establish_prio_roi_checked	
+					}					
+				}
+				set_country_flag = boep_auto_establish_prio_income_checked
+			}
+		}	
+	}
+}
+
+# boep_test = {
+# 	potential = {
+		
+# 	}
+# 	allow = {
+# 		always = yes
+# 	}
+# 	effect = {
+# 		set_country_flag = boep_sort_by_cost
+# 		country_event = { id = boep.200 }
+# 	}
+# }
+
+
+boep_no_cklick = {
+	potential = {
+		
+	}
+	allow = {
+		always = no
+	}
+	effect = {
+
+	}
+}
+
+boep_auto_establish_add_100_energy = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = { change_variable = { which = boep_auto_establish_min_energy value = 100 } }
+}
+boep_auto_establish_add_1000_energy = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {  change_variable = { which = boep_auto_establish_min_energy value = 1000 } }
+}
+boep_auto_establish_add_10_influence = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = { change_variable = { which = boep_auto_establish_min_influence value = 10 }  }
+}
+boep_auto_establish_add_100_influence = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = { change_variable = { which = boep_auto_establish_min_influence value = 100 }  }
+}
+boep_auto_establish_remove_100_energy = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = { change_variable = { which = boep_auto_establish_min_energy value = -100 } }
+}
+boep_auto_establish_remove_1000_energy = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {  change_variable = { which = boep_auto_establish_min_energy value = -1000 } }
+}
+boep_auto_establish_remove_10_influence = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = { change_variable = { which = boep_auto_establish_min_influence value = -10 }  }
+}
+boep_auto_establish_remove_100_influence = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = { change_variable = { which = boep_auto_establish_min_influence value = -100 }  }
+}
+
+###
+
+boep_checkbox_deactivate_auto_establish_prio_income = {
+	potential = {
+		has_country_flag = boep_auto_establish_prio_income_checked
+	}
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		#hidden_effect = { remove_country_flag = boep_auto_establish_prio_income_checked }	
+	}
+}
+boep_checkbox_activate_auto_establish_prio_income = {
+	potential = {
+		not={ has_country_flag = boep_auto_establish_prio_income_checked }
+	}
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		hidden_effect = { set_country_flag = boep_auto_establish_prio_income_checked  }	
+		hidden_effect = { remove_country_flag = boep_auto_establish_prio_roi_checked }	
+		hidden_effect = { remove_country_flag = boep_auto_establish_prio_cost_checked }
+	}
+}
+boep_checkbox_deactivate_auto_establish_prio_roi = {
+	potential = {
+		has_country_flag = boep_auto_establish_prio_roi_checked
+	}
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		#hidden_effect = { remove_country_flag = boep_auto_establish_prio_roi_checked }	
+	}
+}
+boep_checkbox_activate_auto_establish_prio_roi = {
+	potential = {
+		not={ has_country_flag = boep_auto_establish_prio_roi_checked }
+	}
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		hidden_effect = { set_country_flag = boep_auto_establish_prio_roi_checked }	
+		hidden_effect = { remove_country_flag = boep_auto_establish_prio_cost_checked }
+		hidden_effect = { remove_country_flag = boep_auto_establish_prio_income_checked }	
+	}
+}
+boep_checkbox_deactivate_auto_establish_prio_cost = {
+	potential = {
+		has_country_flag = boep_auto_establish_prio_cost_checked
+	}
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		#hidden_effect = { remove_country_flag = boep_auto_establish_prio_cost_checked }	
+	}
+}
+boep_checkbox_activate_auto_establish_prio_cost = {
+	potential = {
+		not={ has_country_flag = boep_auto_establish_prio_cost_checked }
+	}
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		hidden_effect = { set_country_flag = boep_auto_establish_prio_cost_checked }	
+		hidden_effect = { remove_country_flag = boep_auto_establish_prio_income_checked }	
+		hidden_effect = { remove_country_flag = boep_auto_establish_prio_roi_checked }
+	}
+}
+
+###
+
+boep_checkbox_deactivate_auto_establish_max_cost = {
+	potential = {
+		has_country_flag = boep_auto_establish_max_cost_checked
+	}
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		hidden_effect = { remove_country_flag = boep_auto_establish_max_cost_checked }	
+	}
+}
+boep_checkbox_activate_auto_establish_max_cost = {
+	potential = {
+		not={ has_country_flag = boep_auto_establish_max_cost_checked }
+	}
+	allow = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		hidden_effect = { set_country_flag = boep_auto_establish_max_cost_checked }	
+	}
+}
+
+boep_auto_establish_add_10_percent_max_cost = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked
+	}
+	effect = { change_variable = { which = boep_auto_establish_max_energy_cost value = 100 } change_variable = { which = boep_auto_establish_max_influence_cost value = 5 } }
+}
+boep_auto_establish_add_100_percent_max_cost = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked
+	}
+	effect = {  change_variable = { which = boep_auto_establish_max_energy_cost value = 1000 }  change_variable = { which = boep_auto_establish_max_influence_cost value = 50 } }
+}
+boep_auto_establish_remove_10_percent_max_cost = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked
+	}
+	effect = { change_variable = { which = boep_auto_establish_max_energy_cost value = -100 } change_variable = { which = boep_auto_establish_max_influence_cost value = -5 }  }
+}
+boep_auto_establish_remove_100_percent_max_cost = {
+	potential = { }
+	allow = {
+		has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked
+	}
+	effect = { change_variable = { which = boep_auto_establish_max_energy_cost value = -1000 }  change_variable = { which = boep_auto_establish_max_influence_cost value = -50 } }
+}

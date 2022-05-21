@@ -35,6 +35,43 @@ boep_sort_by = {
 	}
 }
 
+boep_sort_and_establish = {
+	set_country_flag = boep_ordering
+	while = {
+		count = 5000
+		limit = { has_country_flag = boep_ordering }
+		remove_country_flag = boep_ordering
+		ordered_galaxy_planet = {
+			limit = { 
+				boep_can_make_branch_office = yes 
+				NOT = { has_planet_flag = boep_saved_value }
+			}
+			position = 0
+			order_by = $KEY$
+			inverse = $ASC$ 
+			root = { set_country_flag = boep_ordering }		
+			establish_if_can_afford = yes				
+		}
+	}	
+	every_galaxy_planet = {
+		limit = { boep_can_make_branch_office = yes  }
+		remove_planet_flag = boep_saved_value
+	}
+}
+
+establish_if_can_afford = {
+	set_variable = { which = boep_current_energy_cost_sum value = boep_auto_establish_min_energy }
+	set_variable = { which = boep_current_influence_cost_sum value = boep_auto_establish_min_influence }
+	change_variable = { which = boep_current_energy_cost_sum value = x }
+	change_variable = { which = boep_current_influence_cost_sum value = x }
+	
+	if = {
+		limit = { 
+
+		}
+	}
+}
+
 boep_clear_value = {
 	root = { remove_country_flag = boep_branch_office_planet_$NUM$ }	
 }
@@ -368,4 +405,156 @@ boep_call_command_a_thousand_times = {
 	$COMMAND$ = { NUM = 980} $COMMAND$ = { NUM = 981} $COMMAND$ = { NUM = 982} $COMMAND$ = { NUM = 983} $COMMAND$ = { NUM = 984} $COMMAND$ = { NUM = 985} $COMMAND$ = { NUM = 986} $COMMAND$ = { NUM = 987} $COMMAND$ = { NUM = 988} $COMMAND$ = { NUM = 989} 
 	$COMMAND$ = { NUM = 990} $COMMAND$ = { NUM = 991} $COMMAND$ = { NUM = 992} $COMMAND$ = { NUM = 993} $COMMAND$ = { NUM = 994} $COMMAND$ = { NUM = 995} $COMMAND$ = { NUM = 996} $COMMAND$ = { NUM = 997} $COMMAND$ = { NUM = 998} $COMMAND$ = { NUM = 999} 
 	$COMMAND$ = { NUM = 1000} $COMMAND$ = { NUM = 1001} $COMMAND$ = { NUM = 1002} $COMMAND$ = { NUM = 1003} $COMMAND$ = { NUM = 1004} $COMMAND$ = { NUM = 1005} $COMMAND$ = { NUM = 1006} $COMMAND$ = { NUM = 1007} $COMMAND$ = { NUM = 1008} $COMMAND$ = { NUM = 1009} 
+}
+
+boep_calculate_data = {
+	save_event_target_as = root_empire
+	every_galaxy_planet = {
+		limit = {
+			boep_can_make_branch_office = yes
+		}
+		save_event_target_as = boep_current_planet
+
+		# Find Income
+		set_variable = { which = boep_current_planet_trade_add value = 0 }
+		set_variable = { which = boep_current_planet_trade_mult value = 0 }
+		set_variable = { which = boep_current_planet_crime value = 0 }
+		if = {
+			limit = { 
+				root = {
+					# intel_level = { level > medium system = prev.solar_system }
+					always = yes
+				} 
+			}
+			export_modifier_to_variable = { modifier = trade_value_add variable = boep_current_planet_trade_add }
+			export_modifier_to_variable = { modifier = trade_value_mult variable = boep_current_planet_trade_mult }
+			set_variable = { which = boep_current_planet_trade_value value = boep_current_planet_trade_add }
+			change_variable = { which = boep_current_planet_trade_mult value = 1 }				
+			multiply_variable = { which = boep_current_planet_trade_value value = boep_current_planet_trade_mult }
+			set_variable = { which = boep_current_branch_office_value value = boep_current_planet_trade_value }
+			
+			# Criminal Heritage				
+			if = {
+				limit = {  
+					root = { 
+						OR = {
+							has_authority = auth_corporate
+							has_valid_civic = civic_galactic_sovereign_megacorp
+						}
+						has_valid_civic = civic_criminal_heritage 
+					} 
+				}					 
+				export_trigger_value_to_variable = { trigger = planet_crime variable = boep_current_planet_crime }
+				multiply_variable = { which = boep_current_planet_crime value = 0.01 }
+				change_variable = { which = boep_current_planet_crime value = 0.5 }
+				multiply_variable = { which = boep_current_branch_office_value value = boep_current_planet_crime }
+			}
+
+			# Free Traders
+			if = {
+				limit = { root = { has_valid_civic = civic_free_traders } }
+				multiply_variable = { which = boep_current_branch_office_value value = 1.1 }
+			}
+
+			divide_variable = { which = boep_current_branch_office_value value = 2 }
+			floor_variable = boep_current_planet_trade_value
+			round_variable_to_closest = { which = boep_current_branch_office_value value = 0.1 }
+			if = {
+				limit = {  check_variable = { which = boep_current_branch_office_value  value < 0 } }
+				set_variable = { which = boep_current_branch_office_value  value = 0 }
+			}
+		}
+
+		# Find Cost
+		event_target:boep_current_planet = { set_variable = { which = boep_jumps_to_empire value = 0 } }
+		set_variable = { which = boep_branch_office_energy_cost value = 1000 }
+		set_variable = { which = boep_branch_office_influence_cost value = 50 }
+
+		# Find nearest empire border
+		root = {
+			# set starting point
+			capital_scope.solar_system = {
+				save_global_event_target_as = boep_nearest_empire_system						
+				set_variable = { which = boep_nearest_empire_system value = 0 }
+				export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_current_planet type = hyperlane bypass_empire = root } variable = boep_nearest_empire_system } 					
+			}
+			every_system_within_border = {					
+				remove_star_flag = boep_nearest_empire_system_found
+				set_variable = { which = boep_nearest_empire_system value = 0 }
+				export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_current_planet type = hyperlane bypass_empire = root } variable = boep_nearest_empire_system } 					
+				if = {
+					limit = { check_variable = { which = boep_nearest_empire_system value <= event_target:boep_nearest_empire_system.boep_nearest_empire_system } }
+					save_global_event_target_as = boep_nearest_empire_system					
+				}
+			}				
+		}
+		event_target:boep_nearest_empire_system = {
+			set_star_flag = boep_nearest_empire_system_found
+		}
+
+		# Count jumps to empire border
+		solar_system = {
+			export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_nearest_empire_system type = hyperlane bypass_empire = root } variable = boep_distance_to_empire } #event_target:global_event_country
+			save_global_event_target_as = boep_current_nearest
+						
+			while = {
+				count = 5000
+				limit = {								
+					event_target:boep_current_nearest = {
+						check_variable = { which = boep_distance_to_empire value > 0 }
+					}
+				}
+				event_target:boep_current_nearest = {											
+					find_nearest_neighbor = yes						
+				}
+				event_target:boep_current_planet = {
+					change_variable = { which = boep_jumps_to_empire value = 1 }
+				}
+			}
+		}
+		event_target:boep_current_nearest = {
+			set_star_flag = boep_current_nearest_found
+			if = {
+				limit = { 
+					NOT = {
+						is_same_value = event_target:boep_nearest_empire_system
+					}
+				}
+				event_target:boep_current_planet = {
+					change_variable = { which = boep_jumps_to_empire value = 1 }
+				}
+			}
+		}
+
+		set_variable = { which = boep_distance_to_planet_mult value = event_target:boep_current_planet.boep_jumps_to_empire }	
+		
+		subtract_variable = { which = boep_distance_to_planet_mult value = 3 }	
+		if = {
+			limit = { check_variable = { which = boep_distance_to_planet_mult value < 0 } }
+			set_variable = { which = boep_distance_to_planet_mult value = 0 }	
+		}
+		
+		multiply_variable = { which = boep_distance_to_planet_mult value = 0.1 }
+		change_variable = { which = boep_distance_to_planet_mult value = 1 }
+		multiply_variable = { which = boep_branch_office_energy_cost value = boep_distance_to_planet_mult }
+		multiply_variable = { which = boep_branch_office_influence_cost value = boep_distance_to_planet_mult }
+
+		# ROI
+		set_variable = { which = boep_branch_office_roi value = boep_branch_office_energy_cost }
+		if = {
+			limit = { check_variable = { which = boep_current_branch_office_value value <= 0 } }
+			set_variable = { which = boep_branch_office_roi value = 99999 }
+		}
+		else = { divide_variable = { which = boep_branch_office_roi value = boep_current_branch_office_value } }
+		round_variable = boep_branch_office_roi
+		
+		if = {
+			limit = {  root = { has_ascension_perk = ap_universal_transactions } }
+			multiply_variable = { which = boep_branch_office_energy_cost value = 0.85 }
+			multiply_variable = { which = boep_branch_office_influence_cost value = 0.85 }
+		}
+
+		export_trigger_value_to_variable = { trigger = num_pops variable = boep_num_pops }
+	}
+	
 }

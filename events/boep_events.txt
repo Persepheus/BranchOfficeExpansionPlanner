@@ -19,158 +19,157 @@ country_event = {
 			has_civic = civic_galactic_sovereign_megacorp
 		}
 	}
-	immediate = {
-		change_variable = {
-			which = count_immediates
-			value = 1
-		}
-		save_event_target_as = root_empire
-		every_galaxy_planet = {
-			limit = {
-				boep_can_make_branch_office = yes
-			}
-			save_event_target_as = boep_current_planet
+	immediate = {		
+		
+		boep_calculate_data = yes
+		# save_event_target_as = root_empire
+		# every_galaxy_planet = {
+		# 	limit = {
+		# 		boep_can_make_branch_office = yes
+		# 	}
+		# 	save_event_target_as = boep_current_planet
 
-			# Find Income
-			set_variable = { which = boep_current_planet_trade_add value = 0 }
-			set_variable = { which = boep_current_planet_trade_mult value = 0 }
-			set_variable = { which = boep_current_planet_crime value = 0 }
-			if = {
-				limit = { 
-					root = {
-						# intel_level = { level > medium system = prev.solar_system }
-						always = yes
-					} 
-				}
-				export_modifier_to_variable = { modifier = trade_value_add variable = boep_current_planet_trade_add }
-				export_modifier_to_variable = { modifier = trade_value_mult variable = boep_current_planet_trade_mult }
-				set_variable = { which = boep_current_planet_trade_value value = boep_current_planet_trade_add }
-				change_variable = { which = boep_current_planet_trade_mult value = 1 }				
-				multiply_variable = { which = boep_current_planet_trade_value value = boep_current_planet_trade_mult }
-				set_variable = { which = boep_current_branch_office_value value = boep_current_planet_trade_value }
+		# 	# Find Income
+		# 	set_variable = { which = boep_current_planet_trade_add value = 0 }
+		# 	set_variable = { which = boep_current_planet_trade_mult value = 0 }
+		# 	set_variable = { which = boep_current_planet_crime value = 0 }
+		# 	if = {
+		# 		limit = { 
+		# 			root = {
+		# 				# intel_level = { level > medium system = prev.solar_system }
+		# 				always = yes
+		# 			} 
+		# 		}
+		# 		export_modifier_to_variable = { modifier = trade_value_add variable = boep_current_planet_trade_add }
+		# 		export_modifier_to_variable = { modifier = trade_value_mult variable = boep_current_planet_trade_mult }
+		# 		set_variable = { which = boep_current_planet_trade_value value = boep_current_planet_trade_add }
+		# 		change_variable = { which = boep_current_planet_trade_mult value = 1 }				
+		# 		multiply_variable = { which = boep_current_planet_trade_value value = boep_current_planet_trade_mult }
+		# 		set_variable = { which = boep_current_branch_office_value value = boep_current_planet_trade_value }
 				
-				# Criminal Heritage				
-				if = {
-					limit = {  
-						root = { 
-							OR = {
-								has_authority = auth_corporate
-								has_valid_civic = civic_galactic_sovereign_megacorp
-							}
-							has_valid_civic = civic_criminal_heritage 
-						} 
-					}					 
-					export_trigger_value_to_variable = { trigger = planet_crime variable = boep_current_planet_crime }
-					multiply_variable = { which = boep_current_planet_crime value = 0.01 }
-					change_variable = { which = boep_current_planet_crime value = 0.5 }
-					multiply_variable = { which = boep_current_branch_office_value value = boep_current_planet_crime }
-				}
+		# 		# Criminal Heritage				
+		# 		if = {
+		# 			limit = {  
+		# 				root = { 
+		# 					OR = {
+		# 						has_authority = auth_corporate
+		# 						has_valid_civic = civic_galactic_sovereign_megacorp
+		# 					}
+		# 					has_valid_civic = civic_criminal_heritage 
+		# 				} 
+		# 			}					 
+		# 			export_trigger_value_to_variable = { trigger = planet_crime variable = boep_current_planet_crime }
+		# 			multiply_variable = { which = boep_current_planet_crime value = 0.01 }
+		# 			change_variable = { which = boep_current_planet_crime value = 0.5 }
+		# 			multiply_variable = { which = boep_current_branch_office_value value = boep_current_planet_crime }
+		# 		}
 
-				# Free Traders
-				if = {
-					limit = { root = { has_valid_civic = civic_free_traders } }
-					multiply_variable = { which = boep_current_branch_office_value value = 1.1 }
-				}
+		# 		# Free Traders
+		# 		if = {
+		# 			limit = { root = { has_valid_civic = civic_free_traders } }
+		# 			multiply_variable = { which = boep_current_branch_office_value value = 1.1 }
+		# 		}
 
-				divide_variable = { which = boep_current_branch_office_value value = 2 }
-				floor_variable = boep_current_planet_trade_value
-				round_variable_to_closest = { which = boep_current_branch_office_value value = 0.1 }
-				if = {
-					limit = {  check_variable = { which = boep_current_branch_office_value  value < 0 } }
-					set_variable = { which = boep_current_branch_office_value  value = 0 }
-				}
-			}
+		# 		divide_variable = { which = boep_current_branch_office_value value = 2 }
+		# 		floor_variable = boep_current_planet_trade_value
+		# 		round_variable_to_closest = { which = boep_current_branch_office_value value = 0.1 }
+		# 		if = {
+		# 			limit = {  check_variable = { which = boep_current_branch_office_value  value < 0 } }
+		# 			set_variable = { which = boep_current_branch_office_value  value = 0 }
+		# 		}
+		# 	}
 
-			# Find Cost
-			event_target:boep_current_planet = { set_variable = { which = boep_jumps_to_empire value = 0 } }
-			set_variable = { which = boep_branch_office_energy_cost value = 1000 }
-			set_variable = { which = boep_branch_office_influence_cost value = 50 }
+		# 	# Find Cost
+		# 	event_target:boep_current_planet = { set_variable = { which = boep_jumps_to_empire value = 0 } }
+		# 	set_variable = { which = boep_branch_office_energy_cost value = 1000 }
+		# 	set_variable = { which = boep_branch_office_influence_cost value = 50 }
 
-			# Find nearest empire border
-			root = {
-				# set starting point
-				capital_scope.solar_system = {
-					save_global_event_target_as = boep_nearest_empire_system						
-					set_variable = { which = boep_nearest_empire_system value = 0 }
-					export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_current_planet type = hyperlane bypass_empire = root } variable = boep_nearest_empire_system } 					
-				}
-				every_system_within_border = {					
-					remove_star_flag = boep_nearest_empire_system_found
-					set_variable = { which = boep_nearest_empire_system value = 0 }
-					export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_current_planet type = hyperlane bypass_empire = root } variable = boep_nearest_empire_system } 					
-					if = {
-						limit = { check_variable = { which = boep_nearest_empire_system value <= event_target:boep_nearest_empire_system.boep_nearest_empire_system } }
-						save_global_event_target_as = boep_nearest_empire_system					
-					}
-				}				
-			}
-			event_target:boep_nearest_empire_system = {
-				set_star_flag = boep_nearest_empire_system_found
-			}
+		# 	# Find nearest empire border
+		# 	root = {
+		# 		# set starting point
+		# 		capital_scope.solar_system = {
+		# 			save_global_event_target_as = boep_nearest_empire_system						
+		# 			set_variable = { which = boep_nearest_empire_system value = 0 }
+		# 			export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_current_planet type = hyperlane bypass_empire = root } variable = boep_nearest_empire_system } 					
+		# 		}
+		# 		every_system_within_border = {					
+		# 			remove_star_flag = boep_nearest_empire_system_found
+		# 			set_variable = { which = boep_nearest_empire_system value = 0 }
+		# 			export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_current_planet type = hyperlane bypass_empire = root } variable = boep_nearest_empire_system } 					
+		# 			if = {
+		# 				limit = { check_variable = { which = boep_nearest_empire_system value <= event_target:boep_nearest_empire_system.boep_nearest_empire_system } }
+		# 				save_global_event_target_as = boep_nearest_empire_system					
+		# 			}
+		# 		}				
+		# 	}
+		# 	event_target:boep_nearest_empire_system = {
+		# 		set_star_flag = boep_nearest_empire_system_found
+		# 	}
 
-			# Count jumps to empire border
-			solar_system = {
-				export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_nearest_empire_system type = hyperlane bypass_empire = root } variable = boep_distance_to_empire } #event_target:global_event_country
-				save_global_event_target_as = boep_current_nearest
+		# 	# Count jumps to empire border
+		# 	solar_system = {
+		# 		export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_nearest_empire_system type = hyperlane bypass_empire = root } variable = boep_distance_to_empire } #event_target:global_event_country
+		# 		save_global_event_target_as = boep_current_nearest
 							
-				while = {
-					count = 5000
-					limit = {								
-						event_target:boep_current_nearest = {
-							check_variable = { which = boep_distance_to_empire value > 0 }
-						}
-					}
-					event_target:boep_current_nearest = {											
-						find_nearest_neighbor = yes						
-					}
-					event_target:boep_current_planet = {
-						change_variable = { which = boep_jumps_to_empire value = 1 }
-					}
-				}
-			}
-			event_target:boep_current_nearest = {
-				set_star_flag = boep_current_nearest_found
-				if = {
-					limit = { 
-						NOT = {
-							is_same_value = event_target:boep_nearest_empire_system
-						}
-					}
-					event_target:boep_current_planet = {
-						change_variable = { which = boep_jumps_to_empire value = 1 }
-					}
-				}
-			}
+		# 		while = {
+		# 			count = 5000
+		# 			limit = {								
+		# 				event_target:boep_current_nearest = {
+		# 					check_variable = { which = boep_distance_to_empire value > 0 }
+		# 				}
+		# 			}
+		# 			event_target:boep_current_nearest = {											
+		# 				find_nearest_neighbor = yes						
+		# 			}
+		# 			event_target:boep_current_planet = {
+		# 				change_variable = { which = boep_jumps_to_empire value = 1 }
+		# 			}
+		# 		}
+		# 	}
+		# 	event_target:boep_current_nearest = {
+		# 		set_star_flag = boep_current_nearest_found
+		# 		if = {
+		# 			limit = { 
+		# 				NOT = {
+		# 					is_same_value = event_target:boep_nearest_empire_system
+		# 				}
+		# 			}
+		# 			event_target:boep_current_planet = {
+		# 				change_variable = { which = boep_jumps_to_empire value = 1 }
+		# 			}
+		# 		}
+		# 	}
 
-			set_variable = { which = boep_distance_to_planet_mult value = event_target:boep_current_planet.boep_jumps_to_empire }	
+		# 	set_variable = { which = boep_distance_to_planet_mult value = event_target:boep_current_planet.boep_jumps_to_empire }	
 			
-			subtract_variable = { which = boep_distance_to_planet_mult value = 3 }	
-			if = {
-				limit = { check_variable = { which = boep_distance_to_planet_mult value < 0 } }
-				set_variable = { which = boep_distance_to_planet_mult value = 0 }	
-			}
+		# 	subtract_variable = { which = boep_distance_to_planet_mult value = 3 }	
+		# 	if = {
+		# 		limit = { check_variable = { which = boep_distance_to_planet_mult value < 0 } }
+		# 		set_variable = { which = boep_distance_to_planet_mult value = 0 }	
+		# 	}
 			
-			multiply_variable = { which = boep_distance_to_planet_mult value = 0.1 }
-			change_variable = { which = boep_distance_to_planet_mult value = 1 }
-			multiply_variable = { which = boep_branch_office_energy_cost value = boep_distance_to_planet_mult }
-			multiply_variable = { which = boep_branch_office_influence_cost value = boep_distance_to_planet_mult }
+		# 	multiply_variable = { which = boep_distance_to_planet_mult value = 0.1 }
+		# 	change_variable = { which = boep_distance_to_planet_mult value = 1 }
+		# 	multiply_variable = { which = boep_branch_office_energy_cost value = boep_distance_to_planet_mult }
+		# 	multiply_variable = { which = boep_branch_office_influence_cost value = boep_distance_to_planet_mult }
 
-			# ROI
-			set_variable = { which = boep_branch_office_roi value = boep_branch_office_energy_cost }
-			if = {
-				limit = { check_variable = { which = boep_current_branch_office_value value <= 0 } }
-				set_variable = { which = boep_branch_office_roi value = 9999999 }
-			}
-			else = { divide_variable = { which = boep_branch_office_roi value = boep_current_branch_office_value } }
-			round_variable = boep_branch_office_roi
+		# 	# ROI
+		# 	set_variable = { which = boep_branch_office_roi value = boep_branch_office_energy_cost }
+		# 	if = {
+		# 		limit = { check_variable = { which = boep_current_branch_office_value value <= 0 } }
+		# 		set_variable = { which = boep_branch_office_roi value = 99999 }
+		# 	}
+		# 	else = { divide_variable = { which = boep_branch_office_roi value = boep_current_branch_office_value } }
+		# 	round_variable = boep_branch_office_roi
 
-			# TODO Ascension Mercantilism
-			if = {
-				limit = {  root = { has_ascension_perk = ap_universal_transactions } }
-				multiply_variable = { which = boep_branch_office_energy_cost value = 0.85 }
-				multiply_variable = { which = boep_branch_office_influence_cost value = 0.85 }
-			}
-		}
+		# 	if = {
+		# 		limit = {  root = { has_ascension_perk = ap_universal_transactions } }
+		# 		multiply_variable = { which = boep_branch_office_energy_cost value = 0.85 }
+		# 		multiply_variable = { which = boep_branch_office_influence_cost value = 0.85 }
+		# 	}
+
+		# 	export_trigger_value_to_variable = { trigger = num_pops variable = boep_num_pops }
+		# }
 
 
 		boep_clear_values = yes
@@ -356,7 +355,13 @@ country_event = {
 		name = close
 		default_hide_option = yes
 	}
-
+	# abort_trigger = {
+	# 	has_country_flag = boep_auto_establish_checked
+	# }
+	# abort_effect = {
+	# 	remove_country_flag = boep_auto_establish_checked
+	# 	set_country_flag = boep_sort_by_cost
+	# }
 }
 
 country_event = {
@@ -409,5 +414,52 @@ country_event = {
 	option = {
 		name = NO
 		default_hide_option = yes
+	}
+}
+
+
+country_event = {
+	id = boep.400
+	title = boep.400.name
+	desc = boep.400.desc
+	location = from #A scope to the object that is relevant to the event that player can move to. For example, the planet where event is happening
+	custom_gui = boep_settings_view
+	diplomatic = yes #Makes event look like diplomatic communications. For example, first contact event or a conversation with the subterranean people
+	is_triggered_only = yes #The game will not consider this event for starting on its own. Event will need to be triggered by another event, or by some other effect. Most events will use this.
+	trigger = {
+		
+	}
+	immediate = {
+		
+	}
+	option = {
+		
+	}
+	
+}
+
+country_event = {
+	id = boep.500
+	hide_window = yes
+	trigger = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	is_triggered_only = yes
+	immediate = {
+		boep_calculate_data = yes
+
+		boep_clear_values = yes
+		if = {
+			limit = { has_country_flag = boep_auto_establish_prio_cost_checked }
+			boep_sort_by = { KEY = boep_branch_office_influence_cost ASC = yes } 
+		}
+		else_if = {
+			limit = { has_country_flag = boep_auto_establish_prio_income_checked }
+			boep_sort_by = { KEY = boep_current_branch_office_value ASC = no }			
+		}
+		else = {
+			boep_sort_by = { KEY = boep_branch_office_roi ASC = yes } 
+		}
+		
 	}
 }
