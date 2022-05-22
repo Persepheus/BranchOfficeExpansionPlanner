@@ -433,7 +433,7 @@ country_event = {
 		
 	}
 	option = {
-		
+		name = test
 	}
 	
 }
@@ -451,14 +451,14 @@ country_event = {
 		boep_clear_values = yes
 		if = {
 			limit = { has_country_flag = boep_auto_establish_prio_cost_checked }
-			boep_sort_by = { KEY = boep_branch_office_influence_cost ASC = yes } 
+			boep_sort_and_establish = { KEY = boep_branch_office_influence_cost ASC = yes } 
 		}
 		else_if = {
 			limit = { has_country_flag = boep_auto_establish_prio_income_checked }
-			boep_sort_by = { KEY = boep_current_branch_office_value ASC = no }			
+			boep_sort_and_establish = { KEY = boep_current_branch_office_value ASC = no }			
 		}
 		else = {
-			boep_sort_by = { KEY = boep_branch_office_roi ASC = yes } 
+			boep_sort_and_establish = { KEY = boep_branch_office_roi ASC = yes } 
 		}
 		
 	}

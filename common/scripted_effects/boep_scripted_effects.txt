@@ -62,13 +62,33 @@ boep_sort_and_establish = {
 establish_if_can_afford = {
 	set_variable = { which = boep_current_energy_cost_sum value = boep_auto_establish_min_energy }
 	set_variable = { which = boep_current_influence_cost_sum value = boep_auto_establish_min_influence }
-	change_variable = { which = boep_current_energy_cost_sum value = x }
-	change_variable = { which = boep_current_influence_cost_sum value = x }
+	change_variable = { which = boep_current_energy_cost_sum value = boep_branch_office_energy_cost }
+	change_variable = { which = boep_current_influence_cost_sum value = boep_branch_office_influence_cost }
 	
 	if = {
 		limit = { 
-
+			OR = {
+				AND = { 
+					root = { has_country_flag = boep_auto_establish_max_cost_checked }
+					check_variable = { which = boep_branch_office_energy_cost value <= root.boep_auto_establish_max_energy_cost }
+				}
+				root = { not = { has_country_flag = boep_auto_establish_max_cost_checked } }
+			}			
 		}
+		root = {
+			add_resource = {
+				energy = -1			
+				mult = prev.boep_branch_office_energy_cost
+			}
+			add_resource = {		
+				influence = -1
+				mult = prev.boep_branch_office_influence_cost
+			}
+		}
+		establish_branch_office = root
+	}
+	else = {
+		set_planet_flag = boep_saved_value
 	}
 }
 
