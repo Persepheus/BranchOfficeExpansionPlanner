@@ -9,6 +9,7 @@ boep_open_planner = {
 			}
 		}
 	}
+	allow = { }
 	effect = {
 		custom_tooltip = "boep_expansion_planner_button"
 		hidden_effect = { country_event = { id = boep.200 } }	
@@ -16,37 +17,13 @@ boep_open_planner = {
 }
 
 boep_automation = {
-	potential = {
-		
-	}
+	potential = { }
+	allow = { }
 	effect = {
 		custom_tooltip = "boep_automation_button"
-		hidden_effect = { country_event = { id = boep.400 } }	
-	}
-}
-
-boep_checkbox_deactivate_auto_establish = {
-	potential = {
-		has_country_flag = boep_auto_establish_checked
-	}
-	effect = {
-
-		
-		# custom_tooltip = "boep_expansion_planner_button"
-		hidden_effect = { remove_country_flag = boep_auto_establish_checked }	
-	}
-}
-boep_checkbox_activate_auto_establish = {
-	potential = {
-		not={ has_country_flag = boep_auto_establish_checked }
-	}
-	effect = {
-
-		
-		# custom_tooltip = "boep_expansion_planner_button"
 		hidden_effect = { 
-			set_country_flag = boep_auto_establish_checked 
-			# initialize settings first call
+			country_event = { id = boep.400 } 
+		# initialize settings first call
 			if = {
 				limit = { 
 					NOR = {
@@ -64,6 +41,43 @@ boep_checkbox_activate_auto_establish = {
 				set_variable = { which = boep_auto_establish_min_energy value = 0 }
 				set_variable = { which = boep_auto_establish_min_influence value = 0 }
 			}
+			# initialize vars
+		
+			if = {
+				limit = { 
+					not = { is_variable_set = boep_auto_establish_max_energy_cost }
+				}
+				set_variable = { which = boep_auto_establish_max_energy_cost value = 2000 }
+				set_variable = { which = boep_auto_establish_max_influence_cost value = 100 }
+			}
+		
+		}	
+	}
+}
+
+boep_checkbox_deactivate_auto_establish = {
+	potential = {
+		has_country_flag = boep_auto_establish_checked
+	}
+	allow = { }
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		hidden_effect = { remove_country_flag = boep_auto_establish_checked }	
+	}
+}
+boep_checkbox_activate_auto_establish = {
+	potential = {
+		not={ has_country_flag = boep_auto_establish_checked }
+	}
+	allow = { }
+	effect = {
+
+		
+		# custom_tooltip = "boep_expansion_planner_button"
+		hidden_effect = { 
+			set_country_flag = boep_auto_establish_checked 			
 		}	
 	}
 }
@@ -269,17 +283,7 @@ boep_checkbox_activate_auto_establish_max_cost = {
 	allow = {
 		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
 	}
-	effect = {
-		# initialize vars
-		hidden_effect = { 
-			if = {
-				limit = { 
-					not = { is_variable_set = boep_auto_establish_max_energy_cost }
-				}
-				set_variable = { which = boep_auto_establish_max_energy_cost value = 2000 }
-				set_variable = { which = boep_auto_establish_max_influence_cost value = 100 }
-			}
-		}
+	effect = {		
 		# custom_tooltip = "boep_expansion_planner_button"
 		hidden_effect = { set_country_flag = boep_auto_establish_max_cost_checked }	
 	}
