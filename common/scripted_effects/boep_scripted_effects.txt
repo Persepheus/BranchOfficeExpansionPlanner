@@ -93,6 +93,19 @@ establish_if_can_afford = {
 				add_resource = { influence = -1 mult = prev.boep_branch_office_influence_cost }
 			}
 			establish_branch_office = root
+			root = {
+				create_message = {
+					type = BOEP_MESSAGE_TYPE_NEW_BRANCH_OFFICE
+					localization = MESSAGE_NEW_BRANCH_OFFICE
+					days = 30
+					target = prev
+					variable = {
+						type = name
+						localization = PLANET
+						scope = prev
+					}
+				}
+			}
 		}
 		else = {
 			root = { remove_country_flag = boep_ordering }
