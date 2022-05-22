@@ -178,22 +178,22 @@ guiTypes = {
 		effectButtonType = {
 			name = "boep_auto_establish_add_100_energy" effect = "boep_auto_establish_add_100_energy"
 			position = { x= 50 y = 187 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_add_100_energy" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_add_100_energy" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 		effectButtonType = {
 			name = "boep_auto_establish_add_1000_energy" effect = "boep_auto_establish_add_1000_energy"
 			position = { x= 130 y = 187 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_add_1000_energy" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_add_1000_energy" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 		effectButtonType = {
 			name = "boep_auto_establish_remove_100_energy" effect = "boep_auto_establish_remove_100_energy"
 			position = { x= 50 y = 213 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_remove_100_energy" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_remove_100_energy" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 		effectButtonType = {
 			name = "boep_auto_establish_remove_1000_energy" effect = "boep_auto_establish_remove_1000_energy"
 			position = { x= 130 y = 213 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_remove_1000_energy" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_remove_1000_energy" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 
 		effectButtonType = {
@@ -205,22 +205,22 @@ guiTypes = {
 		effectButtonType = {
 			name = "boep_auto_establish_add_10_influence" effect = "boep_auto_establish_add_10_influence"
 			position = { x= 250 y = 187 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_add_10_influence" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_add_10_influence" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 		effectButtonType = {
 			name = "boep_auto_establish_add_100_influence" effect = "boep_auto_establish_add_100_influence"
 			position = { x= 330 y = 187 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_add_100_influence" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_add_100_influence" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 		effectButtonType = {
 			name = "boep_auto_establish_remove_10_influence" effect = "boep_auto_establish_remove_10_influence"
 			position = { x= 250 y = 213 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_remove_10_influence" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_remove_10_influence" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 		effectButtonType = {
 			name = "boep_auto_establish_remove_100_influence" effect = "boep_auto_establish_remove_100_influence"
 			position = { x= 330 y = 213 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_remove_100_influence" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_remove_100_influence" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 
 ####
@@ -331,22 +331,22 @@ guiTypes = {
 		effectButtonType = {
 			name = "boep_auto_establish_add_10_percent_max_cost" effect = "boep_auto_establish_add_10_percent_max_cost"
 			position = { x= 690 y = 187 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_add_10_percent_max_cost" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_add_10_percent_max_cost" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 		effectButtonType = {
 			name = "boep_auto_establish_add_100_percent_max_cost" effect = "boep_auto_establish_add_100_percent_max_cost"
 			position = { x= 770 y = 187 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_add_100_percent_max_cost" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_add_100_percent_max_cost" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 		effectButtonType = {
 			name = "boep_auto_establish_remove_10_percent_max_cost" effect = "boep_auto_establish_remove_10_percent_max_cost"
 			position = { x= 690 y = 213 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_remove_10_percent_max_cost" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_remove_10_percent_max_cost" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 		effectButtonType = {
 			name = "boep_auto_establish_remove_100_percent_max_cost" effect = "boep_auto_establish_remove_100_percent_max_cost"
 			position = { x= 770 y = 213 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
-			buttonText = "boep_auto_establish_remove_100_percent_max_cost" font = "cg_16b" buttonFont = "cg_16b" text_color_code = "E"
+			buttonText = "boep_auto_establish_remove_100_percent_max_cost" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
 		}
 
 		effectButtonType = {

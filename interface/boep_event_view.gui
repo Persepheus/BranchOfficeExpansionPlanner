@@ -1,6 +1,36 @@
 guiTypes = {
 	### DEFAULT EVENT OPTION ###
 
+	# containerWindowType = {
+	# 	name = "boep_search_option_entry"
+	# 	position = { x=350 y=-50 }
+	# 	size = { width = 288 height = 44 }
+		
+	# 	moveable = no
+	# 	clipping = yes
+	# 	buttonType = {
+	# 		name = "option_button"
+	# 		quadTextureSprite = "GFX_glow_tile_orange"
+	# 		position = { x=0 y=0 }
+	# 		size = { x = 200 y = 30 }
+	# 		multiline = yes
+	# 		format = LEFT
+	# 		#font = "malgun_goth_24"
+	# 		font = "cg_16b"
+	# 		text = "OPTION_TEXT"
+	# 		text = ""
+	# 		borderSize = { x = 10 y = 0 }
+			
+	# 	}
+		
+	# 	OverlappingElementsBoxType = {
+	# 		name = "trigger_icons"
+	# 		position = { x = 0  y = 10 }
+	# 		size = { x=65 y= 28 }
+			
+	# 	}
+	# }
+
 	containerWindowType = {
 		name = "boep_option_entry"
 		position = { x=0 y=0 }
@@ -84,16 +114,15 @@ guiTypes = {
 
 		effectButtonType = {
 			name = "test"
-			effect = "boep_settings"
+			effect = "boep_automation"
 			quadTextureSprite = "GFX_standard_button_142_34_button"
 			position = { x= -220 y = 20 }
 			font = "cg_16b"
-			buttonText = "boep_settings"
+			buttonText = "boep_automation"
 			buttonFont = "cg_16b"
-			clicksound = "tab_click"
-			shortcut = "s"
+			clicksound = "tab_click"			
 			Orientation = "UPPER_RIGHT"
-			oversound = no_sound
+			#oversound = no_sound
 
 		}
 				
@@ -375,47 +404,43 @@ guiTypes = {
 			
 			effectButtonType = {
 				name = "cost"
-				effect = "boep_settings"
+				effect = "boep_no_cklick_sorting"
 				quadTextureSprite = "GFX_standard_button_190_24"
 				position = { x= 5 y = 40 }
 				font = "cg_16b"
 				buttonText = "Branch_Office_Cost"
 				buttonFont = "cg_16b"				
 				Orientation = "UPPER_LEFT"
-				oversound = mouse_over	
 			}
 			effectButtonType = {
 				name = "income"
-				effect = "boep_settings"
+				effect = "boep_no_cklick_sorting"
 				quadTextureSprite = "GFX_standard_button_190_24"
 				position = { x= 200 y = 40 }
 				font = "cg_16b"
 				buttonText = "Expected_Monthly_Income"
 				buttonFont = "cg_16b"				
 				Orientation = "UPPER_LEFT"
-				oversound = mouse_over	
 			}
 			effectButtonType = {
 				name = "roi"
-				effect = "boep_settings"
+				effect = "boep_no_cklick_sorting"
 				quadTextureSprite = "GFX_standard_button_190_24"
 				position = { x= 395 y = 40 }
 				font = "cg_16b"
 				buttonText = "Return_Of_Investment"
 				buttonFont = "cg_16b"				
 				Orientation = "UPPER_LEFT"
-				oversound = mouse_over	
 			}
 			effectButtonType = {
 				name = "pops"
-				effect = "boep_settings"
+				effect = "boep_no_cklick_sorting"
 				quadTextureSprite = "GFX_standard_button_190_24"
 				position = { x= 590 y = 40 }
 				font = "cg_16b"
 				buttonText = "Planet_Pop_Count"
 				buttonFont = "cg_16b"				
 				Orientation = "UPPER_LEFT"
-				oversound = mouse_over	
 			}
 			
 			instantTextBoxType={				

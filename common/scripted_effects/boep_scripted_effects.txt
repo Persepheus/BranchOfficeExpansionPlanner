@@ -39,7 +39,11 @@ boep_sort_and_establish = {
 	set_country_flag = boep_ordering
 	while = {
 		count = 5000
-		limit = { has_country_flag = boep_ordering }
+		limit = { 
+			has_country_flag = boep_ordering 
+			resource_stockpile_compare = { resource = energy value >= 850 }
+			resource_stockpile_compare = { resource = influence value >= 40 }
+		}
 		remove_country_flag = boep_ordering
 		ordered_galaxy_planet = {
 			limit = { 
@@ -60,32 +64,39 @@ boep_sort_and_establish = {
 }
 
 establish_if_can_afford = {
-	set_variable = { which = boep_current_energy_cost_sum value = boep_auto_establish_min_energy }
-	set_variable = { which = boep_current_influence_cost_sum value = boep_auto_establish_min_influence }
+	set_variable = { which = boep_current_energy_cost_sum value = root.boep_auto_establish_min_energy }
+	set_variable = { which = boep_current_influence_cost_sum value = root.boep_auto_establish_min_influence }
 	change_variable = { which = boep_current_energy_cost_sum value = boep_branch_office_energy_cost }
 	change_variable = { which = boep_current_influence_cost_sum value = boep_branch_office_influence_cost }
 	
 	if = {
 		limit = { 
 			OR = {
+				# if Max Cost Checkbox
 				AND = { 
 					root = { has_country_flag = boep_auto_establish_max_cost_checked }
 					check_variable = { which = boep_branch_office_energy_cost value <= root.boep_auto_establish_max_energy_cost }
 				}
 				root = { not = { has_country_flag = boep_auto_establish_max_cost_checked } }
-			}			
+			}	
+			
 		}
-		root = {
-			add_resource = {
-				energy = -1			
-				mult = prev.boep_branch_office_energy_cost
+		if = {
+			limit = { 				
+				root = {
+					resource_stockpile_compare = { resource = energy value >= prev.boep_current_energy_cost_sum }
+					resource_stockpile_compare = { resource = influence value >= prev.boep_current_influence_cost_sum }				
+				}		
+			}		
+			root = {
+				add_resource = { energy = -1 mult = prev.boep_branch_office_energy_cost }
+				add_resource = { influence = -1 mult = prev.boep_branch_office_influence_cost }
 			}
-			add_resource = {		
-				influence = -1
-				mult = prev.boep_branch_office_influence_cost
-			}
+			establish_branch_office = root
 		}
-		establish_branch_office = root
+		else = {
+			root = { remove_country_flag = boep_ordering }
+		}
 	}
 	else = {
 		set_planet_flag = boep_saved_value
