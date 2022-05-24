@@ -2,5 +2,50 @@
 on_monthly_pulse_country = {
 	events = {
 		boep.500
+		boep.700
 	}
 }
+
+
+on_game_start_country = {
+	events = {
+		boep.100
+	}
+}
+
+# #A building construction has been completed.
+# # This = Planet
+# on_building_complete = {
+# 	events = {
+	
+# 	}
+# }
+
+# # A building construction has been queued.
+# # This = Planet
+# on_building_queued = {
+# 	events = {
+# 	}
+# }
+# # A building construction has been unqueued.
+# # This = Planet
+# on_building_unqueued = {
+# 	events = {
+# 	}
+# }
+
+# # A building construction has demolished.
+# # This = Planet
+# on_building_demolished = {
+# 	events = {
+		
+# 	}
+# }
+
+# # A building construction has finished, replacing another building.
+# # This = Planet
+# on_building_replaced = {
+# 	events = {
+	
+# 	}
+# }

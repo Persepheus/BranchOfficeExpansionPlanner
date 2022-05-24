@@ -1,4 +1,5 @@
 find_nearest_neighbor  = {
+	optimize_memory
 	every_neighbor_system = {		
 		set_variable = { which = boep_distance_to_empire value = 0 }
 		export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_nearest_empire_system type = hyperlane bypass_empire = root } variable = boep_distance_to_empire } 
@@ -12,6 +13,7 @@ find_nearest_neighbor  = {
 }
 
 boep_sort_by = {
+	optimize_memory
 	set_country_flag = boep_ordering
 	while = {
 		count = 5000
@@ -36,6 +38,7 @@ boep_sort_by = {
 }
 
 boep_sort_and_establish = {
+	optimize_memory
 	set_country_flag = boep_ordering
 	while = {
 		count = 5000
@@ -348,6 +351,7 @@ boep_clear_values = {
 # 	boep_call_thousand = { COMMAND = $COMMAND$ }
 # }
 boep_call_command_a_thousand_times = {
+	optimize_memory
 	$COMMAND$ = { NUM = 1} $COMMAND$ = { NUM = 2} $COMMAND$ = { NUM = 3} $COMMAND$ = { NUM = 4} $COMMAND$ = { NUM = 5} $COMMAND$ = { NUM = 6} $COMMAND$ = { NUM = 7} $COMMAND$ = { NUM = 8} $COMMAND$ = { NUM = 9} 
 	$COMMAND$ = { NUM = 10} $COMMAND$ = { NUM = 11} $COMMAND$ = { NUM = 12} $COMMAND$ = { NUM = 13} $COMMAND$ = { NUM = 14} $COMMAND$ = { NUM = 15} $COMMAND$ = { NUM = 16} $COMMAND$ = { NUM = 17} $COMMAND$ = { NUM = 18} $COMMAND$ = { NUM = 19} 
 	$COMMAND$ = { NUM = 20} $COMMAND$ = { NUM = 21} $COMMAND$ = { NUM = 22} $COMMAND$ = { NUM = 23} $COMMAND$ = { NUM = 24} $COMMAND$ = { NUM = 25} $COMMAND$ = { NUM = 26} $COMMAND$ = { NUM = 27} $COMMAND$ = { NUM = 28} $COMMAND$ = { NUM = 29} 
@@ -452,6 +456,7 @@ boep_call_command_a_thousand_times = {
 }
 
 boep_calculate_data = {
+	optimize_memory
 	save_event_target_as = root_empire
 	every_galaxy_planet = {
 		limit = {
@@ -601,4 +606,291 @@ boep_calculate_data = {
 		export_trigger_value_to_variable = { trigger = num_pops variable = boep_num_pops }
 	}
 	
+}
+
+set_slot = {
+	optimize_memory
+	if = {
+		limit = {  has_country_flag = boep_choose_slot_1 }
+		remove_slot = { SLOT = 1 }
+		set_country_flag = boep_slot_1_$BUILDING$
+	}	
+	else_if = {
+		limit = {  has_country_flag = boep_choose_slot_2 }
+		remove_slot = { SLOT = 2 }
+		set_country_flag = boep_slot_2_$BUILDING$
+	}
+	else_if = {
+		limit = {  has_country_flag = boep_choose_slot_3 }
+		remove_slot = { SLOT = 3 }
+		set_country_flag = boep_slot_3_$BUILDING$
+	}
+	else_if = {
+		limit = {  has_country_flag = boep_choose_slot_4 }
+		remove_slot = { SLOT = 4 }
+		set_country_flag = boep_slot_4_$BUILDING$
+	}
+	
+}
+
+remove_slot = {
+	remove_country_flag = boep_slot_$SLOT$_empty
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_private_mining_consortium
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_food_conglomerate
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_virtual_entertainment_studios
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_private_shipyards
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_military_contractors
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_public_relations_office
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_private_research_initiative
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_amusement_megaplex
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_commercial_forum
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_corporate_embassy
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_wildcat_miners
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_bio_reprocessing_facilities
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_underground_chemists
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_wrecking_yards
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_pirate_haven
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_underground_clubs
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_syndicate_outreach_office
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_illicit_research_labs
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_smuggling_rings
+	remove_country_flag = boep_slot_$SLOT$_GFX_GFX_boep_building_disinformation_center
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_subversive_shrine
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_temple_of_prosperity
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_executive_retreat
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_xeno_tourism_agency
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_imperial_concession_port
+}
+
+boep_choose_slot = {
+	remove_country_flag = boep_choose_slot_1
+	remove_country_flag = boep_choose_slot_2
+	remove_country_flag = boep_choose_slot_3
+	remove_country_flag = boep_choose_slot_4
+	set_country_flag = boep_choose_slot_$NUM$	
+}
+
+count_buildings = {
+	optimize_memory
+	count_building = { BUILDING = private_mining_consortium }
+	count_building = { BUILDING =  food_conglomerate }
+	count_building = { BUILDING =  virtual_entertainment_studios }
+	count_building = { BUILDING =  private_shipyards }
+	count_building = { BUILDING =  military_contractors }
+	count_building = { BUILDING =  public_relations_office }
+	count_building = { BUILDING =  private_research_initiative }
+	count_building = { BUILDING =  amusement_megaplex }
+	count_building = { BUILDING =  commercial_forum }
+	count_building = { BUILDING =  corporate_embassy }
+	count_building = { BUILDING =  wildcat_miners }
+	count_building = { BUILDING =  bio_reprocessing_facilities }
+	count_building = { BUILDING =  underground_chemists }
+	count_building = { BUILDING =  wrecking_yards }
+	count_building = { BUILDING =  pirate_haven }
+	count_building = { BUILDING =  underground_clubs }
+	count_building = { BUILDING =  syndicate_outreach_office }
+	count_building = { BUILDING =  illicit_research_labs }
+	count_building = { BUILDING =  smuggling_rings }
+	count_building = { BUILDING =  disinformation_center }
+	count_building = { BUILDING =  subversive_shrine }
+	count_building = { BUILDING =  temple_of_prosperity }
+	count_building = { BUILDING =  executive_retreat }
+	count_building = { BUILDING =  xeno_tourism_agency }
+	count_building = { BUILDING =  imperial_concession_port }
+	# private_mining_consortium
+	# food_conglomerate
+	# virtual_entertainment_studios
+	# private_shipyards
+	# military_contractors
+	# public_relations_office
+	# private_research_initiative
+	# amusement_megaplex
+	# commercial_forum
+	# corporate_embassy
+	# wildcat_miners
+	# bio_reprocessing_facilities
+	# underground_chemists
+	# wrecking_yards
+	# pirate_haven
+	# underground_clubs
+	# syndicate_outreach_office
+	# illicit_research_labs
+	# smuggling_rings
+	# disinformation_center
+	# subversive_shrine
+	# temple_of_prosperity
+	# executive_retreat
+	# xeno_tourism_agency
+	# imperial_concession_port
+}
+
+count_building = {
+	set_variable = { which = $BUILDING$ value = 0 }
+	while = {
+		limit = {  has_holding = { holding = building_$BUILDING$ owner = root } }
+		change_variable = { which = $BUILDING$ value = 1 }
+		remove_holding = { holding = building_$BUILDING$ owner = root }
+	}
+	while = {
+		count = $BUILDING$
+		#add_building = building_$BUILDING$
+		add_holding = { holding = building_$BUILDING$ owner = root }
+	}
+}
+check_slots = {
+	optimize_memory
+	check_slot_per_building = { BUILDING = private_mining_consortium }
+	check_slot_per_building = { BUILDING =  food_conglomerate }
+	check_slot_per_building = { BUILDING =  virtual_entertainment_studios }
+	check_slot_per_building = { BUILDING =  private_shipyards }
+	check_slot_per_building = { BUILDING =  military_contractors }
+	check_slot_per_building = { BUILDING =  public_relations_office }
+	check_slot_per_building = { BUILDING =  private_research_initiative }
+	check_slot_per_building = { BUILDING =  amusement_megaplex }
+	check_slot_per_building = { BUILDING =  commercial_forum }
+	check_slot_per_building = { BUILDING =  corporate_embassy }
+	check_slot_per_building = { BUILDING =  wildcat_miners }
+	check_slot_per_building = { BUILDING =  bio_reprocessing_facilities }
+	check_slot_per_building = { BUILDING =  underground_chemists }
+	check_slot_per_building = { BUILDING =  wrecking_yards }
+	check_slot_per_building = { BUILDING =  pirate_haven }
+	check_slot_per_building = { BUILDING =  underground_clubs }
+	check_slot_per_building = { BUILDING =  syndicate_outreach_office }
+	check_slot_per_building = { BUILDING =  illicit_research_labs }
+	check_slot_per_building = { BUILDING =  smuggling_rings }
+	check_slot_per_building = { BUILDING =  disinformation_center }
+	check_slot_per_building = { BUILDING =  subversive_shrine }
+	check_slot_per_building = { BUILDING =  temple_of_prosperity }
+	check_slot_per_building = { BUILDING =  executive_retreat }
+	check_slot_per_building = { BUILDING =  xeno_tourism_agency }
+	check_slot_per_building = { BUILDING =  imperial_concession_port }
+}
+check_slot_per_building = {
+	set_variable = { which = $BUILDING$ value = 0 }
+	if = {
+		limit = { has_country_flag = boep_slot_1_GFX_boep_building_$BUILDING$ }
+		change_variable = { which = $BUILDING$ value = 1 }
+	}
+	if = {
+		limit = { has_country_flag = boep_slot_2_GFX_boep_building_$BUILDING$ }
+		change_variable = { which = $BUILDING$ value = 1 }
+	}
+	if = {
+		limit = { has_country_flag = boep_slot_3_GFX_boep_building_$BUILDING$ }
+		change_variable = { which = $BUILDING$ value = 1 }
+	}
+	if = {
+		limit = { has_country_flag = boep_slot_4_GFX_boep_building_$BUILDING$ }
+		change_variable = { which = $BUILDING$ value = 1 }
+	}
+}
+
+go_through_buildings_by_slot = {	
+	go_through_buildings_by_slots = { BUILDING = private_mining_consortium SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  food_conglomerate  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  virtual_entertainment_studios  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  private_shipyards  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  military_contractors  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  public_relations_office  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  private_research_initiative  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  amusement_megaplex  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  commercial_forum  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  corporate_embassy  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  wildcat_miners  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  bio_reprocessing_facilities  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  underground_chemists  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  wrecking_yards  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  pirate_haven  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  underground_clubs  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  syndicate_outreach_office  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  illicit_research_labs  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  smuggling_rings  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  disinformation_center  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  subversive_shrine  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  temple_of_prosperity  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  executive_retreat  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  xeno_tourism_agency  SLOT = $SLOT$ }
+	go_through_buildings_by_slots = { BUILDING =  imperial_concession_port  SLOT = $SLOT$ }
+}
+go_through_buildings = { 
+	optimize_memory
+	go_through_buildings_by_slot = { SLOT = 1 }
+	go_through_buildings_by_slot = { SLOT = 2 }
+	go_through_buildings_by_slot = { SLOT = 3 }
+	go_through_buildings_by_slot = { SLOT = 4 }
+}
+
+go_through_buildings_by_slots = {
+	if = {
+		limit = { 			
+			NOR = { has_holding = { holding = building_boep_under_construction owner = root } has_planet_flag = boep_slots_closed_for_this_month }
+			free_branch_office_building_slots >= 1			
+			root = { has_country_flag = boep_slot_$SLOT$_GFX_boep_building_$BUILDING$ }
+			check_variable = { which = $BUILDING$ value < root.$BUILDING$ }			
+		}
+		if = {
+			limit = { has_enough_cash_for = { BUILDING = $BUILDING$ } }					
+			add_holding = { holding = building_boep_under_construction owner = root }
+			set_planet_flag = $BUILDING$_under_construction
+			#set_planet_flag = under_construction_for_event						
+			planet_event = { id = boep.800 days = 65 }
+			pay_for = { BUILDING = $BUILDING$ }
+		}
+		else = {
+			set_timed_planet_flag = { flag = boep_slots_closed_for_this_month days = 10 }
+		}
+	}
+}
+
+store_building_costs = {
+	set_variable = { which =  private_mining_consortium_minerals value = 500 }
+	set_variable = { which =  food_conglomerate_minerals value = 500 }
+	set_variable = { which =  virtual_entertainment_studios_minerals value = 500 }
+	set_variable = { which =  private_shipyards_minerals value = 500 }
+	set_variable = { which =  military_contractors_minerals value = 500 }
+	set_variable = { which =  public_relations_office_minerals value = 800 }
+	set_variable = { which =  private_research_initiative_minerals value = 800 }
+	set_variable = { which =  amusement_megaplex_minerals value = 800 }
+	set_variable = { which =  commercial_forum_minerals value = 800 }
+	set_variable = { which =  corporate_embassy_minerals value = 800 }
+	set_variable = { which =  wildcat_miners_minerals value = 500 }
+	set_variable = { which =  bio_reprocessing_facilities_minerals value = 500 }
+	set_variable = { which =  underground_chemists_minerals value = 500 }
+	set_variable = { which =  wrecking_yards_minerals value = 500 }
+	set_variable = { which =  pirate_haven_minerals value = 500 }
+	set_variable = { which =  underground_clubs_minerals value = 800 }
+	set_variable = { which =  syndicate_outreach_office_minerals value = 800 }
+	set_variable = { which =  illicit_research_labs_minerals value = 800 }
+	set_variable = { which =  smuggling_rings_minerals value = 800 }
+	set_variable = { which =  disinformation_center_minerals value = 800 }
+	set_variable = { which =  subversive_shrine_minerals value = 500 }
+	set_variable = { which =  temple_of_prosperity_minerals value = 500 }
+	set_variable = { which =  executive_retreat_exotic_gases value = 50 } 
+	set_variable = { which =  executive_retreat_minerals value = 1000 } 
+	set_variable = { which =  xeno_tourism_agency_rare_crystals value = 50 }
+	set_variable = { which =  xeno_tourism_agency_minerals value = 1000 }
+	set_variable = { which =  imperial_concession_port_minerals value = 1000 } 
+}
+
+pay_for = {
+	root = {
+		add_resource = {
+			minerals = -1			
+			mult = $BUILDING$_minerals
+		}
+		if = {
+			limit = { is_variable_set = $BUILDING$_rare_crystals }
+			add_resource = {
+				rare_crystals = -1			
+				mult = $BUILDING$_rare_crystals
+			}
+		}
+		if = {
+			limit = { is_variable_set = $BUILDING$_exotic_gases }
+			add_resource = {
+				exotic_gases = -1			
+				mult = $BUILDING$_exotic_gases
+			}
+		}
+	}	
 }

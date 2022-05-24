@@ -160,5 +160,30 @@ boep_can_make_branch_office = {
 		}
 	}
 	has_branch_office = no
-	
+	is_colony = yes
+	is_under_colonization = no
+}
+
+
+has_enough_cash_for = {  
+	root = { 
+		resource_stockpile_compare = { resource = minerals value >= $BUILDING$_minerals }	
+		OR = {
+			NOT = { is_variable_set = $BUILDING$_rare_crystals }
+			resource_stockpile_compare = { resource = rare_crystals value >= $BUILDING$_rare_crystals }
+		}	
+		OR = {
+			NOT = { is_variable_set = $BUILDING$_exotic_gases }
+			resource_stockpile_compare = { resource = exotic_gases value >= $BUILDING$_exotic_gases }
+		}	 
+	} 	
+}
+
+boep_does_not_have_already = {
+	NOR = {
+		has_country_flag = boep_slot_1_$BUILDING$
+		has_country_flag = boep_slot_2_$BUILDING$
+		has_country_flag = boep_slot_3_$BUILDING$
+		has_country_flag = boep_slot_4_$BUILDING$
+	}
 }
