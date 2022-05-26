@@ -2954,26 +2954,26 @@ guiTypes = {
 
 		effectButtonType = {
 			name = "boep_checkbox_deactivate_auto_build" effect = "boep_checkbox_deactivate_auto_build"
-			frame = 2 position = { x= 50 y = 290 } quadTextureSprite = "GFX_checkbox_20_20_01" clicksound = "tab_click" 
+			frame = 2 position = { x= 50 y = 340 } quadTextureSprite = "GFX_checkbox_20_20_01" clicksound = "tab_click" 
 		}
 		effectButtonType = {
 			name = "boep_checkbox_activate_auto_build" effect = "boep_checkbox_activate_auto_build"
-			position = { x= 50 y = 290 } quadTextureSprite = "GFX_checkbox_20_20_01" clicksound = "tab_click" 
+			position = { x= 50 y = 340 } quadTextureSprite = "GFX_checkbox_20_20_01" clicksound = "tab_click" 
 		}
 		instantTextBoxType = {
 			name = "boep_auto_build_desc"
-			position = { x = 86 y = 296 }
+			position = { x = 86 y = 346 }
 			maxWidth = 150
 			alwaysTransparent = yes
 			text_color_code = "E"				
 			format = left
 			font = "cg_16b"
-			text = "boep_auto_build_desc"			
+			text = "boep_auto_build_desc"				
 		}		
 
 		instantTextBoxType = {
 			name = "boep_auto_build_template"
-			position = { x = 50 y = 325 }	
+			position = { x = 50 y = 375 }	
 			maxWidth = 400		
 			alwaysTransparent = yes			
 			format = left
@@ -2981,6 +2981,131 @@ guiTypes = {
 			text = "boep_auto_build_template"			
 		}
 		
+
+		###
+
+		containerWindowType = {
+			name = "boep_minerals_limit_window"
+			position = { x=50 y=400 }
+			size = { width = 180 height = 180 }
+
+			instantTextBoxType = {
+				name = "boep_minimum_resources_after_auto_build"
+				position = { x = 0 y = 20 }	
+				maxWidth = 200		
+				alwaysTransparent = yes			
+				format = left
+				font = "cg_16b"
+				multiline = yes
+				text = "boep_minimum_resources_after_auto_build"			
+			}
+
+			effectButtonType = {
+				name = "boep_auto_build_min_minerals" effect = "boep_no_cklick"
+				position = { x= 0 y = 60 } quadTextureSprite = "GFX_tiles_dark_area_cut_8" size = { x = 180 y = 32 }			
+				buttonText = "boep_auto_build_min_minerals" font = "cg_16b" buttonFont = "cg_16b"			
+			}
+
+			effectButtonType = {
+				name = "boep_auto_build_add_100_minerals" effect = "boep_auto_build_add_100_minerals"
+				position = { x= 0 y = 87 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
+				buttonText = "boep_auto_build_add_100_minerals" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
+			}
+			effectButtonType = {
+				name = "boep_auto_build_add_1000_minerals" effect = "boep_auto_build_add_1000_minerals"
+				position = { x= 80 y = 87 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
+				buttonText = "boep_auto_build_add_1000_minerals" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
+			}
+			effectButtonType = {
+				name = "boep_auto_build_remove_100_minerals" effect = "boep_auto_build_remove_100_minerals"
+				position = { x= 0 y = 113 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
+				buttonText = "boep_auto_build_remove_100_minerals" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
+			}
+			effectButtonType = {
+				name = "boep_auto_build_remove_1000_minerals" effect = "boep_auto_build_remove_1000_minerals"
+				position = { x= 80 y = 113 } quadTextureSprite = "GFX_button_75_24" clicksound = "tab_click" 
+				buttonText = "boep_auto_build_remove_1000_minerals" font = "cg_16b" buttonFont = "cg_16b" #text_color_code = "E"
+			}
+
+		
+
+		}
+
+		containerWindowType = {
+			name = "boep_build_checkboxes_window"
+			position = { x=650 y=346 }
+			size = { width = 180 height = 180 }
+
+			instantTextBoxType = {
+				name = "boep_build_checkboxes"
+				position = { x = 50 y = 0 }	
+				maxWidth = 200		
+				alwaysTransparent = yes			
+				format = left
+				font = "cg_16b"
+				multiline = yes
+				text = "boep_build_checkboxes"	
+				text_color_code = "E"		
+			}
+	# message yes/no
+			# replace yes/no
+			# only if upkeep yes/no
+	
+			effectButtonType = {
+				name = "boep_checkbox_deactivate_auto_build_messages" effect = "boep_checkbox_deactivate_auto_build_messages"
+				frame = 2 position = { x= 50 y = 30 } quadTextureSprite = "GFX_checkbox_20_20_01" clicksound = "tab_click" 
+			}
+			effectButtonType = {
+				name = "boep_checkbox_activate_auto_build_messages" effect = "boep_checkbox_activate_auto_build_messages"
+				position = { x= 50 y = 30 } quadTextureSprite = "GFX_checkbox_20_20_01" clicksound = "tab_click" 
+			}
+			instantTextBoxType = {
+				name = "boep_auto_build_messages"
+				position = { x = 86 y = 36 }
+				maxWidth = 300
+				alwaysTransparent = yes
+				text_color_code = "E"				
+				format = left
+				font = "cg_16b"
+				text = "boep_auto_build_messages"			
+			}		
+			effectButtonType = {
+				name = "boep_checkbox_deactivate_auto_build_upkeep_check" effect = "boep_checkbox_deactivate_auto_build_upkeep_check"
+				frame = 2 position = { x= 50 y = 60 } quadTextureSprite = "GFX_checkbox_20_20_01" clicksound = "tab_click" 
+			}
+			effectButtonType = {
+				name = "boep_checkbox_activate_auto_build_upkeep_check" effect = "boep_checkbox_activate_auto_build_upkeep_check"
+				position = { x= 50 y = 60 } quadTextureSprite = "GFX_checkbox_20_20_01" clicksound = "tab_click" 
+			}
+			instantTextBoxType = {
+				name = "boep_auto_build_upkeep_check"
+				position = { x = 86 y = 66 }
+				maxWidth = 300
+				alwaysTransparent = yes
+				text_color_code = "E"				
+				format = left
+				font = "cg_16b"
+				text = "boep_auto_build_upkeep_check"			
+			}		
+			effectButtonType = {
+				name = "boep_checkbox_deactivate_auto_build_may_replace" effect = "boep_checkbox_deactivate_auto_build_may_replace"
+				frame = 2 position = { x= 50 y = 90 } quadTextureSprite = "GFX_checkbox_20_20_01" clicksound = "tab_click" 
+			}
+			effectButtonType = {
+				name = "boep_checkbox_activate_auto_build_may_replace" effect = "boep_checkbox_activate_auto_build_may_replace"
+				position = { x= 50 y = 90 } quadTextureSprite = "GFX_checkbox_20_20_01" clicksound = "tab_click" 
+			}
+			instantTextBoxType = {
+				name = "boep_auto_build_may_replace"
+				position = { x = 86 y = 96 }
+				maxWidth = 300
+				alwaysTransparent = yes
+				text_color_code = "E"				
+				format = left
+				font = "cg_16b"
+				text = "boep_auto_build_may_replace"			
+			}	
+		}
 
 		### PORTRAIT ###
 
@@ -3214,7 +3339,7 @@ guiTypes = {
 			
 			listboxType = {
 				name = "option_list"
-				position = { x = 250 y = 320 }
+				position = { x = 300 y = 370 }
 				backGround=""
 				size = { x= 500 y=1000 }
 				

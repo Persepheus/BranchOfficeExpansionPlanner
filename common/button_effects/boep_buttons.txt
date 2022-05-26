@@ -58,6 +58,14 @@ boep_automation = {
 					set_variable = { which = boep_auto_establish_max_energy_cost value = 2000 }
 					set_variable = { which = boep_auto_establish_max_influence_cost value = 100 }
 				}
+				if = {
+					limit = { 
+						NOT = { is_variable_set = boep_auto_build_min_minerals }
+					}
+					set_variable = { which = boep_auto_build_min_minerals value = 0 }
+					set_country_flag = boep_auto_build_upkeep_check
+					set_country_flag = boep_auto_build_messages
+				}
 			}
 		}	
 	}
@@ -356,15 +364,7 @@ boep_checkbox_deactivate_auto_build = {
 	effect = { 
 		hidden_effect = { 
 			from = { 
-				remove_country_flag = boep_auto_build_checked 
-				remove_slot = { SLOT = 1 }
-				remove_slot = { SLOT = 2 }
-				remove_slot = { SLOT = 3 }
-				remove_slot = { SLOT = 4 }
-				set_country_flag = boep_slot_1_empty
-				set_country_flag = boep_slot_2_empty
-				set_country_flag = boep_slot_3_empty
-				set_country_flag = boep_slot_4_empty
+				remove_country_flag = boep_auto_build_checked 				
 			} 
 		} 
 	}
@@ -372,5 +372,116 @@ boep_checkbox_deactivate_auto_build = {
 boep_checkbox_activate_auto_build = {
 	potential = { from = { not = { has_country_flag = boep_auto_build_checked } } }
 	allow = { }
-	effect = { hidden_effect = { from = { set_country_flag = boep_auto_build_checked store_building_costs = yes } } }
+	effect = { hidden_effect = { from = {  set_country_flag = boep_auto_build_checked boep_store_building_costs = yes  } } }
+}
+
+
+boep_auto_build_add_100_minerals = {
+	potential = { }
+	allow = {
+		hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_build_min_minerals value = 100 } } } }
+}
+boep_auto_build_add_1000_minerals = {
+	potential = { }
+	allow = {
+		hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_build_min_minerals value = 1000 } } } }
+}
+boep_auto_build_remove_100_minerals = {
+	potential = { }
+	allow = {
+		hidden_trigger = {
+			from = { has_country_flag = boep_auto_build_checked
+			check_variable = { which = boep_auto_build_min_minerals value >= 100 } }
+		}
+	}
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_build_min_minerals value = -100 } } } }
+}
+boep_auto_build_remove_1000_minerals = {
+	potential = { }
+	allow = {
+		hidden_trigger = {
+			from = { has_country_flag = boep_auto_build_checked
+			check_variable = { which = boep_auto_build_min_minerals value >= 1000 } }
+		}
+	}
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_build_min_minerals value = -1000 } } } }
+}
+
+#Settings:
+
+boep_checkbox_deactivate_auto_build_messages = {
+	potential = {
+		hidden_trigger = { from = { has_country_flag = boep_auto_build_messages } }
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = {
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { remove_country_flag = boep_auto_build_messages }	}
+	}
+}
+boep_checkbox_activate_auto_build_messages = {
+	potential = {
+		 hidden_trigger = { from = { not = { has_country_flag = boep_auto_build_messages } } }
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = {		
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { set_country_flag = boep_auto_build_messages } }	
+	}
+}
+boep_checkbox_deactivate_auto_build_upkeep_check = {
+	potential = {
+		hidden_trigger = { from = { has_country_flag = boep_auto_build_upkeep_check } }
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = {
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { remove_country_flag = boep_auto_build_upkeep_check }	}
+	}
+}
+boep_checkbox_activate_auto_build_upkeep_check = {
+	potential = {
+		 hidden_trigger = { from = { not = { has_country_flag = boep_auto_build_upkeep_check } } }
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = {		
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { set_country_flag = boep_auto_build_upkeep_check } }	
+	}
+}
+boep_checkbox_deactivate_auto_build_may_replace = {
+	potential = {
+		hidden_trigger = { from = { has_country_flag = boep_auto_build_may_replace } } always = no
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = {
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { remove_country_flag = boep_auto_build_may_replace }	}
+	}
+}
+boep_checkbox_activate_auto_build_may_replace = {
+	potential = {
+		 hidden_trigger = { from = { not = { has_country_flag = boep_auto_build_may_replace } } } always = yes
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } } custom_tooltip_fail = { text = boep_not_yet_implemented always = no }
+	}
+	effect = {		
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { set_country_flag = boep_auto_build_may_replace } }	
+	}
 }

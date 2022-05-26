@@ -21,6 +21,17 @@ message_type = {
 	ping = "ping_notification_green"
 }
 
+message_type = {
+	key = BOEP_MESSAGE_TYPE_NEW_BRANCH_OFFICE_BUILDING
+	icon = "GFX_message_other_construction"
+	icon_frame = 1
+
+	name = "BOEP_MESSAGE_NEW_BRANCH_OFFICE_BUILDING_TITLE"
+	sound = "advisor_notification_construction_complete"
+	sound_is_advisor = yes
+	ping = "ping_notification_green"
+}
+
 # message_type = {
 # 	key = "CONSTRUCTION_MESSAGE_TYPE"
 # 	icon = "GFX_message_other_construction"

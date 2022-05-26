@@ -165,9 +165,9 @@ boep_can_make_branch_office = {
 }
 
 
-has_enough_cash_for = {  
-	root = { 
-		resource_stockpile_compare = { resource = minerals value >= $BUILDING$_minerals }	
+boep_has_enough_cash_for = {  
+	root = {		
+		resource_stockpile_compare = { resource = minerals value >= boep_current_minerals_cost }	
 		OR = {
 			NOT = { is_variable_set = $BUILDING$_rare_crystals }
 			resource_stockpile_compare = { resource = rare_crystals value >= $BUILDING$_rare_crystals }
@@ -175,6 +175,19 @@ has_enough_cash_for = {
 		OR = {
 			NOT = { is_variable_set = $BUILDING$_exotic_gases }
 			resource_stockpile_compare = { resource = exotic_gases value >= $BUILDING$_exotic_gases }
+		}	 
+	} 	
+}
+
+boep_has_enough_upkeep_for = {  
+	root = {				
+		OR = {
+			NOT = { is_variable_set = $BUILDING$_rare_crystals }
+			resource_income_compare = { resource = rare_crystals value >= 1 }
+		}	
+		OR = {
+			NOT = { is_variable_set = $BUILDING$_exotic_gases }
+			resource_income_compare = { resource = exotic_gases value >= 1 }
 		}	 
 	} 	
 }

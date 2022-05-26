@@ -13,26 +13,36 @@ on_game_start_country = {
 	}
 }
 
-# #A building construction has been completed.
-# # This = Planet
-# on_building_complete = {
-# 	events = {
-	
-# 	}
-# }
+#A building construction has been completed.
+# This = Planet
+on_building_complete = {
+	events = {
+		boep.860
+	}
+}
 
-# # A building construction has been queued.
-# # This = Planet
-# on_building_queued = {
-# 	events = {
-# 	}
-# }
-# # A building construction has been unqueued.
-# # This = Planet
-# on_building_unqueued = {
-# 	events = {
-# 	}
-# }
+# A building construction has been queued.
+# This = Planet
+on_building_queued = {
+	events = {
+		boep.850		
+	}
+}
+# A building construction has been unqueued.
+# This = Planet
+on_building_unqueued = {
+	events = {
+		boep.860
+	}
+}
+
+# THIS = Planet: Branch office planet
+# FROM = Country: Branch office owner
+on_branch_office_closed = {
+	events = {
+		boep.870
+	}
+}
 
 # # A building construction has demolished.
 # # This = Planet

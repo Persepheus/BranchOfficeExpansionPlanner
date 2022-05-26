@@ -14,17 +14,6 @@ building_boep_under_construction = {
 	can_be_disabled = no
 	can_be_ruined = no
 
-
-	# resources = {
-	# 	category = planet_branch_office_buildings
-	# 	cost = {
-	# 		minerals = 500
-	# 	}
-	# 	upkeep = {
-	# 		energy = 2
-	# 	}
-	# }
-
 	ai_weight = {
 		factor = 0
 	}
