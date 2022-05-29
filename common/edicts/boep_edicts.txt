@@ -5,7 +5,7 @@ boep_open_expansion_planer = {
 
 	potential = {
 		OR = {
-			has_authority = auth_corporate
+			is_megacorp = yes
 			has_civic = civic_galactic_sovereign_megacorp
 		}
 	}

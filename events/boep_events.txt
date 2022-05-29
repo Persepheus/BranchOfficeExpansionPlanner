@@ -30,7 +30,7 @@ country_event = {
 	is_triggered_only = yes 
 	trigger = {
 		OR = {
-			has_authority = auth_corporate
+			is_megacorp = yes
 			has_civic = civic_galactic_sovereign_megacorp
 		}
 	}
@@ -255,7 +255,7 @@ country_event = {
 	trigger = {
 		exists = event_target:boep_chosen_planet
 		OR = {
-			has_authority = auth_corporate
+			is_megacorp = yes
 			has_civic = civic_galactic_sovereign_megacorp
 		}
 	}

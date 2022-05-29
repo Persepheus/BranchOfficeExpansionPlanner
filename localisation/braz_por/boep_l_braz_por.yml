@@ -206,5 +206,5 @@
  boep_build_checkboxes: "Settings:"
  boep_auto_build_messages: "Send Messages"
  boep_auto_build_upkeep_check: "Only build if rare resources upkeep is met"
- boep_auto_build_may_replace: "Autobuild may replace buildings"
+ boep_auto_build_may_replace: "Autobuild may replace buildings (not implemented yet)"
  boep_not_yet_implemented: "not yet implemented"

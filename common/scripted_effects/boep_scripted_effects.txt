@@ -282,7 +282,7 @@ boep_calculate_data = {
 				limit = {  
 					root = { 
 						OR = {
-							has_authority = auth_corporate
+							is_megacorp = yes
 							has_valid_civic = civic_galactic_sovereign_megacorp
 						}
 						has_valid_civic = civic_criminal_heritage 

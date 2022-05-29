@@ -1,12 +1,12 @@
 
 boep_open_planner = {
-	potential = {
-		
+	potential = {		
 		custom_tooltip = {
 			fail_text = BRANCH_OFFICE_NOT_MEGACORP
+			exists = from
 			from = {
 				OR = {
-					has_authority = auth_corporate
+					is_megacorp = yes
 					has_civic = civic_galactic_sovereign_megacorp
 				}
 			}

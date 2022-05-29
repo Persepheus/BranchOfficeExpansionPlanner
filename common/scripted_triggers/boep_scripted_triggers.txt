@@ -4,7 +4,7 @@ boep_can_make_branch_office = {
 		custom_tooltip = {
 			fail_text = BRANCH_OFFICE_NOT_MEGACORP
 			OR = {
-				has_authority = auth_corporate
+				is_megacorp = yes
 				has_civic = civic_galactic_sovereign_megacorp
 			}
 		}
@@ -22,7 +22,7 @@ boep_can_make_branch_office = {
 		custom_tooltip = {
 			fail_text = BRANCH_OFFICE_NOT_ON_MEGACORP_PLANET
 			NOR = {
-				has_authority = auth_corporate
+				is_megacorp = yes
 				has_civic = civic_galactic_sovereign_megacorp
 			}
 		}
@@ -53,7 +53,7 @@ boep_can_make_branch_office = {
 			root = {
 				is_subject = yes
 				OR = {
-					has_authority = auth_corporate
+					is_megacorp = yes
 					has_civic = civic_galactic_sovereign_megacorp
 				}
 				overlord = {
@@ -71,7 +71,7 @@ boep_can_make_branch_office = {
 						is_same_value = root.overlord
 					}
 					OR = {
-						has_authority = auth_corporate
+						is_megacorp = yes
 						has_civic = civic_galactic_sovereign_megacorp
 					}
 				}
@@ -103,7 +103,7 @@ boep_can_make_branch_office = {
 						is_subject = yes
 						overlord = {
 							NOR = {
-								has_authority = auth_corporate
+								is_megacorp = yes
 								has_civic = civic_galactic_sovereign_megacorp
 							}
 						}
@@ -118,7 +118,7 @@ boep_can_make_branch_office = {
 					is_subject = yes
 					overlord = {
 						OR = {
-							has_authority = auth_corporate
+							is_megacorp = yes
 							has_civic = civic_galactic_sovereign_megacorp
 						}
 					}
