@@ -618,7 +618,7 @@ boep_go_through_buildings_by_slots = {
 			add_holding = { holding = building_boep_under_construction owner = root }
 			boep_remove_under_construction = yes
 			set_planet_flag = $BUILDING$_under_construction							
-			planet_event = { id = boep.800 days = 65 }
+			planet_event = { id = boep.800 days = 365 }
 			boep_pay_for = { BUILDING = $BUILDING$ }
 		}
 		else = {
