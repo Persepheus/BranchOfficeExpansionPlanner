@@ -1,5 +1,20 @@
 namespace = boep
 
+# INIT
+country_event = {
+	id = boep.100
+	hide_window = yes
+	trigger = {
+		
+	}
+	is_triggered_only = yes
+	immediate = {
+		# set_country_flag = boep_slot_1_empty
+		# set_country_flag = boep_slot_2_empty
+		# set_country_flag = boep_slot_3_empty
+		# set_country_flag = boep_slot_4_empty
+	}
+}
 
 country_event = {
 	id = boep.200
@@ -15,7 +30,7 @@ country_event = {
 	is_triggered_only = yes 
 	trigger = {
 		OR = {
-			has_authority = auth_corporate
+			is_megacorp = yes
 			has_civic = civic_galactic_sovereign_megacorp
 		}
 	}
@@ -218,6 +233,7 @@ country_event = {
 	# }
 }
 
+# Establish Yes No Window
 country_event = {
 	id = boep.300
 	title = 300.name	
@@ -239,7 +255,7 @@ country_event = {
 	trigger = {
 		exists = event_target:boep_chosen_planet
 		OR = {
-			has_authority = auth_corporate
+			is_megacorp = yes
 			has_civic = civic_galactic_sovereign_megacorp
 		}
 	}
@@ -271,26 +287,907 @@ country_event = {
 	}
 }
 
-
+# Automation View
 country_event = {
 	id = boep.400
 	title = boep.400.name
 	desc = boep.400.desc
-	location = from #A scope to the object that is relevant to the event that player can move to. For example, the planet where event is happening
-	custom_gui = boep_settings_view
-	diplomatic = yes #Makes event look like diplomatic communications. For example, first contact event or a conversation with the subterranean people
-	is_triggered_only = yes #The game will not consider this event for starting on its own. Event will need to be triggered by another event, or by some other effect. Most events will use this.
+	
+	custom_gui = boep_automation_view
+	diplomatic = yes
+	is_triggered_only = yes 
 	trigger = {
 		
 	}
 	immediate = {
 		
 	}
+	# Slot 1
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }		
+		trigger = { has_country_flag = boep_slot_1_empty } 
+		custom_gui = boep_slot_1_empty		
+		custom_tooltip = building_empty
+		custom_tooltip = building_empty_desc
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_private_mining_consortium }
+		custom_gui = boep_slot_1_GFX_boep_building_private_mining_consortium
+		custom_tooltip = building_private_mining_consortium
+		custom_tooltip = building_private_mining_consortium_desc		
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_food_conglomerate }
+		custom_gui = boep_slot_1_GFX_boep_building_food_conglomerate
+		custom_tooltip = building_food_conglomerate
+		custom_tooltip = building_food_conglomerate_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_virtual_entertainment_studios }
+		custom_gui = boep_slot_1_GFX_boep_building_virtual_entertainment_studios
+		custom_tooltip = building_virtual_entertainment_studios
+		custom_tooltip = building_virtual_entertainment_studios_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_private_shipyards }
+		custom_gui = boep_slot_1_GFX_boep_building_private_shipyards
+		custom_tooltip = building_private_shipyards
+		custom_tooltip = building_private_shipyards_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_military_contractors }
+		custom_gui = boep_slot_1_GFX_boep_building_military_contractors
+		custom_tooltip = building_military_contractors
+		custom_tooltip = building_military_contractors_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_public_relations_office }
+		custom_gui = boep_slot_1_GFX_boep_building_public_relations_office
+		custom_tooltip = building_public_relations_office
+		custom_tooltip = building_public_relations_office_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_private_research_initiative }
+		custom_gui = boep_slot_1_GFX_boep_building_private_research_initiative
+		custom_tooltip = building_private_research_initiative
+		custom_tooltip = building_private_research_initiative_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_amusement_megaplex }
+		custom_gui = boep_slot_1_GFX_boep_building_amusement_megaplex
+		custom_tooltip = building_amusement_megaplex
+		custom_tooltip = building_amusement_megaplex_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_commercial_forum }
+		custom_gui = boep_slot_1_GFX_boep_building_commercial_forum
+		custom_tooltip = building_commercial_forum
+		custom_tooltip = building_commercial_forum_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_corporate_embassy }
+		custom_gui = boep_slot_1_GFX_boep_building_corporate_embassy
+		custom_tooltip = building_corporate_embassy
+		custom_tooltip = building_corporate_embassy_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_wildcat_miners }
+		custom_gui = boep_slot_1_GFX_boep_building_wildcat_miners
+		custom_tooltip = building_wildcat_miners
+		custom_tooltip = building_wildcat_miners_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_bio_reprocessing_facilities }
+		custom_gui = boep_slot_1_GFX_boep_building_bio_reprocessing_facilities
+		custom_tooltip = building_bio_reprocessing_facilities
+		custom_tooltip = building_bio_reprocessing_facilities_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_underground_chemists }
+		custom_gui = boep_slot_1_GFX_boep_building_underground_chemists
+		custom_tooltip = building_underground_chemists
+		custom_tooltip = building_underground_chemists_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_wrecking_yards }
+		custom_gui = boep_slot_1_GFX_boep_building_wrecking_yards
+		custom_tooltip = building_wrecking_yards
+		custom_tooltip = building_wrecking_yards_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_pirate_haven }
+		custom_gui = boep_slot_1_GFX_boep_building_pirate_haven
+		custom_tooltip = building_pirate_haven
+		custom_tooltip = building_pirate_haven_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_food_conglomerate }
+		custom_gui = boep_slot_1_GFX_boep_building_food_conglomerate
+		custom_tooltip = building_food_conglomerate
+		custom_tooltip = building_food_conglomerate_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_underground_clubs }
+		custom_gui = boep_slot_1_GFX_boep_building_underground_clubs
+		custom_tooltip = building_underground_clubs
+		custom_tooltip = building_underground_clubs_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_syndicate_outreach_office }
+		custom_gui = boep_slot_1_GFX_boep_building_syndicate_outreach_office
+		custom_tooltip = building_syndicate_outreach_office
+		custom_tooltip = building_syndicate_outreach_office_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_illicit_research_labs }
+		custom_gui = boep_slot_1_GFX_boep_building_illicit_research_labs
+		custom_tooltip = building_illicit_research_labs
+		custom_tooltip = building_illicit_research_labs_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_smuggling_rings }
+		custom_gui = boep_slot_1_GFX_boep_building_smuggling_rings
+		custom_tooltip = building_smuggling_rings
+		custom_tooltip = building_smuggling_rings_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_disinformation_center }
+		custom_gui = boep_slot_1_GFX_boep_building_disinformation_center
+		custom_tooltip = building_disinformation_center
+		custom_tooltip = building_disinformation_center_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_subversive_shrine }
+		custom_gui = boep_slot_1_GFX_boep_building_subversive_shrine
+		custom_tooltip = building_subversive_shrine
+		custom_tooltip = building_subversive_shrine_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_temple_of_prosperity }
+		custom_gui = boep_slot_1_GFX_boep_building_temple_of_prosperity
+		custom_tooltip = building_temple_of_prosperity
+		custom_tooltip = building_temple_of_prosperity_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_executive_retreat }
+		custom_gui = boep_slot_1_GFX_boep_building_executive_retreat
+		custom_tooltip = building_executive_retreat
+		custom_tooltip = building_executive_retreat_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_xeno_tourism_agency }
+		custom_gui = boep_slot_1_GFX_boep_building_xeno_tourism_agency
+		custom_tooltip = building_xeno_tourism_agency
+		custom_tooltip = building_xeno_tourism_agency_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_1_GFX_boep_building_imperial_concession_port }
+		custom_gui = boep_slot_1_GFX_boep_building_imperial_concession_port
+		custom_tooltip = building_imperial_concession_port
+		custom_tooltip = building_imperial_concession_port_desc	
+		boep_choose_slot = { NUM = 1 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+
+	# Slot 2
+
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }		
+		trigger = { has_country_flag = boep_slot_2_empty } 
+		custom_gui = boep_slot_2_empty		
+		custom_tooltip = building_empty
+		custom_tooltip = building_empty_desc
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_private_mining_consortium }
+		custom_gui = boep_slot_2_GFX_boep_building_private_mining_consortium
+		custom_tooltip = building_private_mining_consortium
+		custom_tooltip = building_private_mining_consortium_desc		
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_food_conglomerate }
+		custom_gui = boep_slot_2_GFX_boep_building_food_conglomerate
+		custom_tooltip = building_food_conglomerate
+		custom_tooltip = building_food_conglomerate_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_virtual_entertainment_studios }
+		custom_gui = boep_slot_2_GFX_boep_building_virtual_entertainment_studios
+		custom_tooltip = building_virtual_entertainment_studios
+		custom_tooltip = building_virtual_entertainment_studios_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_private_shipyards }
+		custom_gui = boep_slot_2_GFX_boep_building_private_shipyards
+		custom_tooltip = building_private_shipyards
+		custom_tooltip = building_private_shipyards_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_military_contractors }
+		custom_gui = boep_slot_2_GFX_boep_building_military_contractors
+		custom_tooltip = building_military_contractors
+		custom_tooltip = building_military_contractors_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_public_relations_office }
+		custom_gui = boep_slot_2_GFX_boep_building_public_relations_office
+		custom_tooltip = building_public_relations_office
+		custom_tooltip = building_public_relations_office_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_private_research_initiative }
+		custom_gui = boep_slot_2_GFX_boep_building_private_research_initiative
+		custom_tooltip = building_private_research_initiative
+		custom_tooltip = building_private_research_initiative_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_amusement_megaplex }
+		custom_gui = boep_slot_2_GFX_boep_building_amusement_megaplex
+		custom_tooltip = building_amusement_megaplex
+		custom_tooltip = building_amusement_megaplex_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_commercial_forum }
+		custom_gui = boep_slot_2_GFX_boep_building_commercial_forum
+		custom_tooltip = building_commercial_forum
+		custom_tooltip = building_commercial_forum_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_corporate_embassy }
+		custom_gui = boep_slot_2_GFX_boep_building_corporate_embassy
+		custom_tooltip = building_corporate_embassy
+		custom_tooltip = building_corporate_embassy_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_wildcat_miners }
+		custom_gui = boep_slot_2_GFX_boep_building_wildcat_miners
+		custom_tooltip = building_wildcat_miners
+		custom_tooltip = building_wildcat_miners_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_bio_reprocessing_facilities }
+		custom_gui = boep_slot_2_GFX_boep_building_bio_reprocessing_facilities
+		custom_tooltip = building_bio_reprocessing_facilities
+		custom_tooltip = building_bio_reprocessing_facilities_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_underground_chemists }
+		custom_gui = boep_slot_2_GFX_boep_building_underground_chemists
+		custom_tooltip = building_underground_chemists
+		custom_tooltip = building_underground_chemists_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_wrecking_yards }
+		custom_gui = boep_slot_2_GFX_boep_building_wrecking_yards
+		custom_tooltip = building_wrecking_yards
+		custom_tooltip = building_wrecking_yards_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_pirate_haven }
+		custom_gui = boep_slot_2_GFX_boep_building_pirate_haven
+		custom_tooltip = building_pirate_haven
+		custom_tooltip = building_pirate_haven_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_food_conglomerate }
+		custom_gui = boep_slot_2_GFX_boep_building_food_conglomerate
+		custom_tooltip = building_food_conglomerate
+		custom_tooltip = building_food_conglomerate_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_underground_clubs }
+		custom_gui = boep_slot_2_GFX_boep_building_underground_clubs
+		custom_tooltip = building_underground_clubs
+		custom_tooltip = building_underground_clubs_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_syndicate_outreach_office }
+		custom_gui = boep_slot_2_GFX_boep_building_syndicate_outreach_office
+		custom_tooltip = building_syndicate_outreach_office
+		custom_tooltip = building_syndicate_outreach_office_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_illicit_research_labs }
+		custom_gui = boep_slot_2_GFX_boep_building_illicit_research_labs
+		custom_tooltip = building_illicit_research_labs
+		custom_tooltip = building_illicit_research_labs_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_smuggling_rings }
+		custom_gui = boep_slot_2_GFX_boep_building_smuggling_rings
+		custom_tooltip = building_smuggling_rings
+		custom_tooltip = building_smuggling_rings_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_disinformation_center }
+		custom_gui = boep_slot_2_GFX_boep_building_disinformation_center
+		custom_tooltip = building_disinformation_center
+		custom_tooltip = building_disinformation_center_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_subversive_shrine }
+		custom_gui = boep_slot_2_GFX_boep_building_subversive_shrine
+		custom_tooltip = building_subversive_shrine
+		custom_tooltip = building_subversive_shrine_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_temple_of_prosperity }
+		custom_gui = boep_slot_2_GFX_boep_building_temple_of_prosperity
+		custom_tooltip = building_temple_of_prosperity
+		custom_tooltip = building_temple_of_prosperity_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_executive_retreat }
+		custom_gui = boep_slot_2_GFX_boep_building_executive_retreat
+		custom_tooltip = building_executive_retreat
+		custom_tooltip = building_executive_retreat_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_xeno_tourism_agency }
+		custom_gui = boep_slot_2_GFX_boep_building_xeno_tourism_agency
+		custom_tooltip = building_xeno_tourism_agency
+		custom_tooltip = building_xeno_tourism_agency_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_2_GFX_boep_building_imperial_concession_port }
+		custom_gui = boep_slot_2_GFX_boep_building_imperial_concession_port
+		custom_tooltip = building_imperial_concession_port
+		custom_tooltip = building_imperial_concession_port_desc	
+		boep_choose_slot = { NUM = 2 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+
+	# Slot 3
+
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }		
+		trigger = { has_country_flag = boep_slot_3_empty } 
+		custom_gui = boep_slot_3_empty		
+		custom_tooltip = building_empty
+		custom_tooltip = building_empty_desc
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_private_mining_consortium }
+		custom_gui = boep_slot_3_GFX_boep_building_private_mining_consortium
+		custom_tooltip = building_private_mining_consortium
+		custom_tooltip = building_private_mining_consortium_desc		
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_food_conglomerate }
+		custom_gui = boep_slot_3_GFX_boep_building_food_conglomerate
+		custom_tooltip = building_food_conglomerate
+		custom_tooltip = building_food_conglomerate_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_virtual_entertainment_studios }
+		custom_gui = boep_slot_3_GFX_boep_building_virtual_entertainment_studios
+		custom_tooltip = building_virtual_entertainment_studios
+		custom_tooltip = building_virtual_entertainment_studios_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_private_shipyards }
+		custom_gui = boep_slot_3_GFX_boep_building_private_shipyards
+		custom_tooltip = building_private_shipyards
+		custom_tooltip = building_private_shipyards_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_military_contractors }
+		custom_gui = boep_slot_3_GFX_boep_building_military_contractors
+		custom_tooltip = building_military_contractors
+		custom_tooltip = building_military_contractors_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_public_relations_office }
+		custom_gui = boep_slot_3_GFX_boep_building_public_relations_office
+		custom_tooltip = building_public_relations_office
+		custom_tooltip = building_public_relations_office_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_private_research_initiative }
+		custom_gui = boep_slot_3_GFX_boep_building_private_research_initiative
+		custom_tooltip = building_private_research_initiative
+		custom_tooltip = building_private_research_initiative_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_amusement_megaplex }
+		custom_gui = boep_slot_3_GFX_boep_building_amusement_megaplex
+		custom_tooltip = building_amusement_megaplex
+		custom_tooltip = building_amusement_megaplex_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_commercial_forum }
+		custom_gui = boep_slot_3_GFX_boep_building_commercial_forum
+		custom_tooltip = building_commercial_forum
+		custom_tooltip = building_commercial_forum_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_corporate_embassy }
+		custom_gui = boep_slot_3_GFX_boep_building_corporate_embassy
+		custom_tooltip = building_corporate_embassy
+		custom_tooltip = building_corporate_embassy_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_wildcat_miners }
+		custom_gui = boep_slot_3_GFX_boep_building_wildcat_miners
+		custom_tooltip = building_wildcat_miners
+		custom_tooltip = building_wildcat_miners_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_bio_reprocessing_facilities }
+		custom_gui = boep_slot_3_GFX_boep_building_bio_reprocessing_facilities
+		custom_tooltip = building_bio_reprocessing_facilities
+		custom_tooltip = building_bio_reprocessing_facilities_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_underground_chemists }
+		custom_gui = boep_slot_3_GFX_boep_building_underground_chemists
+		custom_tooltip = building_underground_chemists
+		custom_tooltip = building_underground_chemists_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_wrecking_yards }
+		custom_gui = boep_slot_3_GFX_boep_building_wrecking_yards
+		custom_tooltip = building_wrecking_yards
+		custom_tooltip = building_wrecking_yards_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_pirate_haven }
+		custom_gui = boep_slot_3_GFX_boep_building_pirate_haven
+		custom_tooltip = building_pirate_haven
+		custom_tooltip = building_pirate_haven_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_food_conglomerate }
+		custom_gui = boep_slot_3_GFX_boep_building_food_conglomerate
+		custom_tooltip = building_food_conglomerate
+		custom_tooltip = building_food_conglomerate_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_underground_clubs }
+		custom_gui = boep_slot_3_GFX_boep_building_underground_clubs
+		custom_tooltip = building_underground_clubs
+		custom_tooltip = building_underground_clubs_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_syndicate_outreach_office }
+		custom_gui = boep_slot_3_GFX_boep_building_syndicate_outreach_office
+		custom_tooltip = building_syndicate_outreach_office
+		custom_tooltip = building_syndicate_outreach_office_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_illicit_research_labs }
+		custom_gui = boep_slot_3_GFX_boep_building_illicit_research_labs
+		custom_tooltip = building_illicit_research_labs
+		custom_tooltip = building_illicit_research_labs_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_smuggling_rings }
+		custom_gui = boep_slot_3_GFX_boep_building_smuggling_rings
+		custom_tooltip = building_smuggling_rings
+		custom_tooltip = building_smuggling_rings_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_disinformation_center }
+		custom_gui = boep_slot_3_GFX_boep_building_disinformation_center
+		custom_tooltip = building_disinformation_center
+		custom_tooltip = building_disinformation_center_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_subversive_shrine }
+		custom_gui = boep_slot_3_GFX_boep_building_subversive_shrine
+		custom_tooltip = building_subversive_shrine
+		custom_tooltip = building_subversive_shrine_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_temple_of_prosperity }
+		custom_gui = boep_slot_3_GFX_boep_building_temple_of_prosperity
+		custom_tooltip = building_temple_of_prosperity
+		custom_tooltip = building_temple_of_prosperity_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_executive_retreat }
+		custom_gui = boep_slot_3_GFX_boep_building_executive_retreat
+		custom_tooltip = building_executive_retreat
+		custom_tooltip = building_executive_retreat_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_xeno_tourism_agency }
+		custom_gui = boep_slot_3_GFX_boep_building_xeno_tourism_agency
+		custom_tooltip = building_xeno_tourism_agency
+		custom_tooltip = building_xeno_tourism_agency_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_3_GFX_boep_building_imperial_concession_port }
+		custom_gui = boep_slot_3_GFX_boep_building_imperial_concession_port
+		custom_tooltip = building_imperial_concession_port
+		custom_tooltip = building_imperial_concession_port_desc	
+		boep_choose_slot = { NUM = 3 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+
+	# Slot 4
+
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }		
+		trigger = { has_country_flag = boep_slot_4_empty } 
+		custom_gui = boep_slot_4_empty		
+		custom_tooltip = building_empty
+		custom_tooltip = building_empty_desc
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_private_mining_consortium }
+		custom_gui = boep_slot_4_GFX_boep_building_private_mining_consortium
+		custom_tooltip = building_private_mining_consortium
+		custom_tooltip = building_private_mining_consortium_desc		
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_food_conglomerate }
+		custom_gui = boep_slot_4_GFX_boep_building_food_conglomerate
+		custom_tooltip = building_food_conglomerate
+		custom_tooltip = building_food_conglomerate_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_virtual_entertainment_studios }
+		custom_gui = boep_slot_4_GFX_boep_building_virtual_entertainment_studios
+		custom_tooltip = building_virtual_entertainment_studios
+		custom_tooltip = building_virtual_entertainment_studios_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_private_shipyards }
+		custom_gui = boep_slot_4_GFX_boep_building_private_shipyards
+		custom_tooltip = building_private_shipyards
+		custom_tooltip = building_private_shipyards_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_military_contractors }
+		custom_gui = boep_slot_4_GFX_boep_building_military_contractors
+		custom_tooltip = building_military_contractors
+		custom_tooltip = building_military_contractors_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_public_relations_office }
+		custom_gui = boep_slot_4_GFX_boep_building_public_relations_office
+		custom_tooltip = building_public_relations_office
+		custom_tooltip = building_public_relations_office_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_private_research_initiative }
+		custom_gui = boep_slot_4_GFX_boep_building_private_research_initiative
+		custom_tooltip = building_private_research_initiative
+		custom_tooltip = building_private_research_initiative_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_amusement_megaplex }
+		custom_gui = boep_slot_4_GFX_boep_building_amusement_megaplex
+		custom_tooltip = building_amusement_megaplex
+		custom_tooltip = building_amusement_megaplex_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_commercial_forum }
+		custom_gui = boep_slot_4_GFX_boep_building_commercial_forum
+		custom_tooltip = building_commercial_forum
+		custom_tooltip = building_commercial_forum_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_corporate_embassy }
+		custom_gui = boep_slot_4_GFX_boep_building_corporate_embassy
+		custom_tooltip = building_corporate_embassy
+		custom_tooltip = building_corporate_embassy_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_wildcat_miners }
+		custom_gui = boep_slot_4_GFX_boep_building_wildcat_miners
+		custom_tooltip = building_wildcat_miners
+		custom_tooltip = building_wildcat_miners_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_bio_reprocessing_facilities }
+		custom_gui = boep_slot_4_GFX_boep_building_bio_reprocessing_facilities
+		custom_tooltip = building_bio_reprocessing_facilities
+		custom_tooltip = building_bio_reprocessing_facilities_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_underground_chemists }
+		custom_gui = boep_slot_4_GFX_boep_building_underground_chemists
+		custom_tooltip = building_underground_chemists
+		custom_tooltip = building_underground_chemists_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_wrecking_yards }
+		custom_gui = boep_slot_4_GFX_boep_building_wrecking_yards
+		custom_tooltip = building_wrecking_yards
+		custom_tooltip = building_wrecking_yards_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_pirate_haven }
+		custom_gui = boep_slot_4_GFX_boep_building_pirate_haven
+		custom_tooltip = building_pirate_haven
+		custom_tooltip = building_pirate_haven_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_food_conglomerate }
+		custom_gui = boep_slot_4_GFX_boep_building_food_conglomerate
+		custom_tooltip = building_food_conglomerate
+		custom_tooltip = building_food_conglomerate_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_underground_clubs }
+		custom_gui = boep_slot_4_GFX_boep_building_underground_clubs
+		custom_tooltip = building_underground_clubs
+		custom_tooltip = building_underground_clubs_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_syndicate_outreach_office }
+		custom_gui = boep_slot_4_GFX_boep_building_syndicate_outreach_office
+		custom_tooltip = building_syndicate_outreach_office
+		custom_tooltip = building_syndicate_outreach_office_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_illicit_research_labs }
+		custom_gui = boep_slot_4_GFX_boep_building_illicit_research_labs
+		custom_tooltip = building_illicit_research_labs
+		custom_tooltip = building_illicit_research_labs_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_smuggling_rings }
+		custom_gui = boep_slot_4_GFX_boep_building_smuggling_rings
+		custom_tooltip = building_smuggling_rings
+		custom_tooltip = building_smuggling_rings_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_disinformation_center }
+		custom_gui = boep_slot_4_GFX_boep_building_disinformation_center
+		custom_tooltip = building_disinformation_center
+		custom_tooltip = building_disinformation_center_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_subversive_shrine }
+		custom_gui = boep_slot_4_GFX_boep_building_subversive_shrine
+		custom_tooltip = building_subversive_shrine
+		custom_tooltip = building_subversive_shrine_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_temple_of_prosperity }
+		custom_gui = boep_slot_4_GFX_boep_building_temple_of_prosperity
+		custom_tooltip = building_temple_of_prosperity
+		custom_tooltip = building_temple_of_prosperity_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_executive_retreat }
+		custom_gui = boep_slot_4_GFX_boep_building_executive_retreat
+		custom_tooltip = building_executive_retreat
+		custom_tooltip = building_executive_retreat_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } } 
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_xeno_tourism_agency }
+		custom_gui = boep_slot_4_GFX_boep_building_xeno_tourism_agency
+		custom_tooltip = building_xeno_tourism_agency
+		custom_tooltip = building_xeno_tourism_agency_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+	option = { allow = { custom_tooltip_fail = { text = boep_auto_build_checked   has_country_flag = boep_auto_build_checked } }
+		trigger = { has_country_flag = boep_slot_4_GFX_boep_building_imperial_concession_port }
+		custom_gui = boep_slot_4_GFX_boep_building_imperial_concession_port
+		custom_tooltip = building_imperial_concession_port
+		custom_tooltip = building_imperial_concession_port_desc	
+		boep_choose_slot = { NUM = 4 }
+		hidden_effect = { country_event = { id = boep.600 } }
+	}
+
+	#close
+
 	option = {
-		name = test
+		custom_gui = boep_hide_close
+		default_hide_option = yes
+		name = close
 	}
 	
 }
+
+# Auto Establish
 
 country_event = {
 	id = boep.500
@@ -325,5 +1222,348 @@ country_event = {
 				boep_sort_and_establish = { KEY = boep_branch_office_roi ASC = yes } 
 			}
 		}
+	}
+}
+
+# Building List
+
+country_event = {
+	id = boep.600
+	title = boep.600.name
+	desc = boep.600.desc	
+	custom_gui = boep_building_list	
+	diplomatic = yes 
+	is_triggered_only = yes 
+	trigger = {
+		
+	}
+	immediate = {
+		
+	}
+	option = {
+		custom_gui = GFX_boep_empty
+		name = GFX_boep_empty
+		boep_set_slot = { BUILDING = empty }
+		custom_tooltip = building_empty_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = no }
+		custom_gui = GFX_boep_building_private_mining_consortium
+		name = GFX_boep_building_private_mining_consortium
+		boep_set_slot = { BUILDING = GFX_boep_building_private_mining_consortium }
+		custom_tooltip = building_private_mining_consortium_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = no }
+		custom_gui = GFX_boep_building_food_conglomerate
+		name = GFX_boep_building_food_conglomerate
+		boep_set_slot = { BUILDING = GFX_boep_building_food_conglomerate }
+		custom_tooltip = building_food_conglomerate_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = no }
+		custom_gui = GFX_boep_building_virtual_entertainment_studios
+		name = GFX_boep_building_virtual_entertainment_studios
+		boep_set_slot = { BUILDING = GFX_boep_building_virtual_entertainment_studios }
+		custom_tooltip = building_virtual_entertainment_studios_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = no }
+		custom_gui = GFX_boep_building_private_shipyards
+		name = GFX_boep_building_private_shipyards
+		boep_set_slot = { BUILDING = GFX_boep_building_private_shipyards }
+		custom_tooltip = building_private_shipyards_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = no }
+		custom_gui = GFX_boep_building_military_contractors
+		name = GFX_boep_building_military_contractors
+		boep_set_slot = { BUILDING = GFX_boep_building_military_contractors }
+		custom_tooltip = building_military_contractors_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = no }
+		allow = {  custom_tooltip_fail = { text = boep_planet_cap_1 boep_does_not_have_already = { BUILDING = GFX_boep_building_public_relations_office } } }
+		custom_gui = GFX_boep_building_public_relations_office
+		name = GFX_boep_building_public_relations_office
+		boep_set_slot = { BUILDING = GFX_boep_building_public_relations_office }
+		custom_tooltip = building_public_relations_office_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = no }
+		allow = {  custom_tooltip_fail = { text = boep_planet_cap_1 boep_does_not_have_already = { BUILDING = GFX_boep_building_private_research_initiative } } }
+		custom_gui = GFX_boep_building_private_research_initiative
+		name = GFX_boep_building_private_research_initiative
+		boep_set_slot = { BUILDING = GFX_boep_building_private_research_initiative }
+		custom_tooltip = building_private_research_initiative_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = no }
+		allow = {  custom_tooltip_fail = { text = boep_planet_cap_1 boep_does_not_have_already = { BUILDING = GFX_boep_building_amusement_megaplex } } }
+		custom_gui = GFX_boep_building_amusement_megaplex
+		name = GFX_boep_building_amusement_megaplex
+		boep_set_slot = { BUILDING = GFX_boep_building_amusement_megaplex }
+		custom_tooltip = building_amusement_megaplex_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = no }
+		allow = { custom_tooltip_fail = { text = boep_planet_cap_1  boep_does_not_have_already = { BUILDING = GFX_boep_building_commercial_forum } } }
+		custom_gui = GFX_boep_building_commercial_forum
+		name = GFX_boep_building_commercial_forum
+		boep_set_slot = { BUILDING = GFX_boep_building_commercial_forum }
+		custom_tooltip = building_commercial_forum_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = no }
+		allow = {  custom_tooltip_fail = { text = boep_planet_cap_1 boep_does_not_have_already = { BUILDING = GFX_boep_building_corporate_embassy } } }
+		custom_gui = GFX_boep_building_corporate_embassy
+		name = GFX_boep_building_corporate_embassy
+		boep_set_slot = { BUILDING = GFX_boep_building_corporate_embassy }
+		custom_tooltip = building_corporate_embassy_desc
+	}
+	option = {				
+		trigger = { is_criminal_syndicate = yes } 
+		custom_gui = GFX_boep_building_wildcat_miners
+		name = GFX_boep_building_wildcat_miners
+		boep_set_slot = { BUILDING = GFX_boep_building_wildcat_miners }
+		custom_tooltip = building_wildcat_miners_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = yes }
+		custom_gui = GFX_boep_building_bio_reprocessing_facilities
+		name = GFX_boep_building_bio_reprocessing_facilities
+		boep_set_slot = { BUILDING = GFX_boep_building_bio_reprocessing_facilities }
+		custom_tooltip = building_bio_reprocessing_facilities_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = yes }
+		custom_gui = GFX_boep_building_underground_chemists
+		name = GFX_boep_building_underground_chemists
+		boep_set_slot = { BUILDING = GFX_boep_building_underground_chemists }
+		custom_tooltip = building_underground_chemists_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = yes }
+		custom_gui = GFX_boep_building_wrecking_yards
+		name = GFX_boep_building_wrecking_yards
+		boep_set_slot = { BUILDING = GFX_boep_building_wrecking_yards }
+		custom_tooltip = building_wrecking_yards_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = yes }
+		custom_gui = GFX_boep_building_pirate_haven
+		name = GFX_boep_building_pirate_haven
+		boep_set_slot = { BUILDING = GFX_boep_building_pirate_haven }
+		custom_tooltip = building_pirate_haven_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = yes }
+		allow = { custom_tooltip_fail = { text = boep_planet_cap_1  boep_does_not_have_already = { BUILDING = GFX_boep_building_underground_clubs } } }
+		custom_gui = GFX_boep_building_underground_clubs
+		name = GFX_boep_building_underground_clubs
+		boep_set_slot = { BUILDING = GFX_boep_building_underground_clubs }
+		custom_tooltip = building_underground_clubs_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = yes }
+		allow = { custom_tooltip_fail = { text = boep_planet_cap_1  boep_does_not_have_already = { BUILDING = GFX_boep_building_syndicate_outreach_office } } }
+		custom_gui = GFX_boep_building_syndicate_outreach_office
+		name = GFX_boep_building_syndicate_outreach_office
+		boep_set_slot = { BUILDING = GFX_boep_building_syndicate_outreach_office }
+		custom_tooltip = building_syndicate_outreach_office_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = yes }
+		allow = {  custom_tooltip_fail = { text = boep_planet_cap_1 boep_does_not_have_already = { BUILDING = GFX_boep_building_illicit_research_labs } } }
+		custom_gui = GFX_boep_building_illicit_research_labs
+		name = GFX_boep_building_illicit_research_labs
+		boep_set_slot = { BUILDING = GFX_boep_building_illicit_research_labs }
+		custom_tooltip = building_illicit_research_labs_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = yes }
+		allow = { custom_tooltip_fail = { text = boep_planet_cap_1  boep_does_not_have_already = { BUILDING = GFX_boep_building_smuggling_rings } } }
+		custom_gui = GFX_boep_building_smuggling_rings
+		name = GFX_boep_building_smuggling_rings
+		boep_set_slot = { BUILDING = GFX_boep_building_smuggling_rings }
+		custom_tooltip = building_smuggling_rings_desc
+	}
+	option = {
+		trigger = { is_criminal_syndicate = yes }
+		allow = { custom_tooltip_fail = { text = boep_planet_cap_1  boep_does_not_have_already = { BUILDING = GFX_boep_building_disinformation_center } } }
+		custom_gui = GFX_boep_building_disinformation_center
+		name = GFX_boep_building_disinformation_center
+		boep_set_slot = { BUILDING = GFX_boep_building_disinformation_center }
+		custom_tooltip = building_disinformation_center_desc
+	}
+	option = {
+		trigger = { has_valid_civic = civic_gospel_of_the_masses is_criminal_syndicate = yes }
+		allow = { custom_tooltip_fail = { text = boep_planet_cap_1  boep_does_not_have_already = { BUILDING = GFX_boep_building_subversive_shrine } } }
+		custom_gui = GFX_boep_building_subversive_shrine
+		name = GFX_boep_building_subversive_shrine
+		boep_set_slot = { BUILDING = GFX_boep_building_subversive_shrine }
+		custom_tooltip = building_subversive_shrine_desc
+	}
+	option = {
+		trigger = { has_valid_civic = civic_gospel_of_the_masses is_criminal_syndicate = no }
+		allow = { custom_tooltip_fail = { text = boep_planet_cap_1  boep_does_not_have_already = { BUILDING = GFX_boep_building_temple_of_prosperity } } }
+		custom_gui = GFX_boep_building_temple_of_prosperity
+		name = GFX_boep_building_temple_of_prosperity
+		boep_set_slot = { BUILDING = GFX_boep_building_temple_of_prosperity }
+		custom_tooltip = building_temple_of_prosperity_desc
+	}
+	option = {
+		allow = { has_technology = tech_executive_retreat custom_tooltip_fail = { text = boep_planet_cap_1  boep_does_not_have_already = { BUILDING = GFX_boep_building_executive_retreat } } }
+		custom_gui = GFX_boep_building_executive_retreat
+		name = GFX_boep_building_executive_retreat
+		boep_set_slot = { BUILDING = GFX_boep_building_executive_retreat }
+		custom_tooltip = building_executive_retreat_desc
+	}
+	option = {
+		allow = { has_technology = tech_xeno_tourism_agency custom_tooltip_fail = { text = boep_planet_cap_1 boep_does_not_have_already = { BUILDING = GFX_boep_building_xeno_tourism_agency } } }
+		custom_gui = GFX_boep_building_xeno_tourism_agency
+		name = GFX_boep_building_xeno_tourism_agency
+		boep_set_slot = { BUILDING = GFX_boep_building_xeno_tourism_agency }
+		custom_tooltip = building_xeno_tourism_agency_desc
+	}
+	option = {
+		trigger = { 
+			OR = {
+				has_modifier = imperial_charter
+				has_civic = civic_galactic_sovereign_megacorp
+			} 
+		}
+		allow = { custom_tooltip_fail = { text = boep_planet_cap_1  boep_does_not_have_already = { BUILDING = GFX_boep_building_imperial_concession_port } } }
+		custom_gui = GFX_boep_building_imperial_concession_port
+		name = GFX_boep_building_imperial_concession_port
+		boep_set_slot = { BUILDING = GFX_boep_building_imperial_concession_port }
+		custom_tooltip = building_imperial_concession_port_desc
+	}
+	
+	#close
+
+	option = {
+		custom_gui = boep_hide_close
+		default_hide_option = yes
+		name = close
+	}
+
+	after = {
+		hidden_effect = { country_event = { id = boep.400 } }
+	}
+}
+
+
+### Autobuild
+
+country_event = {
+	id = boep.700
+	hide_window = yes
+	trigger = {
+		has_country_flag = boep_auto_build_checked
+	}
+	is_triggered_only = yes
+	immediate = {
+
+		boep_check_slots = yes
+		
+		every_galaxy_planet = {
+			limit = {
+				has_branch_office = root
+				OR = {
+					AND = {
+						OR = { NOT = { is_variable_set = boep_queued_bo_building } check_variable = { which = boep_queued_bo_building value = 0 } }
+						free_branch_office_building_slots >= 1
+					}
+					AND = {
+						check_variable = { which = boep_queued_bo_building value = 1 }
+						free_branch_office_building_slots >= 2
+					}
+					AND = {
+						check_variable = { which = boep_queued_bo_building value = 2 }
+						free_branch_office_building_slots >= 3
+					}
+					AND = {
+						check_variable = { which = boep_queued_bo_building value = 3 }
+						free_branch_office_building_slots >= 4
+					}
+				}
+				
+			}
+			boep_count_buildings = yes
+
+			boep_go_through_buildings = yes
+		}
+	}
+}
+
+# build autobuilding after blocker
+planet_event = {
+	id = boep.800
+	hide_window = yes
+	trigger = {
+		
+	}
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = {  has_holding = { holding = building_boep_under_construction owner = from } }
+			remove_holding = { holding = building_boep_under_construction owner = from }			
+			boep_add_correct_building = yes
+			
+			from = {
+				if = {
+					limit = { has_country_flag = boep_auto_build_messages }				
+					create_message = {
+						type = BOEP_MESSAGE_TYPE_NEW_BRANCH_OFFICE_BUILDING
+						localization = BOEP_MESSAGE_TYPE_NEW_BRANCH_OFFICE_BUILDING
+						days = 30
+						target = prev
+						variable = {
+							type = name
+							localization = PLANET
+							scope = prev
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#queued
+planet_event = {
+	id = boep.850
+	hide_window = yes
+	trigger = {
+		has_branch_office = yes
+	}
+	is_triggered_only = yes
+	immediate = {
+		boep_queue_all_bo_buildings = yes	
+	}
+}
+#unqueued
+planet_event = {
+	id = boep.860
+	hide_window = yes
+	trigger = {
+		has_branch_office = yes
+	}
+	is_triggered_only = yes
+	immediate = {
+		boep_unqueue_all_bo_buildings = yes
+	}
+}
+#closed
+planet_event = {
+	id = boep.870
+	hide_window = yes
+	trigger = {
+		
+	}
+	is_triggered_only = yes
+	immediate = {
+		boep_remove_all_bo_queues = yes
 	}
 }

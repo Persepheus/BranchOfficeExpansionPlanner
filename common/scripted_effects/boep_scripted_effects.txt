@@ -1,4 +1,5 @@
-find_nearest_neighbor  = {
+boep_find_nearest_neighbor  = {
+	optimize_memory
 	every_neighbor_system = {		
 		set_variable = { which = boep_distance_to_empire value = 0 }
 		export_trigger_value_to_variable = { trigger = distance parameters = { source = event_target:boep_nearest_empire_system type = hyperlane bypass_empire = root } variable = boep_distance_to_empire } 
@@ -12,6 +13,7 @@ find_nearest_neighbor  = {
 }
 
 boep_sort_by = {
+	optimize_memory
 	set_country_flag = boep_ordering
 	while = {
 		count = 5000
@@ -36,6 +38,7 @@ boep_sort_by = {
 }
 
 boep_sort_and_establish = {
+	optimize_memory
 	set_country_flag = boep_ordering
 	while = {
 		count = 5000
@@ -54,7 +57,7 @@ boep_sort_and_establish = {
 			order_by = $KEY$
 			inverse = $ASC$ 
 			root = { set_country_flag = boep_ordering }		
-			establish_if_can_afford = yes				
+			boep_establish_if_can_afford = yes				
 		}
 	}	
 	every_galaxy_planet = {
@@ -63,7 +66,7 @@ boep_sort_and_establish = {
 	}
 }
 
-establish_if_can_afford = {
+boep_establish_if_can_afford = {
 	set_variable = { which = boep_current_energy_cost_sum value = root.boep_auto_establish_min_energy }
 	set_variable = { which = boep_current_influence_cost_sum value = root.boep_auto_establish_min_influence }
 	change_variable = { which = boep_current_energy_cost_sum value = boep_branch_office_energy_cost }
@@ -93,6 +96,19 @@ establish_if_can_afford = {
 				add_resource = { influence = -1 mult = prev.boep_branch_office_influence_cost }
 			}
 			establish_branch_office = root
+			root = {
+				create_message = {
+					type = BOEP_MESSAGE_TYPE_NEW_BRANCH_OFFICE
+					localization = MESSAGE_NEW_BRANCH_OFFICE
+					days = 30
+					target = prev
+					variable = {
+						type = name
+						localization = PLANET
+						scope = prev
+					}
+				}
+			}
 		}
 		else = {
 			root = { remove_country_flag = boep_ordering }
@@ -122,219 +138,15 @@ boep_save_value = {
 	}
 }
 boep_save_values = {
-	boep_call_command_a_thousand_times = { COMMAND = boep_save_value }
-	# boep_save_value = { NUM = 1} boep_save_value = { NUM = 2} boep_save_value = { NUM = 3} boep_save_value = { NUM = 4} boep_save_value = { NUM = 5} boep_save_value = { NUM = 6} boep_save_value = { NUM = 7} boep_save_value = { NUM = 8} boep_save_value = { NUM = 9} 
-	# boep_save_value = { NUM = 10} boep_save_value = { NUM = 11} boep_save_value = { NUM = 12} boep_save_value = { NUM = 13} boep_save_value = { NUM = 14} boep_save_value = { NUM = 15} boep_save_value = { NUM = 16} boep_save_value = { NUM = 17} boep_save_value = { NUM = 18} boep_save_value = { NUM = 19} 
-	# boep_save_value = { NUM = 20} boep_save_value = { NUM = 21} boep_save_value = { NUM = 22} boep_save_value = { NUM = 23} boep_save_value = { NUM = 24} boep_save_value = { NUM = 25} boep_save_value = { NUM = 26} boep_save_value = { NUM = 27} boep_save_value = { NUM = 28} boep_save_value = { NUM = 29} 
-	# boep_save_value = { NUM = 30} boep_save_value = { NUM = 31} boep_save_value = { NUM = 32} boep_save_value = { NUM = 33} boep_save_value = { NUM = 34} boep_save_value = { NUM = 35} boep_save_value = { NUM = 36} boep_save_value = { NUM = 37} boep_save_value = { NUM = 38} boep_save_value = { NUM = 39} 
-	# boep_save_value = { NUM = 40} boep_save_value = { NUM = 41} boep_save_value = { NUM = 42} boep_save_value = { NUM = 43} boep_save_value = { NUM = 44} boep_save_value = { NUM = 45} boep_save_value = { NUM = 46} boep_save_value = { NUM = 47} boep_save_value = { NUM = 48} boep_save_value = { NUM = 49} 
-	# boep_save_value = { NUM = 50} boep_save_value = { NUM = 51} boep_save_value = { NUM = 52} boep_save_value = { NUM = 53} boep_save_value = { NUM = 54} boep_save_value = { NUM = 55} boep_save_value = { NUM = 56} boep_save_value = { NUM = 57} boep_save_value = { NUM = 58} boep_save_value = { NUM = 59} 
-	# boep_save_value = { NUM = 60} boep_save_value = { NUM = 61} boep_save_value = { NUM = 62} boep_save_value = { NUM = 63} boep_save_value = { NUM = 64} boep_save_value = { NUM = 65} boep_save_value = { NUM = 66} boep_save_value = { NUM = 67} boep_save_value = { NUM = 68} boep_save_value = { NUM = 69} 
-	# boep_save_value = { NUM = 70} boep_save_value = { NUM = 71} boep_save_value = { NUM = 72} boep_save_value = { NUM = 73} boep_save_value = { NUM = 74} boep_save_value = { NUM = 75} boep_save_value = { NUM = 76} boep_save_value = { NUM = 77} boep_save_value = { NUM = 78} boep_save_value = { NUM = 79} 
-	# boep_save_value = { NUM = 80} boep_save_value = { NUM = 81} boep_save_value = { NUM = 82} boep_save_value = { NUM = 83} boep_save_value = { NUM = 84} boep_save_value = { NUM = 85} boep_save_value = { NUM = 86} boep_save_value = { NUM = 87} boep_save_value = { NUM = 88} boep_save_value = { NUM = 89} 
-	# boep_save_value = { NUM = 90} boep_save_value = { NUM = 91} boep_save_value = { NUM = 92} boep_save_value = { NUM = 93} boep_save_value = { NUM = 94} boep_save_value = { NUM = 95} boep_save_value = { NUM = 96} boep_save_value = { NUM = 97} boep_save_value = { NUM = 98} boep_save_value = { NUM = 99} 
-	# boep_save_value = { NUM = 100} boep_save_value = { NUM = 101} boep_save_value = { NUM = 102} boep_save_value = { NUM = 103} boep_save_value = { NUM = 104} boep_save_value = { NUM = 105} boep_save_value = { NUM = 106} boep_save_value = { NUM = 107} boep_save_value = { NUM = 108} boep_save_value = { NUM = 109} 
-	# boep_save_value = { NUM = 110} boep_save_value = { NUM = 111} boep_save_value = { NUM = 112} boep_save_value = { NUM = 113} boep_save_value = { NUM = 114} boep_save_value = { NUM = 115} boep_save_value = { NUM = 116} boep_save_value = { NUM = 117} boep_save_value = { NUM = 118} boep_save_value = { NUM = 119} 
-	# boep_save_value = { NUM = 120} boep_save_value = { NUM = 121} boep_save_value = { NUM = 122} boep_save_value = { NUM = 123} boep_save_value = { NUM = 124} boep_save_value = { NUM = 125} boep_save_value = { NUM = 126} boep_save_value = { NUM = 127} boep_save_value = { NUM = 128} boep_save_value = { NUM = 129} 
-	# boep_save_value = { NUM = 130} boep_save_value = { NUM = 131} boep_save_value = { NUM = 132} boep_save_value = { NUM = 133} boep_save_value = { NUM = 134} boep_save_value = { NUM = 135} boep_save_value = { NUM = 136} boep_save_value = { NUM = 137} boep_save_value = { NUM = 138} boep_save_value = { NUM = 139} 
-	# boep_save_value = { NUM = 140} boep_save_value = { NUM = 141} boep_save_value = { NUM = 142} boep_save_value = { NUM = 143} boep_save_value = { NUM = 144} boep_save_value = { NUM = 145} boep_save_value = { NUM = 146} boep_save_value = { NUM = 147} boep_save_value = { NUM = 148} boep_save_value = { NUM = 149} 
-	# boep_save_value = { NUM = 150} boep_save_value = { NUM = 151} boep_save_value = { NUM = 152} boep_save_value = { NUM = 153} boep_save_value = { NUM = 154} boep_save_value = { NUM = 155} boep_save_value = { NUM = 156} boep_save_value = { NUM = 157} boep_save_value = { NUM = 158} boep_save_value = { NUM = 159} 
-	# boep_save_value = { NUM = 160} boep_save_value = { NUM = 161} boep_save_value = { NUM = 162} boep_save_value = { NUM = 163} boep_save_value = { NUM = 164} boep_save_value = { NUM = 165} boep_save_value = { NUM = 166} boep_save_value = { NUM = 167} boep_save_value = { NUM = 168} boep_save_value = { NUM = 169} 
-	# boep_save_value = { NUM = 170} boep_save_value = { NUM = 171} boep_save_value = { NUM = 172} boep_save_value = { NUM = 173} boep_save_value = { NUM = 174} boep_save_value = { NUM = 175} boep_save_value = { NUM = 176} boep_save_value = { NUM = 177} boep_save_value = { NUM = 178} boep_save_value = { NUM = 179} 
-	# boep_save_value = { NUM = 180} boep_save_value = { NUM = 181} boep_save_value = { NUM = 182} boep_save_value = { NUM = 183} boep_save_value = { NUM = 184} boep_save_value = { NUM = 185} boep_save_value = { NUM = 186} boep_save_value = { NUM = 187} boep_save_value = { NUM = 188} boep_save_value = { NUM = 189} 
-	# boep_save_value = { NUM = 190} boep_save_value = { NUM = 191} boep_save_value = { NUM = 192} boep_save_value = { NUM = 193} boep_save_value = { NUM = 194} boep_save_value = { NUM = 195} boep_save_value = { NUM = 196} boep_save_value = { NUM = 197} boep_save_value = { NUM = 198} boep_save_value = { NUM = 199} 
-	# boep_save_value = { NUM = 200} boep_save_value = { NUM = 201} boep_save_value = { NUM = 202} boep_save_value = { NUM = 203} boep_save_value = { NUM = 204} boep_save_value = { NUM = 205} boep_save_value = { NUM = 206} boep_save_value = { NUM = 207} boep_save_value = { NUM = 208} boep_save_value = { NUM = 209} 
-	# boep_save_value = { NUM = 210} boep_save_value = { NUM = 211} boep_save_value = { NUM = 212} boep_save_value = { NUM = 213} boep_save_value = { NUM = 214} boep_save_value = { NUM = 215} boep_save_value = { NUM = 216} boep_save_value = { NUM = 217} boep_save_value = { NUM = 218} boep_save_value = { NUM = 219} 
-	# boep_save_value = { NUM = 220} boep_save_value = { NUM = 221} boep_save_value = { NUM = 222} boep_save_value = { NUM = 223} boep_save_value = { NUM = 224} boep_save_value = { NUM = 225} boep_save_value = { NUM = 226} boep_save_value = { NUM = 227} boep_save_value = { NUM = 228} boep_save_value = { NUM = 229} 
-	# boep_save_value = { NUM = 230} boep_save_value = { NUM = 231} boep_save_value = { NUM = 232} boep_save_value = { NUM = 233} boep_save_value = { NUM = 234} boep_save_value = { NUM = 235} boep_save_value = { NUM = 236} boep_save_value = { NUM = 237} boep_save_value = { NUM = 238} boep_save_value = { NUM = 239} 
-	# boep_save_value = { NUM = 240} boep_save_value = { NUM = 241} boep_save_value = { NUM = 242} boep_save_value = { NUM = 243} boep_save_value = { NUM = 244} boep_save_value = { NUM = 245} boep_save_value = { NUM = 246} boep_save_value = { NUM = 247} boep_save_value = { NUM = 248} boep_save_value = { NUM = 249} 
-	# boep_save_value = { NUM = 250} boep_save_value = { NUM = 251} boep_save_value = { NUM = 252} boep_save_value = { NUM = 253} boep_save_value = { NUM = 254} boep_save_value = { NUM = 255} boep_save_value = { NUM = 256} boep_save_value = { NUM = 257} boep_save_value = { NUM = 258} boep_save_value = { NUM = 259} 
-	# boep_save_value = { NUM = 260} boep_save_value = { NUM = 261} boep_save_value = { NUM = 262} boep_save_value = { NUM = 263} boep_save_value = { NUM = 264} boep_save_value = { NUM = 265} boep_save_value = { NUM = 266} boep_save_value = { NUM = 267} boep_save_value = { NUM = 268} boep_save_value = { NUM = 269} 
-	# boep_save_value = { NUM = 270} boep_save_value = { NUM = 271} boep_save_value = { NUM = 272} boep_save_value = { NUM = 273} boep_save_value = { NUM = 274} boep_save_value = { NUM = 275} boep_save_value = { NUM = 276} boep_save_value = { NUM = 277} boep_save_value = { NUM = 278} boep_save_value = { NUM = 279} 
-	# boep_save_value = { NUM = 280} boep_save_value = { NUM = 281} boep_save_value = { NUM = 282} boep_save_value = { NUM = 283} boep_save_value = { NUM = 284} boep_save_value = { NUM = 285} boep_save_value = { NUM = 286} boep_save_value = { NUM = 287} boep_save_value = { NUM = 288} boep_save_value = { NUM = 289} 
-	# boep_save_value = { NUM = 290} boep_save_value = { NUM = 291} boep_save_value = { NUM = 292} boep_save_value = { NUM = 293} boep_save_value = { NUM = 294} boep_save_value = { NUM = 295} boep_save_value = { NUM = 296} boep_save_value = { NUM = 297} boep_save_value = { NUM = 298} boep_save_value = { NUM = 299} 
-	# boep_save_value = { NUM = 300} boep_save_value = { NUM = 301} boep_save_value = { NUM = 302} boep_save_value = { NUM = 303} boep_save_value = { NUM = 304} boep_save_value = { NUM = 305} boep_save_value = { NUM = 306} boep_save_value = { NUM = 307} boep_save_value = { NUM = 308} boep_save_value = { NUM = 309} 
-	# boep_save_value = { NUM = 310} boep_save_value = { NUM = 311} boep_save_value = { NUM = 312} boep_save_value = { NUM = 313} boep_save_value = { NUM = 314} boep_save_value = { NUM = 315} boep_save_value = { NUM = 316} boep_save_value = { NUM = 317} boep_save_value = { NUM = 318} boep_save_value = { NUM = 319} 
-	# boep_save_value = { NUM = 320} boep_save_value = { NUM = 321} boep_save_value = { NUM = 322} boep_save_value = { NUM = 323} boep_save_value = { NUM = 324} boep_save_value = { NUM = 325} boep_save_value = { NUM = 326} boep_save_value = { NUM = 327} boep_save_value = { NUM = 328} boep_save_value = { NUM = 329} 
-	# boep_save_value = { NUM = 330} boep_save_value = { NUM = 331} boep_save_value = { NUM = 332} boep_save_value = { NUM = 333} boep_save_value = { NUM = 334} boep_save_value = { NUM = 335} boep_save_value = { NUM = 336} boep_save_value = { NUM = 337} boep_save_value = { NUM = 338} boep_save_value = { NUM = 339} 
-	# boep_save_value = { NUM = 340} boep_save_value = { NUM = 341} boep_save_value = { NUM = 342} boep_save_value = { NUM = 343} boep_save_value = { NUM = 344} boep_save_value = { NUM = 345} boep_save_value = { NUM = 346} boep_save_value = { NUM = 347} boep_save_value = { NUM = 348} boep_save_value = { NUM = 349} 
-	# boep_save_value = { NUM = 350} boep_save_value = { NUM = 351} boep_save_value = { NUM = 352} boep_save_value = { NUM = 353} boep_save_value = { NUM = 354} boep_save_value = { NUM = 355} boep_save_value = { NUM = 356} boep_save_value = { NUM = 357} boep_save_value = { NUM = 358} boep_save_value = { NUM = 359} 
-	# boep_save_value = { NUM = 360} boep_save_value = { NUM = 361} boep_save_value = { NUM = 362} boep_save_value = { NUM = 363} boep_save_value = { NUM = 364} boep_save_value = { NUM = 365} boep_save_value = { NUM = 366} boep_save_value = { NUM = 367} boep_save_value = { NUM = 368} boep_save_value = { NUM = 369} 
-	# boep_save_value = { NUM = 370} boep_save_value = { NUM = 371} boep_save_value = { NUM = 372} boep_save_value = { NUM = 373} boep_save_value = { NUM = 374} boep_save_value = { NUM = 375} boep_save_value = { NUM = 376} boep_save_value = { NUM = 377} boep_save_value = { NUM = 378} boep_save_value = { NUM = 379} 
-	# boep_save_value = { NUM = 380} boep_save_value = { NUM = 381} boep_save_value = { NUM = 382} boep_save_value = { NUM = 383} boep_save_value = { NUM = 384} boep_save_value = { NUM = 385} boep_save_value = { NUM = 386} boep_save_value = { NUM = 387} boep_save_value = { NUM = 388} boep_save_value = { NUM = 389} 
-	# boep_save_value = { NUM = 390} boep_save_value = { NUM = 391} boep_save_value = { NUM = 392} boep_save_value = { NUM = 393} boep_save_value = { NUM = 394} boep_save_value = { NUM = 395} boep_save_value = { NUM = 396} boep_save_value = { NUM = 397} boep_save_value = { NUM = 398} boep_save_value = { NUM = 399} 
-	# boep_save_value = { NUM = 400} boep_save_value = { NUM = 401} boep_save_value = { NUM = 402} boep_save_value = { NUM = 403} boep_save_value = { NUM = 404} boep_save_value = { NUM = 405} boep_save_value = { NUM = 406} boep_save_value = { NUM = 407} boep_save_value = { NUM = 408} boep_save_value = { NUM = 409} 
-	# boep_save_value = { NUM = 410} boep_save_value = { NUM = 411} boep_save_value = { NUM = 412} boep_save_value = { NUM = 413} boep_save_value = { NUM = 414} boep_save_value = { NUM = 415} boep_save_value = { NUM = 416} boep_save_value = { NUM = 417} boep_save_value = { NUM = 418} boep_save_value = { NUM = 419} 
-	# boep_save_value = { NUM = 420} boep_save_value = { NUM = 421} boep_save_value = { NUM = 422} boep_save_value = { NUM = 423} boep_save_value = { NUM = 424} boep_save_value = { NUM = 425} boep_save_value = { NUM = 426} boep_save_value = { NUM = 427} boep_save_value = { NUM = 428} boep_save_value = { NUM = 429} 
-	# boep_save_value = { NUM = 430} boep_save_value = { NUM = 431} boep_save_value = { NUM = 432} boep_save_value = { NUM = 433} boep_save_value = { NUM = 434} boep_save_value = { NUM = 435} boep_save_value = { NUM = 436} boep_save_value = { NUM = 437} boep_save_value = { NUM = 438} boep_save_value = { NUM = 439} 
-	# boep_save_value = { NUM = 440} boep_save_value = { NUM = 441} boep_save_value = { NUM = 442} boep_save_value = { NUM = 443} boep_save_value = { NUM = 444} boep_save_value = { NUM = 445} boep_save_value = { NUM = 446} boep_save_value = { NUM = 447} boep_save_value = { NUM = 448} boep_save_value = { NUM = 449} 
-	# boep_save_value = { NUM = 450} boep_save_value = { NUM = 451} boep_save_value = { NUM = 452} boep_save_value = { NUM = 453} boep_save_value = { NUM = 454} boep_save_value = { NUM = 455} boep_save_value = { NUM = 456} boep_save_value = { NUM = 457} boep_save_value = { NUM = 458} boep_save_value = { NUM = 459} 
-	# boep_save_value = { NUM = 460} boep_save_value = { NUM = 461} boep_save_value = { NUM = 462} boep_save_value = { NUM = 463} boep_save_value = { NUM = 464} boep_save_value = { NUM = 465} boep_save_value = { NUM = 466} boep_save_value = { NUM = 467} boep_save_value = { NUM = 468} boep_save_value = { NUM = 469} 
-	# boep_save_value = { NUM = 470} boep_save_value = { NUM = 471} boep_save_value = { NUM = 472} boep_save_value = { NUM = 473} boep_save_value = { NUM = 474} boep_save_value = { NUM = 475} boep_save_value = { NUM = 476} boep_save_value = { NUM = 477} boep_save_value = { NUM = 478} boep_save_value = { NUM = 479} 
-	# boep_save_value = { NUM = 480} boep_save_value = { NUM = 481} boep_save_value = { NUM = 482} boep_save_value = { NUM = 483} boep_save_value = { NUM = 484} boep_save_value = { NUM = 485} boep_save_value = { NUM = 486} boep_save_value = { NUM = 487} boep_save_value = { NUM = 488} boep_save_value = { NUM = 489} 
-	# boep_save_value = { NUM = 490} boep_save_value = { NUM = 491} boep_save_value = { NUM = 492} boep_save_value = { NUM = 493} boep_save_value = { NUM = 494} boep_save_value = { NUM = 495} boep_save_value = { NUM = 496} boep_save_value = { NUM = 497} boep_save_value = { NUM = 498} boep_save_value = { NUM = 499} 
-	# boep_save_value = { NUM = 500} boep_save_value = { NUM = 501} boep_save_value = { NUM = 502} boep_save_value = { NUM = 503} boep_save_value = { NUM = 504} boep_save_value = { NUM = 505} boep_save_value = { NUM = 506} boep_save_value = { NUM = 507} boep_save_value = { NUM = 508} boep_save_value = { NUM = 509} 
-	# boep_save_value = { NUM = 510} boep_save_value = { NUM = 511} boep_save_value = { NUM = 512} boep_save_value = { NUM = 513} boep_save_value = { NUM = 514} boep_save_value = { NUM = 515} boep_save_value = { NUM = 516} boep_save_value = { NUM = 517} boep_save_value = { NUM = 518} boep_save_value = { NUM = 519} 
-	# boep_save_value = { NUM = 520} boep_save_value = { NUM = 521} boep_save_value = { NUM = 522} boep_save_value = { NUM = 523} boep_save_value = { NUM = 524} boep_save_value = { NUM = 525} boep_save_value = { NUM = 526} boep_save_value = { NUM = 527} boep_save_value = { NUM = 528} boep_save_value = { NUM = 529} 
-	# boep_save_value = { NUM = 530} boep_save_value = { NUM = 531} boep_save_value = { NUM = 532} boep_save_value = { NUM = 533} boep_save_value = { NUM = 534} boep_save_value = { NUM = 535} boep_save_value = { NUM = 536} boep_save_value = { NUM = 537} boep_save_value = { NUM = 538} boep_save_value = { NUM = 539} 
-	# boep_save_value = { NUM = 540} boep_save_value = { NUM = 541} boep_save_value = { NUM = 542} boep_save_value = { NUM = 543} boep_save_value = { NUM = 544} boep_save_value = { NUM = 545} boep_save_value = { NUM = 546} boep_save_value = { NUM = 547} boep_save_value = { NUM = 548} boep_save_value = { NUM = 549} 
-	# boep_save_value = { NUM = 550} boep_save_value = { NUM = 551} boep_save_value = { NUM = 552} boep_save_value = { NUM = 553} boep_save_value = { NUM = 554} boep_save_value = { NUM = 555} boep_save_value = { NUM = 556} boep_save_value = { NUM = 557} boep_save_value = { NUM = 558} boep_save_value = { NUM = 559} 
-	# boep_save_value = { NUM = 560} boep_save_value = { NUM = 561} boep_save_value = { NUM = 562} boep_save_value = { NUM = 563} boep_save_value = { NUM = 564} boep_save_value = { NUM = 565} boep_save_value = { NUM = 566} boep_save_value = { NUM = 567} boep_save_value = { NUM = 568} boep_save_value = { NUM = 569} 
-	# boep_save_value = { NUM = 570} boep_save_value = { NUM = 571} boep_save_value = { NUM = 572} boep_save_value = { NUM = 573} boep_save_value = { NUM = 574} boep_save_value = { NUM = 575} boep_save_value = { NUM = 576} boep_save_value = { NUM = 577} boep_save_value = { NUM = 578} boep_save_value = { NUM = 579} 
-	# boep_save_value = { NUM = 580} boep_save_value = { NUM = 581} boep_save_value = { NUM = 582} boep_save_value = { NUM = 583} boep_save_value = { NUM = 584} boep_save_value = { NUM = 585} boep_save_value = { NUM = 586} boep_save_value = { NUM = 587} boep_save_value = { NUM = 588} boep_save_value = { NUM = 589} 
-	# boep_save_value = { NUM = 590} boep_save_value = { NUM = 591} boep_save_value = { NUM = 592} boep_save_value = { NUM = 593} boep_save_value = { NUM = 594} boep_save_value = { NUM = 595} boep_save_value = { NUM = 596} boep_save_value = { NUM = 597} boep_save_value = { NUM = 598} boep_save_value = { NUM = 599} 
-	# boep_save_value = { NUM = 600} boep_save_value = { NUM = 601} boep_save_value = { NUM = 602} boep_save_value = { NUM = 603} boep_save_value = { NUM = 604} boep_save_value = { NUM = 605} boep_save_value = { NUM = 606} boep_save_value = { NUM = 607} boep_save_value = { NUM = 608} boep_save_value = { NUM = 609} 
-	# boep_save_value = { NUM = 610} boep_save_value = { NUM = 611} boep_save_value = { NUM = 612} boep_save_value = { NUM = 613} boep_save_value = { NUM = 614} boep_save_value = { NUM = 615} boep_save_value = { NUM = 616} boep_save_value = { NUM = 617} boep_save_value = { NUM = 618} boep_save_value = { NUM = 619} 
-	# boep_save_value = { NUM = 620} boep_save_value = { NUM = 621} boep_save_value = { NUM = 622} boep_save_value = { NUM = 623} boep_save_value = { NUM = 624} boep_save_value = { NUM = 625} boep_save_value = { NUM = 626} boep_save_value = { NUM = 627} boep_save_value = { NUM = 628} boep_save_value = { NUM = 629} 
-	# boep_save_value = { NUM = 630} boep_save_value = { NUM = 631} boep_save_value = { NUM = 632} boep_save_value = { NUM = 633} boep_save_value = { NUM = 634} boep_save_value = { NUM = 635} boep_save_value = { NUM = 636} boep_save_value = { NUM = 637} boep_save_value = { NUM = 638} boep_save_value = { NUM = 639} 
-	# boep_save_value = { NUM = 640} boep_save_value = { NUM = 641} boep_save_value = { NUM = 642} boep_save_value = { NUM = 643} boep_save_value = { NUM = 644} boep_save_value = { NUM = 645} boep_save_value = { NUM = 646} boep_save_value = { NUM = 647} boep_save_value = { NUM = 648} boep_save_value = { NUM = 649} 
-	# boep_save_value = { NUM = 650} boep_save_value = { NUM = 651} boep_save_value = { NUM = 652} boep_save_value = { NUM = 653} boep_save_value = { NUM = 654} boep_save_value = { NUM = 655} boep_save_value = { NUM = 656} boep_save_value = { NUM = 657} boep_save_value = { NUM = 658} boep_save_value = { NUM = 659} 
-	# boep_save_value = { NUM = 660} boep_save_value = { NUM = 661} boep_save_value = { NUM = 662} boep_save_value = { NUM = 663} boep_save_value = { NUM = 664} boep_save_value = { NUM = 665} boep_save_value = { NUM = 666} boep_save_value = { NUM = 667} boep_save_value = { NUM = 668} boep_save_value = { NUM = 669} 
-	# boep_save_value = { NUM = 670} boep_save_value = { NUM = 671} boep_save_value = { NUM = 672} boep_save_value = { NUM = 673} boep_save_value = { NUM = 674} boep_save_value = { NUM = 675} boep_save_value = { NUM = 676} boep_save_value = { NUM = 677} boep_save_value = { NUM = 678} boep_save_value = { NUM = 679} 
-	# boep_save_value = { NUM = 680} boep_save_value = { NUM = 681} boep_save_value = { NUM = 682} boep_save_value = { NUM = 683} boep_save_value = { NUM = 684} boep_save_value = { NUM = 685} boep_save_value = { NUM = 686} boep_save_value = { NUM = 687} boep_save_value = { NUM = 688} boep_save_value = { NUM = 689} 
-	# boep_save_value = { NUM = 690} boep_save_value = { NUM = 691} boep_save_value = { NUM = 692} boep_save_value = { NUM = 693} boep_save_value = { NUM = 694} boep_save_value = { NUM = 695} boep_save_value = { NUM = 696} boep_save_value = { NUM = 697} boep_save_value = { NUM = 698} boep_save_value = { NUM = 699} 
-	# boep_save_value = { NUM = 700} boep_save_value = { NUM = 701} boep_save_value = { NUM = 702} boep_save_value = { NUM = 703} boep_save_value = { NUM = 704} boep_save_value = { NUM = 705} boep_save_value = { NUM = 706} boep_save_value = { NUM = 707} boep_save_value = { NUM = 708} boep_save_value = { NUM = 709} 
-	# boep_save_value = { NUM = 710} boep_save_value = { NUM = 711} boep_save_value = { NUM = 712} boep_save_value = { NUM = 713} boep_save_value = { NUM = 714} boep_save_value = { NUM = 715} boep_save_value = { NUM = 716} boep_save_value = { NUM = 717} boep_save_value = { NUM = 718} boep_save_value = { NUM = 719} 
-	# boep_save_value = { NUM = 720} boep_save_value = { NUM = 721} boep_save_value = { NUM = 722} boep_save_value = { NUM = 723} boep_save_value = { NUM = 724} boep_save_value = { NUM = 725} boep_save_value = { NUM = 726} boep_save_value = { NUM = 727} boep_save_value = { NUM = 728} boep_save_value = { NUM = 729} 
-	# boep_save_value = { NUM = 730} boep_save_value = { NUM = 731} boep_save_value = { NUM = 732} boep_save_value = { NUM = 733} boep_save_value = { NUM = 734} boep_save_value = { NUM = 735} boep_save_value = { NUM = 736} boep_save_value = { NUM = 737} boep_save_value = { NUM = 738} boep_save_value = { NUM = 739} 
-	# boep_save_value = { NUM = 740} boep_save_value = { NUM = 741} boep_save_value = { NUM = 742} boep_save_value = { NUM = 743} boep_save_value = { NUM = 744} boep_save_value = { NUM = 745} boep_save_value = { NUM = 746} boep_save_value = { NUM = 747} boep_save_value = { NUM = 748} boep_save_value = { NUM = 749} 
-	# boep_save_value = { NUM = 750} boep_save_value = { NUM = 751} boep_save_value = { NUM = 752} boep_save_value = { NUM = 753} boep_save_value = { NUM = 754} boep_save_value = { NUM = 755} boep_save_value = { NUM = 756} boep_save_value = { NUM = 757} boep_save_value = { NUM = 758} boep_save_value = { NUM = 759} 
-	# boep_save_value = { NUM = 760} boep_save_value = { NUM = 761} boep_save_value = { NUM = 762} boep_save_value = { NUM = 763} boep_save_value = { NUM = 764} boep_save_value = { NUM = 765} boep_save_value = { NUM = 766} boep_save_value = { NUM = 767} boep_save_value = { NUM = 768} boep_save_value = { NUM = 769} 
-	# boep_save_value = { NUM = 770} boep_save_value = { NUM = 771} boep_save_value = { NUM = 772} boep_save_value = { NUM = 773} boep_save_value = { NUM = 774} boep_save_value = { NUM = 775} boep_save_value = { NUM = 776} boep_save_value = { NUM = 777} boep_save_value = { NUM = 778} boep_save_value = { NUM = 779} 
-	# boep_save_value = { NUM = 780} boep_save_value = { NUM = 781} boep_save_value = { NUM = 782} boep_save_value = { NUM = 783} boep_save_value = { NUM = 784} boep_save_value = { NUM = 785} boep_save_value = { NUM = 786} boep_save_value = { NUM = 787} boep_save_value = { NUM = 788} boep_save_value = { NUM = 789} 
-	# boep_save_value = { NUM = 790} boep_save_value = { NUM = 791} boep_save_value = { NUM = 792} boep_save_value = { NUM = 793} boep_save_value = { NUM = 794} boep_save_value = { NUM = 795} boep_save_value = { NUM = 796} boep_save_value = { NUM = 797} boep_save_value = { NUM = 798} boep_save_value = { NUM = 799} 
-	# boep_save_value = { NUM = 800} boep_save_value = { NUM = 801} boep_save_value = { NUM = 802} boep_save_value = { NUM = 803} boep_save_value = { NUM = 804} boep_save_value = { NUM = 805} boep_save_value = { NUM = 806} boep_save_value = { NUM = 807} boep_save_value = { NUM = 808} boep_save_value = { NUM = 809} 
-	# boep_save_value = { NUM = 810} boep_save_value = { NUM = 811} boep_save_value = { NUM = 812} boep_save_value = { NUM = 813} boep_save_value = { NUM = 814} boep_save_value = { NUM = 815} boep_save_value = { NUM = 816} boep_save_value = { NUM = 817} boep_save_value = { NUM = 818} boep_save_value = { NUM = 819} 
-	# boep_save_value = { NUM = 820} boep_save_value = { NUM = 821} boep_save_value = { NUM = 822} boep_save_value = { NUM = 823} boep_save_value = { NUM = 824} boep_save_value = { NUM = 825} boep_save_value = { NUM = 826} boep_save_value = { NUM = 827} boep_save_value = { NUM = 828} boep_save_value = { NUM = 829} 
-	# boep_save_value = { NUM = 830} boep_save_value = { NUM = 831} boep_save_value = { NUM = 832} boep_save_value = { NUM = 833} boep_save_value = { NUM = 834} boep_save_value = { NUM = 835} boep_save_value = { NUM = 836} boep_save_value = { NUM = 837} boep_save_value = { NUM = 838} boep_save_value = { NUM = 839} 
-	# boep_save_value = { NUM = 840} boep_save_value = { NUM = 841} boep_save_value = { NUM = 842} boep_save_value = { NUM = 843} boep_save_value = { NUM = 844} boep_save_value = { NUM = 845} boep_save_value = { NUM = 846} boep_save_value = { NUM = 847} boep_save_value = { NUM = 848} boep_save_value = { NUM = 849} 
-	# boep_save_value = { NUM = 850} boep_save_value = { NUM = 851} boep_save_value = { NUM = 852} boep_save_value = { NUM = 853} boep_save_value = { NUM = 854} boep_save_value = { NUM = 855} boep_save_value = { NUM = 856} boep_save_value = { NUM = 857} boep_save_value = { NUM = 858} boep_save_value = { NUM = 859} 
-	# boep_save_value = { NUM = 860} boep_save_value = { NUM = 861} boep_save_value = { NUM = 862} boep_save_value = { NUM = 863} boep_save_value = { NUM = 864} boep_save_value = { NUM = 865} boep_save_value = { NUM = 866} boep_save_value = { NUM = 867} boep_save_value = { NUM = 868} boep_save_value = { NUM = 869} 
-	# boep_save_value = { NUM = 870} boep_save_value = { NUM = 871} boep_save_value = { NUM = 872} boep_save_value = { NUM = 873} boep_save_value = { NUM = 874} boep_save_value = { NUM = 875} boep_save_value = { NUM = 876} boep_save_value = { NUM = 877} boep_save_value = { NUM = 878} boep_save_value = { NUM = 879} 
-	# boep_save_value = { NUM = 880} boep_save_value = { NUM = 881} boep_save_value = { NUM = 882} boep_save_value = { NUM = 883} boep_save_value = { NUM = 884} boep_save_value = { NUM = 885} boep_save_value = { NUM = 886} boep_save_value = { NUM = 887} boep_save_value = { NUM = 888} boep_save_value = { NUM = 889} 
-	# boep_save_value = { NUM = 890} boep_save_value = { NUM = 891} boep_save_value = { NUM = 892} boep_save_value = { NUM = 893} boep_save_value = { NUM = 894} boep_save_value = { NUM = 895} boep_save_value = { NUM = 896} boep_save_value = { NUM = 897} boep_save_value = { NUM = 898} boep_save_value = { NUM = 899} 
-	# boep_save_value = { NUM = 900} boep_save_value = { NUM = 901} boep_save_value = { NUM = 902} boep_save_value = { NUM = 903} boep_save_value = { NUM = 904} boep_save_value = { NUM = 905} boep_save_value = { NUM = 906} boep_save_value = { NUM = 907} boep_save_value = { NUM = 908} boep_save_value = { NUM = 909} 
-	# boep_save_value = { NUM = 910} boep_save_value = { NUM = 911} boep_save_value = { NUM = 912} boep_save_value = { NUM = 913} boep_save_value = { NUM = 914} boep_save_value = { NUM = 915} boep_save_value = { NUM = 916} boep_save_value = { NUM = 917} boep_save_value = { NUM = 918} boep_save_value = { NUM = 919} 
-	# boep_save_value = { NUM = 920} boep_save_value = { NUM = 921} boep_save_value = { NUM = 922} boep_save_value = { NUM = 923} boep_save_value = { NUM = 924} boep_save_value = { NUM = 925} boep_save_value = { NUM = 926} boep_save_value = { NUM = 927} boep_save_value = { NUM = 928} boep_save_value = { NUM = 929} 
-	# boep_save_value = { NUM = 930} boep_save_value = { NUM = 931} boep_save_value = { NUM = 932} boep_save_value = { NUM = 933} boep_save_value = { NUM = 934} boep_save_value = { NUM = 935} boep_save_value = { NUM = 936} boep_save_value = { NUM = 937} boep_save_value = { NUM = 938} boep_save_value = { NUM = 939} 
-	# boep_save_value = { NUM = 940} boep_save_value = { NUM = 941} boep_save_value = { NUM = 942} boep_save_value = { NUM = 943} boep_save_value = { NUM = 944} boep_save_value = { NUM = 945} boep_save_value = { NUM = 946} boep_save_value = { NUM = 947} boep_save_value = { NUM = 948} boep_save_value = { NUM = 949} 
-	# boep_save_value = { NUM = 950} boep_save_value = { NUM = 951} boep_save_value = { NUM = 952} boep_save_value = { NUM = 953} boep_save_value = { NUM = 954} boep_save_value = { NUM = 955} boep_save_value = { NUM = 956} boep_save_value = { NUM = 957} boep_save_value = { NUM = 958} boep_save_value = { NUM = 959} 
-	# boep_save_value = { NUM = 960} boep_save_value = { NUM = 961} boep_save_value = { NUM = 962} boep_save_value = { NUM = 963} boep_save_value = { NUM = 964} boep_save_value = { NUM = 965} boep_save_value = { NUM = 966} boep_save_value = { NUM = 967} boep_save_value = { NUM = 968} boep_save_value = { NUM = 969} 
-	# boep_save_value = { NUM = 970} boep_save_value = { NUM = 971} boep_save_value = { NUM = 972} boep_save_value = { NUM = 973} boep_save_value = { NUM = 974} boep_save_value = { NUM = 975} boep_save_value = { NUM = 976} boep_save_value = { NUM = 977} boep_save_value = { NUM = 978} boep_save_value = { NUM = 979} 
-	# boep_save_value = { NUM = 980} boep_save_value = { NUM = 981} boep_save_value = { NUM = 982} boep_save_value = { NUM = 983} boep_save_value = { NUM = 984} boep_save_value = { NUM = 985} boep_save_value = { NUM = 986} boep_save_value = { NUM = 987} boep_save_value = { NUM = 988} boep_save_value = { NUM = 989} 
-	# boep_save_value = { NUM = 990} boep_save_value = { NUM = 991} boep_save_value = { NUM = 992} boep_save_value = { NUM = 993} boep_save_value = { NUM = 994} boep_save_value = { NUM = 995} boep_save_value = { NUM = 996} boep_save_value = { NUM = 997} boep_save_value = { NUM = 998} boep_save_value = { NUM = 999} 
-	# boep_save_value = { NUM = 1000} boep_save_value = { NUM = 1001} boep_save_value = { NUM = 1002} boep_save_value = { NUM = 1003} boep_save_value = { NUM = 1004} boep_save_value = { NUM = 1005} boep_save_value = { NUM = 1006} boep_save_value = { NUM = 1007} boep_save_value = { NUM = 1008} boep_save_value = { NUM = 1009} 
+	boep_call_command_a_thousand_times = { COMMAND = boep_save_value }	
 }
 
 boep_clear_values = {
-	boep_call_command_a_thousand_times = { COMMAND = boep_clear_value }
-	# boep_clear_value = { NUM = 1} boep_clear_value = { NUM = 2} boep_clear_value = { NUM = 3} boep_clear_value = { NUM = 4} boep_clear_value = { NUM = 5} boep_clear_value = { NUM = 6} boep_clear_value = { NUM = 7} boep_clear_value = { NUM = 8} boep_clear_value = { NUM = 9} 
-	# boep_clear_value = { NUM = 10} boep_clear_value = { NUM = 11} boep_clear_value = { NUM = 12} boep_clear_value = { NUM = 13} boep_clear_value = { NUM = 14} boep_clear_value = { NUM = 15} boep_clear_value = { NUM = 16} boep_clear_value = { NUM = 17} boep_clear_value = { NUM = 18} boep_clear_value = { NUM = 19} 
-	# boep_clear_value = { NUM = 20} boep_clear_value = { NUM = 21} boep_clear_value = { NUM = 22} boep_clear_value = { NUM = 23} boep_clear_value = { NUM = 24} boep_clear_value = { NUM = 25} boep_clear_value = { NUM = 26} boep_clear_value = { NUM = 27} boep_clear_value = { NUM = 28} boep_clear_value = { NUM = 29} 
-	# boep_clear_value = { NUM = 30} boep_clear_value = { NUM = 31} boep_clear_value = { NUM = 32} boep_clear_value = { NUM = 33} boep_clear_value = { NUM = 34} boep_clear_value = { NUM = 35} boep_clear_value = { NUM = 36} boep_clear_value = { NUM = 37} boep_clear_value = { NUM = 38} boep_clear_value = { NUM = 39} 
-	# boep_clear_value = { NUM = 40} boep_clear_value = { NUM = 41} boep_clear_value = { NUM = 42} boep_clear_value = { NUM = 43} boep_clear_value = { NUM = 44} boep_clear_value = { NUM = 45} boep_clear_value = { NUM = 46} boep_clear_value = { NUM = 47} boep_clear_value = { NUM = 48} boep_clear_value = { NUM = 49} 
-	# boep_clear_value = { NUM = 50} boep_clear_value = { NUM = 51} boep_clear_value = { NUM = 52} boep_clear_value = { NUM = 53} boep_clear_value = { NUM = 54} boep_clear_value = { NUM = 55} boep_clear_value = { NUM = 56} boep_clear_value = { NUM = 57} boep_clear_value = { NUM = 58} boep_clear_value = { NUM = 59} 
-	# boep_clear_value = { NUM = 60} boep_clear_value = { NUM = 61} boep_clear_value = { NUM = 62} boep_clear_value = { NUM = 63} boep_clear_value = { NUM = 64} boep_clear_value = { NUM = 65} boep_clear_value = { NUM = 66} boep_clear_value = { NUM = 67} boep_clear_value = { NUM = 68} boep_clear_value = { NUM = 69} 
-	# boep_clear_value = { NUM = 70} boep_clear_value = { NUM = 71} boep_clear_value = { NUM = 72} boep_clear_value = { NUM = 73} boep_clear_value = { NUM = 74} boep_clear_value = { NUM = 75} boep_clear_value = { NUM = 76} boep_clear_value = { NUM = 77} boep_clear_value = { NUM = 78} boep_clear_value = { NUM = 79} 
-	# boep_clear_value = { NUM = 80} boep_clear_value = { NUM = 81} boep_clear_value = { NUM = 82} boep_clear_value = { NUM = 83} boep_clear_value = { NUM = 84} boep_clear_value = { NUM = 85} boep_clear_value = { NUM = 86} boep_clear_value = { NUM = 87} boep_clear_value = { NUM = 88} boep_clear_value = { NUM = 89} 
-	# boep_clear_value = { NUM = 90} boep_clear_value = { NUM = 91} boep_clear_value = { NUM = 92} boep_clear_value = { NUM = 93} boep_clear_value = { NUM = 94} boep_clear_value = { NUM = 95} boep_clear_value = { NUM = 96} boep_clear_value = { NUM = 97} boep_clear_value = { NUM = 98} boep_clear_value = { NUM = 99} 
-	# boep_clear_value = { NUM = 100} boep_clear_value = { NUM = 101} boep_clear_value = { NUM = 102} boep_clear_value = { NUM = 103} boep_clear_value = { NUM = 104} boep_clear_value = { NUM = 105} boep_clear_value = { NUM = 106} boep_clear_value = { NUM = 107} boep_clear_value = { NUM = 108} boep_clear_value = { NUM = 109} 
-	# boep_clear_value = { NUM = 110} boep_clear_value = { NUM = 111} boep_clear_value = { NUM = 112} boep_clear_value = { NUM = 113} boep_clear_value = { NUM = 114} boep_clear_value = { NUM = 115} boep_clear_value = { NUM = 116} boep_clear_value = { NUM = 117} boep_clear_value = { NUM = 118} boep_clear_value = { NUM = 119} 
-	# boep_clear_value = { NUM = 120} boep_clear_value = { NUM = 121} boep_clear_value = { NUM = 122} boep_clear_value = { NUM = 123} boep_clear_value = { NUM = 124} boep_clear_value = { NUM = 125} boep_clear_value = { NUM = 126} boep_clear_value = { NUM = 127} boep_clear_value = { NUM = 128} boep_clear_value = { NUM = 129} 
-	# boep_clear_value = { NUM = 130} boep_clear_value = { NUM = 131} boep_clear_value = { NUM = 132} boep_clear_value = { NUM = 133} boep_clear_value = { NUM = 134} boep_clear_value = { NUM = 135} boep_clear_value = { NUM = 136} boep_clear_value = { NUM = 137} boep_clear_value = { NUM = 138} boep_clear_value = { NUM = 139} 
-	# boep_clear_value = { NUM = 140} boep_clear_value = { NUM = 141} boep_clear_value = { NUM = 142} boep_clear_value = { NUM = 143} boep_clear_value = { NUM = 144} boep_clear_value = { NUM = 145} boep_clear_value = { NUM = 146} boep_clear_value = { NUM = 147} boep_clear_value = { NUM = 148} boep_clear_value = { NUM = 149} 
-	# boep_clear_value = { NUM = 150} boep_clear_value = { NUM = 151} boep_clear_value = { NUM = 152} boep_clear_value = { NUM = 153} boep_clear_value = { NUM = 154} boep_clear_value = { NUM = 155} boep_clear_value = { NUM = 156} boep_clear_value = { NUM = 157} boep_clear_value = { NUM = 158} boep_clear_value = { NUM = 159} 
-	# boep_clear_value = { NUM = 160} boep_clear_value = { NUM = 161} boep_clear_value = { NUM = 162} boep_clear_value = { NUM = 163} boep_clear_value = { NUM = 164} boep_clear_value = { NUM = 165} boep_clear_value = { NUM = 166} boep_clear_value = { NUM = 167} boep_clear_value = { NUM = 168} boep_clear_value = { NUM = 169} 
-	# boep_clear_value = { NUM = 170} boep_clear_value = { NUM = 171} boep_clear_value = { NUM = 172} boep_clear_value = { NUM = 173} boep_clear_value = { NUM = 174} boep_clear_value = { NUM = 175} boep_clear_value = { NUM = 176} boep_clear_value = { NUM = 177} boep_clear_value = { NUM = 178} boep_clear_value = { NUM = 179} 
-	# boep_clear_value = { NUM = 180} boep_clear_value = { NUM = 181} boep_clear_value = { NUM = 182} boep_clear_value = { NUM = 183} boep_clear_value = { NUM = 184} boep_clear_value = { NUM = 185} boep_clear_value = { NUM = 186} boep_clear_value = { NUM = 187} boep_clear_value = { NUM = 188} boep_clear_value = { NUM = 189} 
-	# boep_clear_value = { NUM = 190} boep_clear_value = { NUM = 191} boep_clear_value = { NUM = 192} boep_clear_value = { NUM = 193} boep_clear_value = { NUM = 194} boep_clear_value = { NUM = 195} boep_clear_value = { NUM = 196} boep_clear_value = { NUM = 197} boep_clear_value = { NUM = 198} boep_clear_value = { NUM = 199} 
-	# boep_clear_value = { NUM = 200} boep_clear_value = { NUM = 201} boep_clear_value = { NUM = 202} boep_clear_value = { NUM = 203} boep_clear_value = { NUM = 204} boep_clear_value = { NUM = 205} boep_clear_value = { NUM = 206} boep_clear_value = { NUM = 207} boep_clear_value = { NUM = 208} boep_clear_value = { NUM = 209} 
-	# boep_clear_value = { NUM = 210} boep_clear_value = { NUM = 211} boep_clear_value = { NUM = 212} boep_clear_value = { NUM = 213} boep_clear_value = { NUM = 214} boep_clear_value = { NUM = 215} boep_clear_value = { NUM = 216} boep_clear_value = { NUM = 217} boep_clear_value = { NUM = 218} boep_clear_value = { NUM = 219} 
-	# boep_clear_value = { NUM = 220} boep_clear_value = { NUM = 221} boep_clear_value = { NUM = 222} boep_clear_value = { NUM = 223} boep_clear_value = { NUM = 224} boep_clear_value = { NUM = 225} boep_clear_value = { NUM = 226} boep_clear_value = { NUM = 227} boep_clear_value = { NUM = 228} boep_clear_value = { NUM = 229} 
-	# boep_clear_value = { NUM = 230} boep_clear_value = { NUM = 231} boep_clear_value = { NUM = 232} boep_clear_value = { NUM = 233} boep_clear_value = { NUM = 234} boep_clear_value = { NUM = 235} boep_clear_value = { NUM = 236} boep_clear_value = { NUM = 237} boep_clear_value = { NUM = 238} boep_clear_value = { NUM = 239} 
-	# boep_clear_value = { NUM = 240} boep_clear_value = { NUM = 241} boep_clear_value = { NUM = 242} boep_clear_value = { NUM = 243} boep_clear_value = { NUM = 244} boep_clear_value = { NUM = 245} boep_clear_value = { NUM = 246} boep_clear_value = { NUM = 247} boep_clear_value = { NUM = 248} boep_clear_value = { NUM = 249} 
-	# boep_clear_value = { NUM = 250} boep_clear_value = { NUM = 251} boep_clear_value = { NUM = 252} boep_clear_value = { NUM = 253} boep_clear_value = { NUM = 254} boep_clear_value = { NUM = 255} boep_clear_value = { NUM = 256} boep_clear_value = { NUM = 257} boep_clear_value = { NUM = 258} boep_clear_value = { NUM = 259} 
-	# boep_clear_value = { NUM = 260} boep_clear_value = { NUM = 261} boep_clear_value = { NUM = 262} boep_clear_value = { NUM = 263} boep_clear_value = { NUM = 264} boep_clear_value = { NUM = 265} boep_clear_value = { NUM = 266} boep_clear_value = { NUM = 267} boep_clear_value = { NUM = 268} boep_clear_value = { NUM = 269} 
-	# boep_clear_value = { NUM = 270} boep_clear_value = { NUM = 271} boep_clear_value = { NUM = 272} boep_clear_value = { NUM = 273} boep_clear_value = { NUM = 274} boep_clear_value = { NUM = 275} boep_clear_value = { NUM = 276} boep_clear_value = { NUM = 277} boep_clear_value = { NUM = 278} boep_clear_value = { NUM = 279} 
-	# boep_clear_value = { NUM = 280} boep_clear_value = { NUM = 281} boep_clear_value = { NUM = 282} boep_clear_value = { NUM = 283} boep_clear_value = { NUM = 284} boep_clear_value = { NUM = 285} boep_clear_value = { NUM = 286} boep_clear_value = { NUM = 287} boep_clear_value = { NUM = 288} boep_clear_value = { NUM = 289} 
-	# boep_clear_value = { NUM = 290} boep_clear_value = { NUM = 291} boep_clear_value = { NUM = 292} boep_clear_value = { NUM = 293} boep_clear_value = { NUM = 294} boep_clear_value = { NUM = 295} boep_clear_value = { NUM = 296} boep_clear_value = { NUM = 297} boep_clear_value = { NUM = 298} boep_clear_value = { NUM = 299} 
-	# boep_clear_value = { NUM = 300} boep_clear_value = { NUM = 301} boep_clear_value = { NUM = 302} boep_clear_value = { NUM = 303} boep_clear_value = { NUM = 304} boep_clear_value = { NUM = 305} boep_clear_value = { NUM = 306} boep_clear_value = { NUM = 307} boep_clear_value = { NUM = 308} boep_clear_value = { NUM = 309} 
-	# boep_clear_value = { NUM = 310} boep_clear_value = { NUM = 311} boep_clear_value = { NUM = 312} boep_clear_value = { NUM = 313} boep_clear_value = { NUM = 314} boep_clear_value = { NUM = 315} boep_clear_value = { NUM = 316} boep_clear_value = { NUM = 317} boep_clear_value = { NUM = 318} boep_clear_value = { NUM = 319} 
-	# boep_clear_value = { NUM = 320} boep_clear_value = { NUM = 321} boep_clear_value = { NUM = 322} boep_clear_value = { NUM = 323} boep_clear_value = { NUM = 324} boep_clear_value = { NUM = 325} boep_clear_value = { NUM = 326} boep_clear_value = { NUM = 327} boep_clear_value = { NUM = 328} boep_clear_value = { NUM = 329} 
-	# boep_clear_value = { NUM = 330} boep_clear_value = { NUM = 331} boep_clear_value = { NUM = 332} boep_clear_value = { NUM = 333} boep_clear_value = { NUM = 334} boep_clear_value = { NUM = 335} boep_clear_value = { NUM = 336} boep_clear_value = { NUM = 337} boep_clear_value = { NUM = 338} boep_clear_value = { NUM = 339} 
-	# boep_clear_value = { NUM = 340} boep_clear_value = { NUM = 341} boep_clear_value = { NUM = 342} boep_clear_value = { NUM = 343} boep_clear_value = { NUM = 344} boep_clear_value = { NUM = 345} boep_clear_value = { NUM = 346} boep_clear_value = { NUM = 347} boep_clear_value = { NUM = 348} boep_clear_value = { NUM = 349} 
-	# boep_clear_value = { NUM = 350} boep_clear_value = { NUM = 351} boep_clear_value = { NUM = 352} boep_clear_value = { NUM = 353} boep_clear_value = { NUM = 354} boep_clear_value = { NUM = 355} boep_clear_value = { NUM = 356} boep_clear_value = { NUM = 357} boep_clear_value = { NUM = 358} boep_clear_value = { NUM = 359} 
-	# boep_clear_value = { NUM = 360} boep_clear_value = { NUM = 361} boep_clear_value = { NUM = 362} boep_clear_value = { NUM = 363} boep_clear_value = { NUM = 364} boep_clear_value = { NUM = 365} boep_clear_value = { NUM = 366} boep_clear_value = { NUM = 367} boep_clear_value = { NUM = 368} boep_clear_value = { NUM = 369} 
-	# boep_clear_value = { NUM = 370} boep_clear_value = { NUM = 371} boep_clear_value = { NUM = 372} boep_clear_value = { NUM = 373} boep_clear_value = { NUM = 374} boep_clear_value = { NUM = 375} boep_clear_value = { NUM = 376} boep_clear_value = { NUM = 377} boep_clear_value = { NUM = 378} boep_clear_value = { NUM = 379} 
-	# boep_clear_value = { NUM = 380} boep_clear_value = { NUM = 381} boep_clear_value = { NUM = 382} boep_clear_value = { NUM = 383} boep_clear_value = { NUM = 384} boep_clear_value = { NUM = 385} boep_clear_value = { NUM = 386} boep_clear_value = { NUM = 387} boep_clear_value = { NUM = 388} boep_clear_value = { NUM = 389} 
-	# boep_clear_value = { NUM = 390} boep_clear_value = { NUM = 391} boep_clear_value = { NUM = 392} boep_clear_value = { NUM = 393} boep_clear_value = { NUM = 394} boep_clear_value = { NUM = 395} boep_clear_value = { NUM = 396} boep_clear_value = { NUM = 397} boep_clear_value = { NUM = 398} boep_clear_value = { NUM = 399} 
-	# boep_clear_value = { NUM = 400} boep_clear_value = { NUM = 401} boep_clear_value = { NUM = 402} boep_clear_value = { NUM = 403} boep_clear_value = { NUM = 404} boep_clear_value = { NUM = 405} boep_clear_value = { NUM = 406} boep_clear_value = { NUM = 407} boep_clear_value = { NUM = 408} boep_clear_value = { NUM = 409} 
-	# boep_clear_value = { NUM = 410} boep_clear_value = { NUM = 411} boep_clear_value = { NUM = 412} boep_clear_value = { NUM = 413} boep_clear_value = { NUM = 414} boep_clear_value = { NUM = 415} boep_clear_value = { NUM = 416} boep_clear_value = { NUM = 417} boep_clear_value = { NUM = 418} boep_clear_value = { NUM = 419} 
-	# boep_clear_value = { NUM = 420} boep_clear_value = { NUM = 421} boep_clear_value = { NUM = 422} boep_clear_value = { NUM = 423} boep_clear_value = { NUM = 424} boep_clear_value = { NUM = 425} boep_clear_value = { NUM = 426} boep_clear_value = { NUM = 427} boep_clear_value = { NUM = 428} boep_clear_value = { NUM = 429} 
-	# boep_clear_value = { NUM = 430} boep_clear_value = { NUM = 431} boep_clear_value = { NUM = 432} boep_clear_value = { NUM = 433} boep_clear_value = { NUM = 434} boep_clear_value = { NUM = 435} boep_clear_value = { NUM = 436} boep_clear_value = { NUM = 437} boep_clear_value = { NUM = 438} boep_clear_value = { NUM = 439} 
-	# boep_clear_value = { NUM = 440} boep_clear_value = { NUM = 441} boep_clear_value = { NUM = 442} boep_clear_value = { NUM = 443} boep_clear_value = { NUM = 444} boep_clear_value = { NUM = 445} boep_clear_value = { NUM = 446} boep_clear_value = { NUM = 447} boep_clear_value = { NUM = 448} boep_clear_value = { NUM = 449} 
-	# boep_clear_value = { NUM = 450} boep_clear_value = { NUM = 451} boep_clear_value = { NUM = 452} boep_clear_value = { NUM = 453} boep_clear_value = { NUM = 454} boep_clear_value = { NUM = 455} boep_clear_value = { NUM = 456} boep_clear_value = { NUM = 457} boep_clear_value = { NUM = 458} boep_clear_value = { NUM = 459} 
-	# boep_clear_value = { NUM = 460} boep_clear_value = { NUM = 461} boep_clear_value = { NUM = 462} boep_clear_value = { NUM = 463} boep_clear_value = { NUM = 464} boep_clear_value = { NUM = 465} boep_clear_value = { NUM = 466} boep_clear_value = { NUM = 467} boep_clear_value = { NUM = 468} boep_clear_value = { NUM = 469} 
-	# boep_clear_value = { NUM = 470} boep_clear_value = { NUM = 471} boep_clear_value = { NUM = 472} boep_clear_value = { NUM = 473} boep_clear_value = { NUM = 474} boep_clear_value = { NUM = 475} boep_clear_value = { NUM = 476} boep_clear_value = { NUM = 477} boep_clear_value = { NUM = 478} boep_clear_value = { NUM = 479} 
-	# boep_clear_value = { NUM = 480} boep_clear_value = { NUM = 481} boep_clear_value = { NUM = 482} boep_clear_value = { NUM = 483} boep_clear_value = { NUM = 484} boep_clear_value = { NUM = 485} boep_clear_value = { NUM = 486} boep_clear_value = { NUM = 487} boep_clear_value = { NUM = 488} boep_clear_value = { NUM = 489} 
-	# boep_clear_value = { NUM = 490} boep_clear_value = { NUM = 491} boep_clear_value = { NUM = 492} boep_clear_value = { NUM = 493} boep_clear_value = { NUM = 494} boep_clear_value = { NUM = 495} boep_clear_value = { NUM = 496} boep_clear_value = { NUM = 497} boep_clear_value = { NUM = 498} boep_clear_value = { NUM = 499} 
-	# boep_clear_value = { NUM = 500} boep_clear_value = { NUM = 501} boep_clear_value = { NUM = 502} boep_clear_value = { NUM = 503} boep_clear_value = { NUM = 504} boep_clear_value = { NUM = 505} boep_clear_value = { NUM = 506} boep_clear_value = { NUM = 507} boep_clear_value = { NUM = 508} boep_clear_value = { NUM = 509} 
-	# boep_clear_value = { NUM = 510} boep_clear_value = { NUM = 511} boep_clear_value = { NUM = 512} boep_clear_value = { NUM = 513} boep_clear_value = { NUM = 514} boep_clear_value = { NUM = 515} boep_clear_value = { NUM = 516} boep_clear_value = { NUM = 517} boep_clear_value = { NUM = 518} boep_clear_value = { NUM = 519} 
-	# boep_clear_value = { NUM = 520} boep_clear_value = { NUM = 521} boep_clear_value = { NUM = 522} boep_clear_value = { NUM = 523} boep_clear_value = { NUM = 524} boep_clear_value = { NUM = 525} boep_clear_value = { NUM = 526} boep_clear_value = { NUM = 527} boep_clear_value = { NUM = 528} boep_clear_value = { NUM = 529} 
-	# boep_clear_value = { NUM = 530} boep_clear_value = { NUM = 531} boep_clear_value = { NUM = 532} boep_clear_value = { NUM = 533} boep_clear_value = { NUM = 534} boep_clear_value = { NUM = 535} boep_clear_value = { NUM = 536} boep_clear_value = { NUM = 537} boep_clear_value = { NUM = 538} boep_clear_value = { NUM = 539} 
-	# boep_clear_value = { NUM = 540} boep_clear_value = { NUM = 541} boep_clear_value = { NUM = 542} boep_clear_value = { NUM = 543} boep_clear_value = { NUM = 544} boep_clear_value = { NUM = 545} boep_clear_value = { NUM = 546} boep_clear_value = { NUM = 547} boep_clear_value = { NUM = 548} boep_clear_value = { NUM = 549} 
-	# boep_clear_value = { NUM = 550} boep_clear_value = { NUM = 551} boep_clear_value = { NUM = 552} boep_clear_value = { NUM = 553} boep_clear_value = { NUM = 554} boep_clear_value = { NUM = 555} boep_clear_value = { NUM = 556} boep_clear_value = { NUM = 557} boep_clear_value = { NUM = 558} boep_clear_value = { NUM = 559} 
-	# boep_clear_value = { NUM = 560} boep_clear_value = { NUM = 561} boep_clear_value = { NUM = 562} boep_clear_value = { NUM = 563} boep_clear_value = { NUM = 564} boep_clear_value = { NUM = 565} boep_clear_value = { NUM = 566} boep_clear_value = { NUM = 567} boep_clear_value = { NUM = 568} boep_clear_value = { NUM = 569} 
-	# boep_clear_value = { NUM = 570} boep_clear_value = { NUM = 571} boep_clear_value = { NUM = 572} boep_clear_value = { NUM = 573} boep_clear_value = { NUM = 574} boep_clear_value = { NUM = 575} boep_clear_value = { NUM = 576} boep_clear_value = { NUM = 577} boep_clear_value = { NUM = 578} boep_clear_value = { NUM = 579} 
-	# boep_clear_value = { NUM = 580} boep_clear_value = { NUM = 581} boep_clear_value = { NUM = 582} boep_clear_value = { NUM = 583} boep_clear_value = { NUM = 584} boep_clear_value = { NUM = 585} boep_clear_value = { NUM = 586} boep_clear_value = { NUM = 587} boep_clear_value = { NUM = 588} boep_clear_value = { NUM = 589} 
-	# boep_clear_value = { NUM = 590} boep_clear_value = { NUM = 591} boep_clear_value = { NUM = 592} boep_clear_value = { NUM = 593} boep_clear_value = { NUM = 594} boep_clear_value = { NUM = 595} boep_clear_value = { NUM = 596} boep_clear_value = { NUM = 597} boep_clear_value = { NUM = 598} boep_clear_value = { NUM = 599} 
-	# boep_clear_value = { NUM = 600} boep_clear_value = { NUM = 601} boep_clear_value = { NUM = 602} boep_clear_value = { NUM = 603} boep_clear_value = { NUM = 604} boep_clear_value = { NUM = 605} boep_clear_value = { NUM = 606} boep_clear_value = { NUM = 607} boep_clear_value = { NUM = 608} boep_clear_value = { NUM = 609} 
-	# boep_clear_value = { NUM = 610} boep_clear_value = { NUM = 611} boep_clear_value = { NUM = 612} boep_clear_value = { NUM = 613} boep_clear_value = { NUM = 614} boep_clear_value = { NUM = 615} boep_clear_value = { NUM = 616} boep_clear_value = { NUM = 617} boep_clear_value = { NUM = 618} boep_clear_value = { NUM = 619} 
-	# boep_clear_value = { NUM = 620} boep_clear_value = { NUM = 621} boep_clear_value = { NUM = 622} boep_clear_value = { NUM = 623} boep_clear_value = { NUM = 624} boep_clear_value = { NUM = 625} boep_clear_value = { NUM = 626} boep_clear_value = { NUM = 627} boep_clear_value = { NUM = 628} boep_clear_value = { NUM = 629} 
-	# boep_clear_value = { NUM = 630} boep_clear_value = { NUM = 631} boep_clear_value = { NUM = 632} boep_clear_value = { NUM = 633} boep_clear_value = { NUM = 634} boep_clear_value = { NUM = 635} boep_clear_value = { NUM = 636} boep_clear_value = { NUM = 637} boep_clear_value = { NUM = 638} boep_clear_value = { NUM = 639} 
-	# boep_clear_value = { NUM = 640} boep_clear_value = { NUM = 641} boep_clear_value = { NUM = 642} boep_clear_value = { NUM = 643} boep_clear_value = { NUM = 644} boep_clear_value = { NUM = 645} boep_clear_value = { NUM = 646} boep_clear_value = { NUM = 647} boep_clear_value = { NUM = 648} boep_clear_value = { NUM = 649} 
-	# boep_clear_value = { NUM = 650} boep_clear_value = { NUM = 651} boep_clear_value = { NUM = 652} boep_clear_value = { NUM = 653} boep_clear_value = { NUM = 654} boep_clear_value = { NUM = 655} boep_clear_value = { NUM = 656} boep_clear_value = { NUM = 657} boep_clear_value = { NUM = 658} boep_clear_value = { NUM = 659} 
-	# boep_clear_value = { NUM = 660} boep_clear_value = { NUM = 661} boep_clear_value = { NUM = 662} boep_clear_value = { NUM = 663} boep_clear_value = { NUM = 664} boep_clear_value = { NUM = 665} boep_clear_value = { NUM = 666} boep_clear_value = { NUM = 667} boep_clear_value = { NUM = 668} boep_clear_value = { NUM = 669} 
-	# boep_clear_value = { NUM = 670} boep_clear_value = { NUM = 671} boep_clear_value = { NUM = 672} boep_clear_value = { NUM = 673} boep_clear_value = { NUM = 674} boep_clear_value = { NUM = 675} boep_clear_value = { NUM = 676} boep_clear_value = { NUM = 677} boep_clear_value = { NUM = 678} boep_clear_value = { NUM = 679} 
-	# boep_clear_value = { NUM = 680} boep_clear_value = { NUM = 681} boep_clear_value = { NUM = 682} boep_clear_value = { NUM = 683} boep_clear_value = { NUM = 684} boep_clear_value = { NUM = 685} boep_clear_value = { NUM = 686} boep_clear_value = { NUM = 687} boep_clear_value = { NUM = 688} boep_clear_value = { NUM = 689} 
-	# boep_clear_value = { NUM = 690} boep_clear_value = { NUM = 691} boep_clear_value = { NUM = 692} boep_clear_value = { NUM = 693} boep_clear_value = { NUM = 694} boep_clear_value = { NUM = 695} boep_clear_value = { NUM = 696} boep_clear_value = { NUM = 697} boep_clear_value = { NUM = 698} boep_clear_value = { NUM = 699} 
-	# boep_clear_value = { NUM = 700} boep_clear_value = { NUM = 701} boep_clear_value = { NUM = 702} boep_clear_value = { NUM = 703} boep_clear_value = { NUM = 704} boep_clear_value = { NUM = 705} boep_clear_value = { NUM = 706} boep_clear_value = { NUM = 707} boep_clear_value = { NUM = 708} boep_clear_value = { NUM = 709} 
-	# boep_clear_value = { NUM = 710} boep_clear_value = { NUM = 711} boep_clear_value = { NUM = 712} boep_clear_value = { NUM = 713} boep_clear_value = { NUM = 714} boep_clear_value = { NUM = 715} boep_clear_value = { NUM = 716} boep_clear_value = { NUM = 717} boep_clear_value = { NUM = 718} boep_clear_value = { NUM = 719} 
-	# boep_clear_value = { NUM = 720} boep_clear_value = { NUM = 721} boep_clear_value = { NUM = 722} boep_clear_value = { NUM = 723} boep_clear_value = { NUM = 724} boep_clear_value = { NUM = 725} boep_clear_value = { NUM = 726} boep_clear_value = { NUM = 727} boep_clear_value = { NUM = 728} boep_clear_value = { NUM = 729} 
-	# boep_clear_value = { NUM = 730} boep_clear_value = { NUM = 731} boep_clear_value = { NUM = 732} boep_clear_value = { NUM = 733} boep_clear_value = { NUM = 734} boep_clear_value = { NUM = 735} boep_clear_value = { NUM = 736} boep_clear_value = { NUM = 737} boep_clear_value = { NUM = 738} boep_clear_value = { NUM = 739} 
-	# boep_clear_value = { NUM = 740} boep_clear_value = { NUM = 741} boep_clear_value = { NUM = 742} boep_clear_value = { NUM = 743} boep_clear_value = { NUM = 744} boep_clear_value = { NUM = 745} boep_clear_value = { NUM = 746} boep_clear_value = { NUM = 747} boep_clear_value = { NUM = 748} boep_clear_value = { NUM = 749} 
-	# boep_clear_value = { NUM = 750} boep_clear_value = { NUM = 751} boep_clear_value = { NUM = 752} boep_clear_value = { NUM = 753} boep_clear_value = { NUM = 754} boep_clear_value = { NUM = 755} boep_clear_value = { NUM = 756} boep_clear_value = { NUM = 757} boep_clear_value = { NUM = 758} boep_clear_value = { NUM = 759} 
-	# boep_clear_value = { NUM = 760} boep_clear_value = { NUM = 761} boep_clear_value = { NUM = 762} boep_clear_value = { NUM = 763} boep_clear_value = { NUM = 764} boep_clear_value = { NUM = 765} boep_clear_value = { NUM = 766} boep_clear_value = { NUM = 767} boep_clear_value = { NUM = 768} boep_clear_value = { NUM = 769} 
-	# boep_clear_value = { NUM = 770} boep_clear_value = { NUM = 771} boep_clear_value = { NUM = 772} boep_clear_value = { NUM = 773} boep_clear_value = { NUM = 774} boep_clear_value = { NUM = 775} boep_clear_value = { NUM = 776} boep_clear_value = { NUM = 777} boep_clear_value = { NUM = 778} boep_clear_value = { NUM = 779} 
-	# boep_clear_value = { NUM = 780} boep_clear_value = { NUM = 781} boep_clear_value = { NUM = 782} boep_clear_value = { NUM = 783} boep_clear_value = { NUM = 784} boep_clear_value = { NUM = 785} boep_clear_value = { NUM = 786} boep_clear_value = { NUM = 787} boep_clear_value = { NUM = 788} boep_clear_value = { NUM = 789} 
-	# boep_clear_value = { NUM = 790} boep_clear_value = { NUM = 791} boep_clear_value = { NUM = 792} boep_clear_value = { NUM = 793} boep_clear_value = { NUM = 794} boep_clear_value = { NUM = 795} boep_clear_value = { NUM = 796} boep_clear_value = { NUM = 797} boep_clear_value = { NUM = 798} boep_clear_value = { NUM = 799} 
-	# boep_clear_value = { NUM = 800} boep_clear_value = { NUM = 801} boep_clear_value = { NUM = 802} boep_clear_value = { NUM = 803} boep_clear_value = { NUM = 804} boep_clear_value = { NUM = 805} boep_clear_value = { NUM = 806} boep_clear_value = { NUM = 807} boep_clear_value = { NUM = 808} boep_clear_value = { NUM = 809} 
-	# boep_clear_value = { NUM = 810} boep_clear_value = { NUM = 811} boep_clear_value = { NUM = 812} boep_clear_value = { NUM = 813} boep_clear_value = { NUM = 814} boep_clear_value = { NUM = 815} boep_clear_value = { NUM = 816} boep_clear_value = { NUM = 817} boep_clear_value = { NUM = 818} boep_clear_value = { NUM = 819} 
-	# boep_clear_value = { NUM = 820} boep_clear_value = { NUM = 821} boep_clear_value = { NUM = 822} boep_clear_value = { NUM = 823} boep_clear_value = { NUM = 824} boep_clear_value = { NUM = 825} boep_clear_value = { NUM = 826} boep_clear_value = { NUM = 827} boep_clear_value = { NUM = 828} boep_clear_value = { NUM = 829} 
-	# boep_clear_value = { NUM = 830} boep_clear_value = { NUM = 831} boep_clear_value = { NUM = 832} boep_clear_value = { NUM = 833} boep_clear_value = { NUM = 834} boep_clear_value = { NUM = 835} boep_clear_value = { NUM = 836} boep_clear_value = { NUM = 837} boep_clear_value = { NUM = 838} boep_clear_value = { NUM = 839} 
-	# boep_clear_value = { NUM = 840} boep_clear_value = { NUM = 841} boep_clear_value = { NUM = 842} boep_clear_value = { NUM = 843} boep_clear_value = { NUM = 844} boep_clear_value = { NUM = 845} boep_clear_value = { NUM = 846} boep_clear_value = { NUM = 847} boep_clear_value = { NUM = 848} boep_clear_value = { NUM = 849} 
-	# boep_clear_value = { NUM = 850} boep_clear_value = { NUM = 851} boep_clear_value = { NUM = 852} boep_clear_value = { NUM = 853} boep_clear_value = { NUM = 854} boep_clear_value = { NUM = 855} boep_clear_value = { NUM = 856} boep_clear_value = { NUM = 857} boep_clear_value = { NUM = 858} boep_clear_value = { NUM = 859} 
-	# boep_clear_value = { NUM = 860} boep_clear_value = { NUM = 861} boep_clear_value = { NUM = 862} boep_clear_value = { NUM = 863} boep_clear_value = { NUM = 864} boep_clear_value = { NUM = 865} boep_clear_value = { NUM = 866} boep_clear_value = { NUM = 867} boep_clear_value = { NUM = 868} boep_clear_value = { NUM = 869} 
-	# boep_clear_value = { NUM = 870} boep_clear_value = { NUM = 871} boep_clear_value = { NUM = 872} boep_clear_value = { NUM = 873} boep_clear_value = { NUM = 874} boep_clear_value = { NUM = 875} boep_clear_value = { NUM = 876} boep_clear_value = { NUM = 877} boep_clear_value = { NUM = 878} boep_clear_value = { NUM = 879} 
-	# boep_clear_value = { NUM = 880} boep_clear_value = { NUM = 881} boep_clear_value = { NUM = 882} boep_clear_value = { NUM = 883} boep_clear_value = { NUM = 884} boep_clear_value = { NUM = 885} boep_clear_value = { NUM = 886} boep_clear_value = { NUM = 887} boep_clear_value = { NUM = 888} boep_clear_value = { NUM = 889} 
-	# boep_clear_value = { NUM = 890} boep_clear_value = { NUM = 891} boep_clear_value = { NUM = 892} boep_clear_value = { NUM = 893} boep_clear_value = { NUM = 894} boep_clear_value = { NUM = 895} boep_clear_value = { NUM = 896} boep_clear_value = { NUM = 897} boep_clear_value = { NUM = 898} boep_clear_value = { NUM = 899} 
-	# boep_clear_value = { NUM = 900} boep_clear_value = { NUM = 901} boep_clear_value = { NUM = 902} boep_clear_value = { NUM = 903} boep_clear_value = { NUM = 904} boep_clear_value = { NUM = 905} boep_clear_value = { NUM = 906} boep_clear_value = { NUM = 907} boep_clear_value = { NUM = 908} boep_clear_value = { NUM = 909} 
-	# boep_clear_value = { NUM = 910} boep_clear_value = { NUM = 911} boep_clear_value = { NUM = 912} boep_clear_value = { NUM = 913} boep_clear_value = { NUM = 914} boep_clear_value = { NUM = 915} boep_clear_value = { NUM = 916} boep_clear_value = { NUM = 917} boep_clear_value = { NUM = 918} boep_clear_value = { NUM = 919} 
-	# boep_clear_value = { NUM = 920} boep_clear_value = { NUM = 921} boep_clear_value = { NUM = 922} boep_clear_value = { NUM = 923} boep_clear_value = { NUM = 924} boep_clear_value = { NUM = 925} boep_clear_value = { NUM = 926} boep_clear_value = { NUM = 927} boep_clear_value = { NUM = 928} boep_clear_value = { NUM = 929} 
-	# boep_clear_value = { NUM = 930} boep_clear_value = { NUM = 931} boep_clear_value = { NUM = 932} boep_clear_value = { NUM = 933} boep_clear_value = { NUM = 934} boep_clear_value = { NUM = 935} boep_clear_value = { NUM = 936} boep_clear_value = { NUM = 937} boep_clear_value = { NUM = 938} boep_clear_value = { NUM = 939} 
-	# boep_clear_value = { NUM = 940} boep_clear_value = { NUM = 941} boep_clear_value = { NUM = 942} boep_clear_value = { NUM = 943} boep_clear_value = { NUM = 944} boep_clear_value = { NUM = 945} boep_clear_value = { NUM = 946} boep_clear_value = { NUM = 947} boep_clear_value = { NUM = 948} boep_clear_value = { NUM = 949} 
-	# boep_clear_value = { NUM = 950} boep_clear_value = { NUM = 951} boep_clear_value = { NUM = 952} boep_clear_value = { NUM = 953} boep_clear_value = { NUM = 954} boep_clear_value = { NUM = 955} boep_clear_value = { NUM = 956} boep_clear_value = { NUM = 957} boep_clear_value = { NUM = 958} boep_clear_value = { NUM = 959} 
-	# boep_clear_value = { NUM = 960} boep_clear_value = { NUM = 961} boep_clear_value = { NUM = 962} boep_clear_value = { NUM = 963} boep_clear_value = { NUM = 964} boep_clear_value = { NUM = 965} boep_clear_value = { NUM = 966} boep_clear_value = { NUM = 967} boep_clear_value = { NUM = 968} boep_clear_value = { NUM = 969} 
-	# boep_clear_value = { NUM = 970} boep_clear_value = { NUM = 971} boep_clear_value = { NUM = 972} boep_clear_value = { NUM = 973} boep_clear_value = { NUM = 974} boep_clear_value = { NUM = 975} boep_clear_value = { NUM = 976} boep_clear_value = { NUM = 977} boep_clear_value = { NUM = 978} boep_clear_value = { NUM = 979} 
-	# boep_clear_value = { NUM = 980} boep_clear_value = { NUM = 981} boep_clear_value = { NUM = 982} boep_clear_value = { NUM = 983} boep_clear_value = { NUM = 984} boep_clear_value = { NUM = 985} boep_clear_value = { NUM = 986} boep_clear_value = { NUM = 987} boep_clear_value = { NUM = 988} boep_clear_value = { NUM = 989} 
-	# boep_clear_value = { NUM = 990} boep_clear_value = { NUM = 991} boep_clear_value = { NUM = 992} boep_clear_value = { NUM = 993} boep_clear_value = { NUM = 994} boep_clear_value = { NUM = 995} boep_clear_value = { NUM = 996} boep_clear_value = { NUM = 997} boep_clear_value = { NUM = 998} boep_clear_value = { NUM = 999} 
-	# boep_clear_value = { NUM = 1000} boep_clear_value = { NUM = 1001} boep_clear_value = { NUM = 1002} boep_clear_value = { NUM = 1003} boep_clear_value = { NUM = 1004} boep_clear_value = { NUM = 1005} boep_clear_value = { NUM = 1006} boep_clear_value = { NUM = 1007} boep_clear_value = { NUM = 1008} boep_clear_value = { NUM = 1009} 
+	boep_call_command_a_thousand_times = { COMMAND = boep_clear_value }	
 }
 
-# boep_call_command_a_thousand_times = {
-# 	boep_call_thousand = { COMMAND = $COMMAND$ }
-# }
 boep_call_command_a_thousand_times = {
+	optimize_memory
 	$COMMAND$ = { NUM = 1} $COMMAND$ = { NUM = 2} $COMMAND$ = { NUM = 3} $COMMAND$ = { NUM = 4} $COMMAND$ = { NUM = 5} $COMMAND$ = { NUM = 6} $COMMAND$ = { NUM = 7} $COMMAND$ = { NUM = 8} $COMMAND$ = { NUM = 9} 
 	$COMMAND$ = { NUM = 10} $COMMAND$ = { NUM = 11} $COMMAND$ = { NUM = 12} $COMMAND$ = { NUM = 13} $COMMAND$ = { NUM = 14} $COMMAND$ = { NUM = 15} $COMMAND$ = { NUM = 16} $COMMAND$ = { NUM = 17} $COMMAND$ = { NUM = 18} $COMMAND$ = { NUM = 19} 
 	$COMMAND$ = { NUM = 20} $COMMAND$ = { NUM = 21} $COMMAND$ = { NUM = 22} $COMMAND$ = { NUM = 23} $COMMAND$ = { NUM = 24} $COMMAND$ = { NUM = 25} $COMMAND$ = { NUM = 26} $COMMAND$ = { NUM = 27} $COMMAND$ = { NUM = 28} $COMMAND$ = { NUM = 29} 
@@ -439,6 +251,7 @@ boep_call_command_a_thousand_times = {
 }
 
 boep_calculate_data = {
+	optimize_memory
 	save_event_target_as = root_empire
 	every_galaxy_planet = {
 		limit = {
@@ -469,7 +282,7 @@ boep_calculate_data = {
 				limit = {  
 					root = { 
 						OR = {
-							has_authority = auth_corporate
+							is_megacorp = yes
 							has_valid_civic = civic_galactic_sovereign_megacorp
 						}
 						has_valid_civic = civic_criminal_heritage 
@@ -536,7 +349,7 @@ boep_calculate_data = {
 					}
 				}
 				event_target:boep_current_nearest = {											
-					find_nearest_neighbor = yes						
+					boep_find_nearest_neighbor = yes						
 				}
 				event_target:boep_current_planet = {
 					change_variable = { which = boep_jumps_to_empire value = 1 }
@@ -588,4 +401,388 @@ boep_calculate_data = {
 		export_trigger_value_to_variable = { trigger = num_pops variable = boep_num_pops }
 	}
 	
+}
+
+boep_set_slot = {
+	optimize_memory
+	if = {
+		limit = {  has_country_flag = boep_choose_slot_1 }
+		boep_remove_slot = { SLOT = 1 }
+		set_country_flag = boep_slot_1_$BUILDING$
+	}	
+	else_if = {
+		limit = {  has_country_flag = boep_choose_slot_2 }
+		boep_remove_slot = { SLOT = 2 }
+		set_country_flag = boep_slot_2_$BUILDING$
+	}
+	else_if = {
+		limit = {  has_country_flag = boep_choose_slot_3 }
+		boep_remove_slot = { SLOT = 3 }
+		set_country_flag = boep_slot_3_$BUILDING$
+	}
+	else_if = {
+		limit = {  has_country_flag = boep_choose_slot_4 }
+		boep_remove_slot = { SLOT = 4 }
+		set_country_flag = boep_slot_4_$BUILDING$
+	}
+	
+}
+
+boep_remove_slot = {
+	remove_country_flag = boep_slot_$SLOT$_empty
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_private_mining_consortium
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_food_conglomerate
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_virtual_entertainment_studios
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_private_shipyards
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_military_contractors
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_public_relations_office
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_private_research_initiative
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_amusement_megaplex
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_commercial_forum
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_corporate_embassy
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_wildcat_miners
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_bio_reprocessing_facilities
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_underground_chemists
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_wrecking_yards
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_pirate_haven
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_underground_clubs
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_syndicate_outreach_office
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_illicit_research_labs
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_smuggling_rings
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_disinformation_center
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_subversive_shrine
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_temple_of_prosperity
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_executive_retreat
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_xeno_tourism_agency
+	remove_country_flag = boep_slot_$SLOT$_GFX_boep_building_imperial_concession_port
+}
+
+boep_choose_slot = {
+	remove_country_flag = boep_choose_slot_1
+	remove_country_flag = boep_choose_slot_2
+	remove_country_flag = boep_choose_slot_3
+	remove_country_flag = boep_choose_slot_4
+	set_country_flag = boep_choose_slot_$NUM$	
+}
+
+boep_count_buildings = {
+	optimize_memory
+	boep_count_building = { BUILDING = private_mining_consortium }
+	boep_count_building = { BUILDING =  food_conglomerate }
+	boep_count_building = { BUILDING =  virtual_entertainment_studios }
+	boep_count_building = { BUILDING =  private_shipyards }
+	boep_count_building = { BUILDING =  military_contractors }
+	boep_count_building = { BUILDING =  public_relations_office }
+	boep_count_building = { BUILDING =  private_research_initiative }
+	boep_count_building = { BUILDING =  amusement_megaplex }
+	boep_count_building = { BUILDING =  commercial_forum }
+	boep_count_building = { BUILDING =  corporate_embassy }
+	boep_count_building = { BUILDING =  wildcat_miners }
+	boep_count_building = { BUILDING =  bio_reprocessing_facilities }
+	boep_count_building = { BUILDING =  underground_chemists }
+	boep_count_building = { BUILDING =  wrecking_yards }
+	boep_count_building = { BUILDING =  pirate_haven }
+	boep_count_building = { BUILDING =  underground_clubs }
+	boep_count_building = { BUILDING =  syndicate_outreach_office }
+	boep_count_building = { BUILDING =  illicit_research_labs }
+	boep_count_building = { BUILDING =  smuggling_rings }
+	boep_count_building = { BUILDING =  disinformation_center }
+	boep_count_building = { BUILDING =  subversive_shrine }
+	boep_count_building = { BUILDING =  temple_of_prosperity }
+	boep_count_building = { BUILDING =  executive_retreat }
+	boep_count_building = { BUILDING =  xeno_tourism_agency }
+	boep_count_building = { BUILDING =  imperial_concession_port }
+}
+
+boep_count_building = {
+	set_variable = { which = $BUILDING$ value = 0 }
+	while = {
+		limit = {  has_holding = { holding = building_$BUILDING$ owner = root } }
+		change_variable = { which = $BUILDING$ value = 1 }
+		remove_holding = { holding = building_$BUILDING$ owner = root }
+	}
+	while = {
+		count = $BUILDING$		
+		add_holding = { holding = building_$BUILDING$ owner = root }
+	}
+	if = {
+		limit = { is_variable_set = boep_queued_building_$BUILDING$ }
+		change_variable = { which = $BUILDING$ value = boep_queued_building_$BUILDING$ }
+	}
+}
+boep_check_slots = {
+	optimize_memory
+	boep_check_slot_per_building = { BUILDING = private_mining_consortium }
+	boep_check_slot_per_building = { BUILDING =  food_conglomerate }
+	boep_check_slot_per_building = { BUILDING =  virtual_entertainment_studios }
+	boep_check_slot_per_building = { BUILDING =  private_shipyards }
+	boep_check_slot_per_building = { BUILDING =  military_contractors }
+	boep_check_slot_per_building = { BUILDING =  public_relations_office }
+	boep_check_slot_per_building = { BUILDING =  private_research_initiative }
+	boep_check_slot_per_building = { BUILDING =  amusement_megaplex }
+	boep_check_slot_per_building = { BUILDING =  commercial_forum }
+	boep_check_slot_per_building = { BUILDING =  corporate_embassy }
+	boep_check_slot_per_building = { BUILDING =  wildcat_miners }
+	boep_check_slot_per_building = { BUILDING =  bio_reprocessing_facilities }
+	boep_check_slot_per_building = { BUILDING =  underground_chemists }
+	boep_check_slot_per_building = { BUILDING =  wrecking_yards }
+	boep_check_slot_per_building = { BUILDING =  pirate_haven }
+	boep_check_slot_per_building = { BUILDING =  underground_clubs }
+	boep_check_slot_per_building = { BUILDING =  syndicate_outreach_office }
+	boep_check_slot_per_building = { BUILDING =  illicit_research_labs }
+	boep_check_slot_per_building = { BUILDING =  smuggling_rings }
+	boep_check_slot_per_building = { BUILDING =  disinformation_center }
+	boep_check_slot_per_building = { BUILDING =  subversive_shrine }
+	boep_check_slot_per_building = { BUILDING =  temple_of_prosperity }
+	boep_check_slot_per_building = { BUILDING =  executive_retreat }
+	boep_check_slot_per_building = { BUILDING =  xeno_tourism_agency }
+	boep_check_slot_per_building = { BUILDING =  imperial_concession_port }
+}
+boep_check_slot_per_building = {
+	set_variable = { which = $BUILDING$ value = 0 }
+	if = {
+		limit = { has_country_flag = boep_slot_1_GFX_boep_building_$BUILDING$ }
+		change_variable = { which = $BUILDING$ value = 1 }
+	}
+	if = {
+		limit = { has_country_flag = boep_slot_2_GFX_boep_building_$BUILDING$ }
+		change_variable = { which = $BUILDING$ value = 1 }
+	}
+	if = {
+		limit = { has_country_flag = boep_slot_3_GFX_boep_building_$BUILDING$ }
+		change_variable = { which = $BUILDING$ value = 1 }
+	}
+	if = {
+		limit = { has_country_flag = boep_slot_4_GFX_boep_building_$BUILDING$ }
+		change_variable = { which = $BUILDING$ value = 1 }
+	}
+}
+
+boep_go_through_buildings_by_slot = {	
+	boep_go_through_buildings_by_slots = { BUILDING = private_mining_consortium SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  food_conglomerate  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  virtual_entertainment_studios  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  private_shipyards  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  military_contractors  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  public_relations_office  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  private_research_initiative  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  amusement_megaplex  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  commercial_forum  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  corporate_embassy  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  wildcat_miners  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  bio_reprocessing_facilities  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  underground_chemists  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  wrecking_yards  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  pirate_haven  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  underground_clubs  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  syndicate_outreach_office  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  illicit_research_labs  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  smuggling_rings  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  disinformation_center  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  subversive_shrine  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  temple_of_prosperity  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  executive_retreat  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  xeno_tourism_agency  SLOT = $SLOT$ }
+	boep_go_through_buildings_by_slots = { BUILDING =  imperial_concession_port  SLOT = $SLOT$ }
+}
+boep_go_through_buildings = { 
+	optimize_memory
+	boep_go_through_buildings_by_slot = { SLOT = 1 }
+	boep_go_through_buildings_by_slot = { SLOT = 2 }
+	boep_go_through_buildings_by_slot = { SLOT = 3 }
+	boep_go_through_buildings_by_slot = { SLOT = 4 }
+}
+
+boep_go_through_buildings_by_slots = {
+	optimize_memory
+	if = {
+		limit = { 			
+			NOR = { has_holding = { holding = building_boep_under_construction owner = root } has_planet_flag = boep_slots_closed_for_this_month }					
+			root = { has_country_flag = boep_slot_$SLOT$_GFX_boep_building_$BUILDING$ }
+			check_variable = { which = $BUILDING$ value < root.$BUILDING$ }			
+		}
+		root = {
+			set_variable = { which = boep_current_minerals_cost value = boep_auto_build_min_minerals }
+			change_variable = { which = boep_current_minerals_cost value = $BUILDING$_minerals }
+		}
+		if = {
+			limit = { 
+				boep_has_enough_cash_for = { BUILDING = $BUILDING$ } 
+				root = {
+					OR = { 
+						not = { has_country_flag = boep_auto_build_upkeep_check } 
+						boep_has_enough_upkeep_for = { BUILDING = $BUILDING$ } 
+					}
+				}
+			}					
+			add_holding = { holding = building_boep_under_construction owner = root }
+			boep_remove_under_construction = yes
+			set_planet_flag = $BUILDING$_under_construction							
+			planet_event = { id = boep.800 days = 365 }
+			boep_pay_for = { BUILDING = $BUILDING$ }
+		}
+		else = {
+			set_timed_planet_flag = { flag = boep_slots_closed_for_this_month days = 10 }
+		}
+	}
+}
+
+boep_store_building_costs = {
+	set_variable = { which =  private_mining_consortium_minerals value = 500 }
+	set_variable = { which =  food_conglomerate_minerals value = 500 }
+	set_variable = { which =  virtual_entertainment_studios_minerals value = 500 }
+	set_variable = { which =  private_shipyards_minerals value = 500 }
+	set_variable = { which =  military_contractors_minerals value = 500 }
+	set_variable = { which =  public_relations_office_minerals value = 800 }
+	set_variable = { which =  private_research_initiative_minerals value = 800 }
+	set_variable = { which =  amusement_megaplex_minerals value = 800 }
+	set_variable = { which =  commercial_forum_minerals value = 800 }
+	set_variable = { which =  corporate_embassy_minerals value = 800 }
+	set_variable = { which =  wildcat_miners_minerals value = 500 }
+	set_variable = { which =  bio_reprocessing_facilities_minerals value = 500 }
+	set_variable = { which =  underground_chemists_minerals value = 500 }
+	set_variable = { which =  wrecking_yards_minerals value = 500 }
+	set_variable = { which =  pirate_haven_minerals value = 500 }
+	set_variable = { which =  underground_clubs_minerals value = 800 }
+	set_variable = { which =  syndicate_outreach_office_minerals value = 800 }
+	set_variable = { which =  illicit_research_labs_minerals value = 800 }
+	set_variable = { which =  smuggling_rings_minerals value = 800 }
+	set_variable = { which =  disinformation_center_minerals value = 800 }
+	set_variable = { which =  subversive_shrine_minerals value = 500 }
+	set_variable = { which =  temple_of_prosperity_minerals value = 500 }
+	set_variable = { which =  executive_retreat_exotic_gases value = 50 } 
+	set_variable = { which =  executive_retreat_minerals value = 1000 } 
+	set_variable = { which =  xeno_tourism_agency_rare_crystals value = 50 }
+	set_variable = { which =  xeno_tourism_agency_minerals value = 1000 }
+	set_variable = { which =  imperial_concession_port_minerals value = 1000 } 
+}
+
+boep_pay_for = {
+	root = {
+		add_resource = {
+			minerals = -1			
+			mult = $BUILDING$_minerals
+		}
+		if = {
+			limit = { is_variable_set = $BUILDING$_rare_crystals }
+			add_resource = {
+				rare_crystals = -1			
+				mult = $BUILDING$_rare_crystals
+			}
+		}
+		if = {
+			limit = { is_variable_set = $BUILDING$_exotic_gases }
+			add_resource = {
+				exotic_gases = -1			
+				mult = $BUILDING$_exotic_gases
+			}
+		}
+	}	
+}
+
+boep_queue_all_bo_buildings = {
+	boep_call_cmd_for_all_bo_buildings = {  COMMAND = boep_queue_bo_building }
+}
+boep_queue_bo_building = {
+	optimize_memory
+	if = {
+		limit = {  last_building_changed = building_$BUILDING$ }
+		change_variable = { which = boep_queued_building_$BUILDING$ value = 1 }
+		change_variable = { which = boep_queued_bo_building value = 1 }
+	}
+}
+boep_unqueue_all_bo_buildings = {
+	boep_call_cmd_for_all_bo_buildings = {  COMMAND = boep_unqueue_bo_building }
+}
+boep_unqueue_bo_building = {
+	optimize_memory
+	if = {
+		limit = {  last_building_changed = building_$BUILDING$ }
+		change_variable = { which = boep_queued_building_$BUILDING$ value = -1 }
+		change_variable = { which = boep_queued_bo_building value = -1 }
+	}
+}
+
+boep_remove_all_bo_queues = {
+	optimize_memory
+	boep_call_cmd_for_all_bo_buildings = {  COMMAND = boep_remove_bo_queue }
+}
+
+boep_remove_bo_queue = {
+	set_variable = { which = boep_queued_building_$BUILDING$ value = 0 }
+	set_variable = { which = boep_queued_bo_building value = 0 }
+	remove_planet_flag = $BUILDING$_under_construction
+}
+
+boep_call_cmd_for_all_bo_buildings = {
+	optimize_memory
+	boep_call_cmd_for_bo_building = { BUILDING = private_mining_consortium COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  food_conglomerate  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  virtual_entertainment_studios  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  private_shipyards  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  military_contractors  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  public_relations_office  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  private_research_initiative  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  amusement_megaplex  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  commercial_forum  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  corporate_embassy  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  wildcat_miners  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  bio_reprocessing_facilities  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  underground_chemists  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  wrecking_yards  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  pirate_haven  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  underground_clubs  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  syndicate_outreach_office  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  illicit_research_labs  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  smuggling_rings  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  disinformation_center  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  subversive_shrine  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  temple_of_prosperity  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  executive_retreat  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  xeno_tourism_agency  COMMAND = $COMMAND$ }
+	boep_call_cmd_for_bo_building = { BUILDING =  imperial_concession_port  COMMAND = $COMMAND$ }
+}
+
+boep_call_cmd_for_bo_building = {
+	$COMMAND$ = { BUILDING = $BUILDING$ }
+}
+
+boep_add_correct_building = {
+	boep_call_cmd_for_all_bo_buildings = { COMMAND = boep_add_building }
+	
+}
+boep_add_building = {
+	if = {
+		limit = { has_planet_flag = $BUILDING$_under_construction }
+		remove_planet_flag = $BUILDING$_under_construction	
+		add_holding = { holding = building_$BUILDING$ owner = from }
+	}
+}
+
+boep_remove_under_construction = {
+	remove_planet_flag = private_mining_consortium_under_construction
+	remove_planet_flag = food_conglomerate_under_construction
+	remove_planet_flag = virtual_entertainment_studios_under_construction
+	remove_planet_flag = private_shipyards_under_construction
+	remove_planet_flag = military_contractors_under_construction
+	remove_planet_flag = public_relations_office_under_construction
+	remove_planet_flag = private_research_initiative_under_construction
+	remove_planet_flag = amusement_megaplex_under_construction
+	remove_planet_flag = commercial_forum_under_construction
+	remove_planet_flag = corporate_embassy_under_construction
+	remove_planet_flag = wildcat_miners_under_construction
+	remove_planet_flag = bio_reprocessing_facilities_under_construction
+	remove_planet_flag = underground_chemists_under_construction
+	remove_planet_flag = wrecking_yards_under_construction
+	remove_planet_flag = pirate_haven_under_construction
+	remove_planet_flag = underground_clubs_under_construction
+	remove_planet_flag = syndicate_outreach_office_under_construction
+	remove_planet_flag = illicit_research_labs_under_construction
+	remove_planet_flag = smuggling_rings_under_construction
+	remove_planet_flag = disinformation_center_under_construction
+	remove_planet_flag = subversive_shrine_under_construction
+	remove_planet_flag = temple_of_prosperity_under_construction
+	remove_planet_flag = executive_retreat_under_construction
+	remove_planet_flag = xeno_tourism_agency_under_construction
+	remove_planet_flag = imperial_concession_port_under_construction
 }

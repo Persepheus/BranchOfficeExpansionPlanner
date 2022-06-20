@@ -1,84 +1,100 @@
 
 boep_open_planner = {
-	potential = {
+	potential = {		
 		custom_tooltip = {
 			fail_text = BRANCH_OFFICE_NOT_MEGACORP
-			OR = {
-				has_authority = auth_corporate
-				has_civic = civic_galactic_sovereign_megacorp
+			exists = from
+			from = {
+				OR = {
+					is_megacorp = yes
+					has_civic = civic_galactic_sovereign_megacorp
+				}
 			}
 		}
 	}
 	allow = { }
 	effect = {
 		custom_tooltip = "boep_expansion_planner_button"
-		hidden_effect = { country_event = { id = boep.200 } }	
+		hidden_effect = { from = { country_event = { id = boep.200 } }	}
 	}
 }
 
 boep_automation = {
 	potential = { }
 	allow = { }
-	effect = {
+	effect = {		
 		custom_tooltip = "boep_automation_button"
 		hidden_effect = { 
-			country_event = { id = boep.400 } 
-		# initialize settings first call
-			if = {
-				limit = { 
-					NOR = {
-						has_country_flag = boep_auto_establish_prio_cost_checked
-						has_country_flag = boep_auto_establish_prio_income_checked
-						has_country_flag = boep_auto_establish_prio_roi_checked	
-					}					
+			from = {
+				country_event = { id = boep.400 } 
+			# initialize settings first call
+				if = {
+					limit = { 
+						NOR = {
+							has_country_flag = boep_auto_establish_prio_cost_checked
+							has_country_flag = boep_auto_establish_prio_income_checked
+							has_country_flag = boep_auto_establish_prio_roi_checked	
+						}					
+					}
+					set_country_flag = boep_auto_establish_prio_income_checked
+					set_country_flag = boep_slot_1_empty
+					set_country_flag = boep_slot_2_empty
+					set_country_flag = boep_slot_3_empty
+					set_country_flag = boep_slot_4_empty
 				}
-				set_country_flag = boep_auto_establish_prio_income_checked
-			}
-			if = {
-				limit = { 
-					not = { is_variable_set = boep_auto_establish_min_energy }
+				if = {
+					limit = { 
+						not = { is_variable_set = boep_auto_establish_min_energy }
+					}
+					set_variable = { which = boep_auto_establish_min_energy value = 0 }
+					set_variable = { which = boep_auto_establish_min_influence value = 0 }
 				}
-				set_variable = { which = boep_auto_establish_min_energy value = 0 }
-				set_variable = { which = boep_auto_establish_min_influence value = 0 }
-			}
-			# initialize vars
-		
-			if = {
-				limit = { 
-					not = { is_variable_set = boep_auto_establish_max_energy_cost }
+				# initialize vars
+			
+				if = {
+					limit = { 
+						not = { is_variable_set = boep_auto_establish_max_energy_cost }
+					}
+					set_variable = { which = boep_auto_establish_max_energy_cost value = 2000 }
+					set_variable = { which = boep_auto_establish_max_influence_cost value = 100 }
 				}
-				set_variable = { which = boep_auto_establish_max_energy_cost value = 2000 }
-				set_variable = { which = boep_auto_establish_max_influence_cost value = 100 }
+				if = {
+					limit = { 
+						NOT = { is_variable_set = boep_auto_build_min_minerals }
+					}
+					set_variable = { which = boep_auto_build_min_minerals value = 0 }
+					set_country_flag = boep_auto_build_upkeep_check
+					set_country_flag = boep_auto_build_messages
+				}
 			}
-		
 		}	
 	}
 }
 
 boep_checkbox_deactivate_auto_establish = {
 	potential = {
-		has_country_flag = boep_auto_establish_checked
+		from = { has_country_flag = boep_auto_establish_checked }
 	}
 	allow = { }
 	effect = {
-
-		
-		# custom_tooltip = "boep_expansion_planner_button"
-		hidden_effect = { remove_country_flag = boep_auto_establish_checked }	
+		from = {			
+			# custom_tooltip = "boep_expansion_planner_button"
+			hidden_effect = { remove_country_flag = boep_auto_establish_checked }	
+		}
 	}
 }
 boep_checkbox_activate_auto_establish = {
 	potential = {
-		not={ has_country_flag = boep_auto_establish_checked }
+		from = { not = { has_country_flag = boep_auto_establish_checked } }
 	}
 	allow = { }
 	effect = {
-
-		
-		# custom_tooltip = "boep_expansion_planner_button"
-		hidden_effect = { 
-			set_country_flag = boep_auto_establish_checked 			
-		}	
+		hidden_effect = {		
+			# custom_tooltip = "boep_expansion_planner_button"
+			from = { 
+				set_country_flag = boep_auto_establish_checked 			
+			}	
+		}
 	}
 }
 
@@ -99,12 +115,14 @@ boep_no_cklick_sorting = {
 	potential = {
 		
 	}
-	allow = {		
+	allow = {				
 		custom_tooltip = "boep_to_sort_click_below"
-		hidden_trigger = { always = no }
+		from = {
+			hidden_trigger = { always = no }
+		}
 	}
 	effect = {
-		custom_tooltip = "boep_to_sort_click_below"
+		from = { custom_tooltip = "boep_to_sort_click_below" }
 	}
 }
 
@@ -113,7 +131,7 @@ boep_no_cklick = {
 		
 	}
 	allow = {
-		hidden_trigger = { always = no }
+		hidden_trigger = { from = { always = no } }
 	}
 	effect = {
 
@@ -123,72 +141,80 @@ boep_no_cklick = {
 boep_auto_establish_add_100_energy = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
-	effect = { hidden_effect = { change_variable = { which = boep_auto_establish_min_energy value = 100 } } }
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_establish_min_energy value = 100 } } } }
 }
 boep_auto_establish_add_1000_energy = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
-	effect = {  hidden_effect = { change_variable = { which = boep_auto_establish_min_energy value = 1000 } } }
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_establish_min_energy value = 1000 } } } }
 }
 boep_auto_establish_add_10_influence = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
-	effect = { hidden_effect = { change_variable = { which = boep_auto_establish_min_influence value = 10 }  } }
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_establish_min_influence value = 10 }  } } }
 }
 boep_auto_establish_add_100_influence = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
-	effect = { hidden_effect = { change_variable = { which = boep_auto_establish_min_influence value = 100 }  } }
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_establish_min_influence value = 100 }  } } }
 }
 boep_auto_establish_remove_100_energy = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked
-		check_variable = { which = boep_auto_establish_min_energy value >= 100 } }
+		hidden_trigger = {
+			from = { has_country_flag = boep_auto_establish_checked
+			check_variable = { which = boep_auto_establish_min_energy value >= 100 } }
+		}
 	}
-	effect = { hidden_effect = { change_variable = { which = boep_auto_establish_min_energy value = -100 } } }
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_establish_min_energy value = -100 } } } }
 }
 boep_auto_establish_remove_1000_energy = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked
-		check_variable = { which = boep_auto_establish_min_energy value >= 1000 } }
+		hidden_trigger = {
+			from = { has_country_flag = boep_auto_establish_checked
+			check_variable = { which = boep_auto_establish_min_energy value >= 1000 } }
+		}
 	}
-	effect = {  hidden_effect = { change_variable = { which = boep_auto_establish_min_energy value = -1000 } } }
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_establish_min_energy value = -1000 } } } }
 }
 boep_auto_establish_remove_10_influence = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked
-		check_variable = { which = boep_auto_establish_min_influence value >= 10 } }
+		hidden_trigger = {
+			from = { has_country_flag = boep_auto_establish_checked
+			check_variable = { which = boep_auto_establish_min_influence value >= 10 } }
+		}
 	}
-	effect = { hidden_effect = { change_variable = { which = boep_auto_establish_min_influence value = -10 }  } }
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_establish_min_influence value = -10 }  } } }
 }
 boep_auto_establish_remove_100_influence = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked
-		check_variable = { which = boep_auto_establish_min_influence value >= 100 } }
+		hidden_trigger = {
+			from = { has_country_flag = boep_auto_establish_checked
+			check_variable = { which = boep_auto_establish_min_influence value >= 100 } }
+		}
 	}
-	effect = { hidden_effect = { change_variable = { which = boep_auto_establish_min_influence value = -100 }  } }
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_establish_min_influence value = -100 }  } } }
 }
 
 ###
 
 boep_checkbox_deactivate_auto_establish_prio_income = {
 	potential = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_prio_income_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_prio_income_checked } }
 	}
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
 	effect = {
 		# custom_tooltip = "boep_expansion_planner_button"
@@ -197,24 +223,26 @@ boep_checkbox_deactivate_auto_establish_prio_income = {
 }
 boep_checkbox_activate_auto_establish_prio_income = {
 	potential = {
-		hidden_trigger = { not = { has_country_flag = boep_auto_establish_prio_income_checked } }
+		hidden_trigger = { from = { not = { has_country_flag = boep_auto_establish_prio_income_checked } } }
 	}
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
 	effect = {
-		# custom_tooltip = "boep_expansion_planner_button"
-		hidden_effect = { set_country_flag = boep_auto_establish_prio_income_checked  }	
-		hidden_effect = { remove_country_flag = boep_auto_establish_prio_roi_checked }	
-		hidden_effect = { remove_country_flag = boep_auto_establish_prio_cost_checked }
+		hidden_effect = {
+			# custom_tooltip = "boep_expansion_planner_button"
+			from = { set_country_flag = boep_auto_establish_prio_income_checked  }	
+			from = { remove_country_flag = boep_auto_establish_prio_roi_checked }	
+			from = { remove_country_flag = boep_auto_establish_prio_cost_checked }
+		}
 	}
 }
 boep_checkbox_deactivate_auto_establish_prio_roi = {
 	potential = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_prio_roi_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_prio_roi_checked } }
 	}
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
 	effect = {
 		# custom_tooltip = "boep_expansion_planner_button"
@@ -223,24 +251,26 @@ boep_checkbox_deactivate_auto_establish_prio_roi = {
 }
 boep_checkbox_activate_auto_establish_prio_roi = {
 	potential = {
-		hidden_trigger = { not = { has_country_flag = boep_auto_establish_prio_roi_checked } }
+		hidden_trigger = { from = { not = { has_country_flag = boep_auto_establish_prio_roi_checked } } }
 	}
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
 	effect = {
-		# custom_tooltip = "boep_expansion_planner_button"
-		hidden_effect = { set_country_flag = boep_auto_establish_prio_roi_checked }	
-		hidden_effect = { remove_country_flag = boep_auto_establish_prio_cost_checked }
-		hidden_effect = { remove_country_flag = boep_auto_establish_prio_income_checked }	
+		hidden_effect = {
+			# custom_tooltip = "boep_expansion_planner_button"
+			from = { set_country_flag = boep_auto_establish_prio_roi_checked }	
+			from = { remove_country_flag = boep_auto_establish_prio_cost_checked }
+			from = { remove_country_flag = boep_auto_establish_prio_income_checked }	
+		}
 	}
 }
 boep_checkbox_deactivate_auto_establish_prio_cost = {
 	potential = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_prio_cost_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_prio_cost_checked } }
 	}
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
 	effect = {
 		# custom_tooltip = "boep_expansion_planner_button"
@@ -249,16 +279,18 @@ boep_checkbox_deactivate_auto_establish_prio_cost = {
 }
 boep_checkbox_activate_auto_establish_prio_cost = {
 	potential = {
-		hidden_trigger = { not = { has_country_flag = boep_auto_establish_prio_cost_checked } }
+		hidden_trigger = { from = { not = { has_country_flag = boep_auto_establish_prio_cost_checked } } }
 	}
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
 	effect = {
-		# custom_tooltip = "boep_expansion_planner_button"
-		hidden_effect = { set_country_flag = boep_auto_establish_prio_cost_checked }	
-		hidden_effect = { remove_country_flag = boep_auto_establish_prio_income_checked }	
-		hidden_effect = { remove_country_flag = boep_auto_establish_prio_roi_checked }
+		hidden_effect = {
+			# custom_tooltip = "boep_expansion_planner_button"
+			from = { set_country_flag = boep_auto_establish_prio_cost_checked }	
+			from = { remove_country_flag = boep_auto_establish_prio_income_checked }	
+			from = { remove_country_flag = boep_auto_establish_prio_roi_checked }
+		}
 	}
 }
 
@@ -266,56 +298,190 @@ boep_checkbox_activate_auto_establish_prio_cost = {
 
 boep_checkbox_deactivate_auto_establish_max_cost = {
 	potential = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_max_cost_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_max_cost_checked } }
 	}
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		 hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
 	effect = {
 		# custom_tooltip = "boep_expansion_planner_button"
-		hidden_effect = { remove_country_flag = boep_auto_establish_max_cost_checked }	
+		 hidden_effect = { from = { remove_country_flag = boep_auto_establish_max_cost_checked }	}
 	}
 }
 boep_checkbox_activate_auto_establish_max_cost = {
 	potential = {
-		hidden_trigger = { not = { has_country_flag = boep_auto_establish_max_cost_checked } }
+		 hidden_trigger = { from = { not = { has_country_flag = boep_auto_establish_max_cost_checked } } }
 	}
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked }
+		 hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked } }
 	}
 	effect = {		
 		# custom_tooltip = "boep_expansion_planner_button"
-		hidden_effect = { set_country_flag = boep_auto_establish_max_cost_checked }	
+		 hidden_effect = { from = { set_country_flag = boep_auto_establish_max_cost_checked } }	
 	}
 }
 
 boep_auto_establish_add_10_percent_max_cost = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked }
+		hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked } }
 	}
-	effect = { hidden_effect = { change_variable = { which = boep_auto_establish_max_energy_cost value = 100 } change_variable = { which = boep_auto_establish_max_influence_cost value = 5 } } }
+	effect = {hidden_effect = { from = { change_variable = { which = boep_auto_establish_max_energy_cost value = 100 } change_variable = { which = boep_auto_establish_max_influence_cost value = 5 } } } }
 }
 boep_auto_establish_add_100_percent_max_cost = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked }
+		 hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked } }
 	}
-	effect = { hidden_effect = {  change_variable = { which = boep_auto_establish_max_energy_cost value = 1000 }  change_variable = { which = boep_auto_establish_max_influence_cost value = 50 } } }
+	effect = {  hidden_effect = { from = { change_variable = { which = boep_auto_establish_max_energy_cost value = 1000 }  change_variable = { which = boep_auto_establish_max_influence_cost value = 50 } } } }
 }
 boep_auto_establish_remove_10_percent_max_cost = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked
-		check_variable = { which = boep_auto_establish_max_energy_cost value >= 1100 } }
+		
+			hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked
+			check_variable = { which = boep_auto_establish_max_energy_cost value >= 1100 } }
+		}
 	}
-	effect = { hidden_effect = { change_variable = { which = boep_auto_establish_max_energy_cost value = -100 } change_variable = { which = boep_auto_establish_max_influence_cost value = -5 }  } }
+	effect = {  hidden_effect = { from = { change_variable = { which = boep_auto_establish_max_energy_cost value = -100 } change_variable = { which = boep_auto_establish_max_influence_cost value = -5 }  } } }
 }
 boep_auto_establish_remove_100_percent_max_cost = {
 	potential = { }
 	allow = {
-		hidden_trigger = { has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked
-		check_variable = { which = boep_auto_establish_max_energy_cost value >= 2000 } }
+		
+			hidden_trigger = { from = { has_country_flag = boep_auto_establish_checked has_country_flag = boep_auto_establish_max_cost_checked
+			check_variable = { which = boep_auto_establish_max_energy_cost value >= 2000 } }
+		}
 	}
-	effect = { hidden_effect = { change_variable = { which = boep_auto_establish_max_energy_cost value = -1000 }  change_variable = { which = boep_auto_establish_max_influence_cost value = -50 } } }
+	effect = {  hidden_effect = { from = { change_variable = { which = boep_auto_establish_max_energy_cost value = -1000 }  change_variable = { which = boep_auto_establish_max_influence_cost value = -50 } } } }
+}
+
+
+
+boep_checkbox_deactivate_auto_build = {
+	potential = { from = { has_country_flag = boep_auto_build_checked } }
+	allow = { }
+	effect = { 
+		hidden_effect = { 
+			from = { 
+				remove_country_flag = boep_auto_build_checked 				
+			} 
+		} 
+	}
+}
+boep_checkbox_activate_auto_build = {
+	potential = { from = { not = { has_country_flag = boep_auto_build_checked } } }
+	allow = { }
+	effect = { hidden_effect = { from = {  set_country_flag = boep_auto_build_checked boep_store_building_costs = yes  } } }
+}
+
+
+boep_auto_build_add_100_minerals = {
+	potential = { }
+	allow = {
+		hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_build_min_minerals value = 100 } } } }
+}
+boep_auto_build_add_1000_minerals = {
+	potential = { }
+	allow = {
+		hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_build_min_minerals value = 1000 } } } }
+}
+boep_auto_build_remove_100_minerals = {
+	potential = { }
+	allow = {
+		hidden_trigger = {
+			from = { has_country_flag = boep_auto_build_checked
+			check_variable = { which = boep_auto_build_min_minerals value >= 100 } }
+		}
+	}
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_build_min_minerals value = -100 } } } }
+}
+boep_auto_build_remove_1000_minerals = {
+	potential = { }
+	allow = {
+		hidden_trigger = {
+			from = { has_country_flag = boep_auto_build_checked
+			check_variable = { which = boep_auto_build_min_minerals value >= 1000 } }
+		}
+	}
+	effect = { hidden_effect = { from = { change_variable = { which = boep_auto_build_min_minerals value = -1000 } } } }
+}
+
+#Settings:
+
+boep_checkbox_deactivate_auto_build_messages = {
+	potential = {
+		hidden_trigger = { from = { has_country_flag = boep_auto_build_messages } }
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = {
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { remove_country_flag = boep_auto_build_messages }	}
+	}
+}
+boep_checkbox_activate_auto_build_messages = {
+	potential = {
+		 hidden_trigger = { from = { not = { has_country_flag = boep_auto_build_messages } } }
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = {		
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { set_country_flag = boep_auto_build_messages } }	
+	}
+}
+boep_checkbox_deactivate_auto_build_upkeep_check = {
+	potential = {
+		hidden_trigger = { from = { has_country_flag = boep_auto_build_upkeep_check } }
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = {
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { remove_country_flag = boep_auto_build_upkeep_check }	}
+	}
+}
+boep_checkbox_activate_auto_build_upkeep_check = {
+	potential = {
+		 hidden_trigger = { from = { not = { has_country_flag = boep_auto_build_upkeep_check } } }
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = {		
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { set_country_flag = boep_auto_build_upkeep_check } }	
+	}
+}
+boep_checkbox_deactivate_auto_build_may_replace = {
+	potential = {
+		hidden_trigger = { from = { has_country_flag = boep_auto_build_may_replace } } always = no
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } }
+	}
+	effect = {
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { remove_country_flag = boep_auto_build_may_replace }	}
+	}
+}
+boep_checkbox_activate_auto_build_may_replace = {
+	potential = {
+		 hidden_trigger = { from = { not = { has_country_flag = boep_auto_build_may_replace } } } always = yes
+	}
+	allow = {
+		 hidden_trigger = { from = { has_country_flag = boep_auto_build_checked } } custom_tooltip_fail = { text = boep_not_yet_implemented always = no }
+	}
+	effect = {		
+		# custom_tooltip = "boep_expansion_planner_button"
+		 hidden_effect = { from = { set_country_flag = boep_auto_build_may_replace } }	
+	}
 }
