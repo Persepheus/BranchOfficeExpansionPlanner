@@ -345,7 +345,7 @@ boep_calculate_data = {
 				count = 5000
 				limit = {								
 					event_target:boep_current_nearest = {
-						check_variable = { which = boep_distance_to_empire value > 0 }
+						check_variable = { which = boep_distance_to_empire value > 1 }
 					}
 				}
 				event_target:boep_current_nearest = {											

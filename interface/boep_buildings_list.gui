@@ -785,6 +785,11 @@ guiTypes = {
 			text = "building_subversive_shrine"	
 			text_color_code = "H"		
 		}
+		OverlappingElementsBoxType = {
+			name = "trigger_icons"
+			position = { x = 0  y = 0 }
+			size = { x=100 y=100 }			
+		}
 	}
 	containerWindowType = {
 		name = "GFX_boep_building_temple_of_prosperity"
@@ -820,6 +825,11 @@ guiTypes = {
 			font = "cg_16b"
 			text = "building_temple_of_prosperity"	
 			text_color_code = "H"		
+		}
+		OverlappingElementsBoxType = {
+			name = "trigger_icons"
+			position = { x = 0  y = 0 }
+			size = { x=100 y=100 }			
 		}
 	}
 	containerWindowType = {
